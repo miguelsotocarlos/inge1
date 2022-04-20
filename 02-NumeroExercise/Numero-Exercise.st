@@ -417,16 +417,13 @@ multiplyToFraccion: aFraccionToMultiplyTo
 	
 	^self class with: value // aDivisor integerValue! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'HAW 9/24/2018 08:47:50'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'CMS 4/20/2022 16:37:07'!
 fibonacci
 
 	| one two |
 	
 	one := Entero with: 1.
 	two := Entero with: 2.
-	
-	self isNegative ifTrue: [self error: Entero negativeFibonacciErrorDescription ].	
-	(self isZero or: [self isOne]) ifTrue: [^one].
 	
 	^ (self - one) fibonacci + (self - two) fibonacci
 		! !
@@ -448,8 +445,8 @@ hash
 	^value hash! !
 
 
-!Entero methodsFor: 'initialization' stamp: 'HernanWilkinson 5/7/2016 20:09'!
-initalizeWith: aValue 
+!Entero methodsFor: 'initialization' stamp: 'CMS 4/20/2022 16:16:24'!
+initializeWith: aValue 
 	
 	value := aValue! !
 
@@ -493,13 +490,55 @@ Entero class
 negativeFibonacciErrorDescription
 	^ ' Fibonacci no está definido aquí para Enteros Negativos!!!!!!'! !
 
-!Entero class methodsFor: 'instance creation' stamp: 'HernanWilkinson 5/7/2016 22:53'!
+!Entero class methodsFor: 'instance creation' stamp: 'CMS 4/20/2022 16:35:03'!
 with: aValue 
-	
+	|tipoDeEntero|
 	"Esta verificacion esta puesta por si se equivocan y quieren crear un Entero pasando otra cosa que un Integer - Hernan"
 	aValue isInteger ifFalse: [  self error: 'aValue debe ser anInteger' ].
 	
-	^self new initalizeWith: aValue! !
+	aValue < 0 ifTrue: [tipoDeEntero := EnteroNegativo].
+	aValue = 0 ifTrue: [tipoDeEntero := Cero].
+	aValue = 1 ifTrue: [tipoDeEntero := Uno].
+	aValue > 1 ifTrue: [tipoDeEntero := Entero].
+
+	^tipoDeEntero new initializeWith: aValue.! !
+
+
+!classDefinition: #Cero category: 'Numero-Exercise'!
+Entero subclass: #Cero
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+!Cero methodsFor: 'arithmetic operations' stamp: 'CMS 4/20/2022 16:37:28'!
+fibonacci
+	^Entero with: 1.
+		! !
+
+
+!classDefinition: #EnteroNegativo category: 'Numero-Exercise'!
+Entero subclass: #EnteroNegativo
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+!EnteroNegativo methodsFor: 'arithmetic' stamp: 'CMS 4/20/2022 16:13:30'!
+fibonacci
+	self error: Entero negativeFibonacciErrorDescription.! !
+
+
+!classDefinition: #Uno category: 'Numero-Exercise'!
+Entero subclass: #Uno
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+!Uno methodsFor: 'arithmetic operations' stamp: 'CMS 4/20/2022 16:38:14'!
+fibonacci
+	^self! !
 
 
 !classDefinition: #Fraccion category: 'Numero-Exercise'!
