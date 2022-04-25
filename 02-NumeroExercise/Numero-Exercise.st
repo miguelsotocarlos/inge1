@@ -304,9 +304,9 @@ Object subclass: #Numero
 
 	self subclassResponsibility ! !
 
-!Numero methodsFor: 'arithmetic operations' stamp: 'CMS 4/20/2022 15:41:13'!
+!Numero methodsFor: 'arithmetic operations' stamp: 'DW 4/25/2022 10:41:55'!
 - aSubtrahend
-	^self  + aSubtrahend  negated.! !
+	^self  subclassResponsibility! !
 
 !Numero methodsFor: 'arithmetic operations' stamp: 'HernanWilkinson 5/7/2016 22:49'!
 / aDivisor
@@ -322,6 +322,39 @@ invalidNumberType
 negated
 	
 	^self * (Entero with: -1)! !
+
+
+!Numero methodsFor: 'private' stamp: 'DW 4/25/2022 10:45:14'!
+addToEntero: anEnteroToAddTo
+	self subclassResponsibility ! !
+
+!Numero methodsFor: 'private' stamp: 'DW 4/25/2022 10:45:43'!
+addToFraccion: aFraccionToAddTo
+	self subclassResponsibility ! !
+
+!Numero methodsFor: 'private' stamp: 'DW 4/25/2022 10:44:24'!
+divideAFraccion: aFraccionToDivide
+	self subclassResponsibility ! !
+
+!Numero methodsFor: 'private' stamp: 'DW 4/25/2022 10:44:12'!
+divideAnEntero: anEnteroToDivide
+	self subclassResponsibility ! !
+
+!Numero methodsFor: 'private' stamp: 'DW 4/25/2022 10:46:09'!
+multiplyToEntero: anEnteroToMultiplyTo
+	self subclassResponsibility ! !
+
+!Numero methodsFor: 'private' stamp: 'DW 4/25/2022 10:45:57'!
+multiplyToFraccion: aFraccionToMultiplyTo
+	self subclassResponsibility ! !
+
+!Numero methodsFor: 'private' stamp: 'DW 4/25/2022 10:47:06'!
+subtractFromEntero: anEnteroToSubtractFrom
+	self subclassResponsibility ! !
+
+!Numero methodsFor: 'private' stamp: 'DW 4/25/2022 10:47:54'!
+subtractFromFraccion: aFraccionToSubtractFrom
+	self subclassResponsibility ! !
 
 
 !Numero methodsFor: 'testing' stamp: 'NR 9/23/2018 23:36:49'!
@@ -383,9 +416,9 @@ divideAnEntero: anEnteroToDivide
 	
 	self subclassResponsibility.! !
 
-!Entero methodsFor: 'private' stamp: 'DW 4/21/2022 21:41:18'!
+!Entero methodsFor: 'private' stamp: 'DW 4/25/2022 10:35:41'!
 divideCoprimeEntero: anEntero
-	^ Fraccion with: anEntero over: self.! !
+	self subclassResponsibility.! !
 
 !Entero methodsFor: 'private' stamp: 'DW 4/20/2022 14:32:11'!
 multiplyToEntero: anEnteroToMultiplyTo 
@@ -398,6 +431,16 @@ multiplyToFraccion: aFraccionToMultiplyTo
 	
 	^ aFraccionToMultiplyTo multiplyToEntero: self.! !
 
+!Entero methodsFor: 'private' stamp: 'DW 4/25/2022 11:14:39'!
+subtractFromEntero: anEnteroToSubtractFrom
+	
+	^ self class with: anEnteroToSubtractFrom integerValue - value.! !
+
+!Entero methodsFor: 'private' stamp: 'DW 4/25/2022 11:27:40'!
+subtractFromFraccion: aFraccionToSubtractFrom
+	^ aFraccionToSubtractFrom numerator - (self * aFraccionToSubtractFrom denominator) / aFraccionToSubtractFrom denominator
+! !
+
 
 !Entero methodsFor: 'arithmetic operations' stamp: 'DW 4/20/2022 14:33:25'!
 * aMultiplier 
@@ -408,6 +451,10 @@ multiplyToFraccion: aFraccionToMultiplyTo
 + anAdder 
 	
 	^ anAdder addToEntero: self.! !
+
+!Entero methodsFor: 'arithmetic operations' stamp: 'DW 4/25/2022 11:10:17'!
+- aSubtrahend 
+	^ aSubtrahend subtractFromEntero: self.! !
 
 !Entero methodsFor: 'arithmetic operations' stamp: 'DW 4/20/2022 15:13:58'!
 / aDivisor 
@@ -567,6 +614,11 @@ divideAnEntero: anEnteroToDivide
 
 	! !
 
+!EnteroMayorAUno methodsFor: 'private' stamp: 'DW 4/25/2022 10:40:38'!
+divideCoprimeEntero: anEntero
+	^ Fraccion withReduced: anEntero overReduced: self.
+	! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'EnteroMayorAUno class' category: 'Numero-Exercise'!
@@ -589,6 +641,10 @@ Entero subclass: #EnteroNegativo
 divideAnEntero: anEnteroToDivide
 
 	^ anEnteroToDivide negated / self negated.! !
+
+!EnteroNegativo methodsFor: 'private' stamp: 'DW 4/25/2022 10:40:30'!
+divideCoprimeEntero: anEntero
+	^ Fraccion withReduced: anEntero overReduced: self.! !
 
 
 !EnteroNegativo methodsFor: 'arithmetic operations' stamp: 'CMS 4/20/2022 16:13:30'!
@@ -654,6 +710,12 @@ Numero subclass: #Fraccion
 + anAdder 
 	
 	^anAdder addToFraccion: self.
+	! !
+
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'DW 4/25/2022 11:10:48'!
+- aSubtrahend
+
+	^aSubtrahend subtractFromFraccion: self.
 	! !
 
 !Fraccion methodsFor: 'arithmetic operations' stamp: 'DW 4/20/2022 15:26:00'!
@@ -757,14 +819,31 @@ multiplyToFraccion: aFraccionToMultiplyTo
 	^(numerator * aFraccionToMultiplyTo  numerator) / (denominator * aFraccionToMultiplyTo denominator)
 	! !
 
+!Fraccion methodsFor: 'private' stamp: 'DW 4/25/2022 11:17:26'!
+subtractFromEntero: anEnteroToSubtractFrom
+
+	^   (anEnteroToSubtractFrom * denominator) - numerator / denominator.
+	! !
+
+!Fraccion methodsFor: 'private' stamp: 'DW 4/25/2022 11:26:45'!
+subtractFromFraccion: aFraccionToSubtractFrom
+
+	
+	| newNumerator newDenominator |
+	
+	newNumerator := (denominator * aFraccionToSubtractFrom numerator) - (numerator * aFraccionToSubtractFrom denominator).
+	newDenominator := denominator * aFraccionToSubtractFrom denominator.
+	
+	^newNumerator / newDenominator ! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'Fraccion class' category: 'Numero-Exercise'!
 Fraccion class
 	instanceVariableNames: ''!
 
-!Fraccion class methodsFor: 'intance creation' stamp: 'DW 4/21/2022 21:44:50'!
-with: numerator over: denominator
+!Fraccion class methodsFor: 'intance creation' stamp: 'DW 4/25/2022 10:39:51'!
+withReduced: numerator overReduced: denominator
 	"precondicion: los numeros son coprimos y distintos de uno. Es privada"
 	
 	^self new initializeWith: numerator over: denominator
