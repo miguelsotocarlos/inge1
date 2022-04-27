@@ -147,10 +147,40 @@ TestCase subclass: #SentenceFinderByPrefixTest
 
 !classDefinition: #OOStack category: 'Stack-Exercise'!
 Object subclass: #OOStack
-	instanceVariableNames: ''
+	instanceVariableNames: 'top'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
+
+!OOStack methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 16:59:00'!
+initialize
+	top := OOStackContainer new.! !
+
+!OOStack methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 16:39:47'!
+isEmpty
+	^ top isLast.! !
+
+!OOStack methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 17:02:17'!
+pop
+	|poppedElement|
+	poppedElement := self top.
+	top := 	top next.
+	^ poppedElement.! !
+
+!OOStack methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 16:49:41'!
+push: anObject
+	|temp|
+	temp := top.
+	top := OOStackElement withValue: anObject andNext: temp.
+! !
+
+!OOStack methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 17:03:29'!
+size
+	^ top lengthUntilContainer.! !
+
+!OOStack methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 17:00:27'!
+top
+	^ top value.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -170,3 +200,92 @@ Object subclass: #SentenceFinderByPrefix
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
+
+
+!classDefinition: #YYYY category: 'Stack-Exercise'!
+Object subclass: #YYYY
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!YYYY methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 16:40:37'!
+isLast
+	self subclassResponsibility.! !
+
+!YYYY methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 17:03:42'!
+lengthUntilContainer
+	self subclassResponsibility.! !
+
+!YYYY methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 16:56:36'!
+next
+	self subclassResponsibility.! !
+
+!YYYY methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 17:00:42'!
+value
+	self subclassResponsibility.! !
+
+
+!classDefinition: #OOStackContainer category: 'Stack-Exercise'!
+YYYY subclass: #OOStackContainer
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!OOStackContainer methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 16:52:41'!
+isLast
+	^ true.! !
+
+!OOStackContainer methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 17:04:08'!
+lengthUntilContainer
+	^ 0.! !
+
+!OOStackContainer methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 16:57:15'!
+next
+	self error: OOStack stackEmptyErrorDescription.! !
+
+!OOStackContainer methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 17:00:48'!
+value
+	self error: OOStack stackEmptyErrorDescription.! !
+
+
+!classDefinition: #OOStackElement category: 'Stack-Exercise'!
+YYYY subclass: #OOStackElement
+	instanceVariableNames: 'value next'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!OOStackElement methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 16:48:35'!
+initializeWithValue: anObject andNext: aYYYY
+	value := anObject.
+	next :=  aYYYY.! !
+
+!OOStackElement methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 16:52:36'!
+isLast
+	^ false.! !
+
+!OOStackElement methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 17:04:31'!
+lengthUntilContainer
+	^  1 + next lengthUntilContainer.! !
+
+!OOStackElement methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 16:57:24'!
+next
+	^ next.! !
+
+!OOStackElement methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 17:00:59'!
+value
+	^ value.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'OOStackElement class' category: 'Stack-Exercise'!
+OOStackElement class
+	instanceVariableNames: ''!
+
+!OOStackElement class methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 16:50:21'!
+withValue: anObject andNext: aYYYY
+	|newOOStackElement|
+	newOOStackElement := self new initializeWithValue: anObject andNext: aYYYY.
+	^ newOOStackElement.! !
