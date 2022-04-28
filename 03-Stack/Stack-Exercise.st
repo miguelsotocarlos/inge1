@@ -167,19 +167,14 @@ test01SearchOnEmptyStackReturnsNoSentences
 	
 	! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'CMS 4/28/2022 14:19:41'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'DW 4/28/2022 16:28:39'!
 test02SearchOnStackWithTwoSentencesFindsOnlyTheSencenceWithTheSearchedPrefix
-	|stack sentences expectedResult|
+	|stack sentences |
 	stack := OOStack new.
 	stack push: 'A ...'.
 	stack push: 'B ...'.
 	sentences := sentenceFinderByPrefix findSentencesWithPrefix: 'A' inStack: stack.
-	
-	
-	expectedResult := OrderedCollection new.
-	expectedResult add: 'A ...'.
-	
-	self assert: (sentences = expectedResult).! !
+	self assert: (sentences = (OrderedCollection with: 'A ...')).! !
 
 !SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'CMS 4/28/2022 15:54:22'!
 test03SearchPreservesStack
@@ -226,6 +221,38 @@ test07SearchPreservesStackOrder
 	sentenceFinderByPrefix findSentencesWithPrefix: 'A' inStack: stack.
 	
 	self assertStack: stack hasContents: (OrderedCollection with: 'A' with: 'B').! !
+
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'DW 4/28/2022 16:30:59'!
+test08SearchOfAPrefixNotInTheStackReturnsNoSentences
+	|stack sentences|
+	stack := OOStack new.
+	stack push: 'A...'.
+	stack push: 'B...'.
+	sentences := sentenceFinderByPrefix findSentencesWithPrefix: 'c' inStack: stack.
+	
+	self assert: sentences isEmpty.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'DW 4/28/2022 16:35:19'!
+test09SearchOfAPrefixWithMultipleMatchesFindsAllOfThem
+	|stack sentences|
+	stack := OOStack new.
+	stack push: 'Aab...'.
+	stack push: 'B...'.
+	stack push: 'Aac...'.
+	
+	sentences := sentenceFinderByPrefix findSentencesWithPrefix: 'A' inStack: stack.
+	
+	self assert: (sentences = (OrderedCollection with: 'Aab...' with: 'Aac...')).! !
+
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'DW 4/28/2022 16:37:38'!
+test10SearchOfAPrefixDoesNotFindSentecesThatHaveThePrefixInTheMiddleOfThem
+	|stack sentences|
+	stack := OOStack new.
+	stack push: 'Aab...'.
+	stack push: 'B...'.
+	
+	sentences := sentenceFinderByPrefix findSentencesWithPrefix: 'ab' inStack: stack.
+	self assert: sentences isEmpty .! !
 
 
 !classDefinition: #OOImmutableStack category: 'Stack-Exercise'!
@@ -380,19 +407,27 @@ Object subclass: #SentenceFinderByPrefix
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefix methodsFor: 'search' stamp: 'CMS 4/28/2022 15:58:06'!
+!SentenceFinderByPrefix methodsFor: 'search' stamp: 'DW 4/28/2022 16:19:38'!
 findSentencesWithPrefix: prefix inStack: stack
-	|top rest|
+	|sentencesInStack|
 	self ensurePrefixDoesntContainWhitespace: prefix.
 	self ensurePrefixIsntEmpty: prefix.
 	
 	stack isEmpty ifTrue: [^OrderedCollection new].
-	top := stack pop.
-	rest := self findSentencesWithPrefix: prefix inStack: stack.
-	stack push: top.
+		
+	sentencesInStack := self findSentencesWithPrefix: prefix inTailOfStack: stack.
+	
+	(stack top beginsWith: prefix) ifTrue: [sentencesInStack add: stack top].
+	^sentencesInStack.! !
 
-	(top beginsWith: prefix) ifTrue: [rest add: top].
-	^rest.! !
+!SentenceFinderByPrefix methodsFor: 'search' stamp: 'DW 4/28/2022 16:23:14'!
+findSentencesWithPrefix: prefix inTailOfStack: stack
+	|sentencesInTailOfStack topOfStack|
+	
+	topOfStack := stack pop.
+	sentencesInTailOfStack := self findSentencesWithPrefix: prefix inStack: stack.
+	stack  push: topOfStack.
+	^ sentencesInTailOfStack.! !
 
 
 !SentenceFinderByPrefix methodsFor: 'precondition checks' stamp: 'CMS 4/28/2022 15:36:52'!
