@@ -144,20 +144,30 @@ TestCase subclass: #SentenceFinderByPrefixTest
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 14:07:36'!
+!SentenceFinderByPrefixTest methodsFor: 'setUp/tearDown' stamp: 'CMS 4/28/2022 14:07:36'!
 setUp
 	sentenceFinderByPrefix := SentenceFinderByPrefix new.	! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 14:09:53'!
+
+!SentenceFinderByPrefixTest methodsFor: 'assertions' stamp: 'CMS 4/28/2022 15:55:55'!
+assertStack: aStack hasContents: anOrderedContainer
+	anOrderedContainer reverseDo: [:element |
+		self deny: aStack isEmpty.
+		self assert: aStack pop = element.
+	].
+	self assert: aStack isEmpty.! !
+
+
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'CMS 4/28/2022 15:40:26'!
 test01SearchOnEmptyStackReturnsNoSentences
 	|stack sentences|
 	stack := OOStack new.
-	sentences := sentenceFinderByPrefix findSentencesWithPrefix: 'Paul McCartney' inStack: stack.
+	sentences := sentenceFinderByPrefix findSentencesWithPrefix: 'A' inStack: stack.
 	self assert: sentences isEmpty.
 	
 	! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 14:19:41'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'CMS 4/28/2022 14:19:41'!
 test02SearchOnStackWithTwoSentencesFindsOnlyTheSencenceWithTheSearchedPrefix
 	|stack sentences expectedResult|
 	stack := OOStack new.
@@ -171,15 +181,51 @@ test02SearchOnStackWithTwoSentencesFindsOnlyTheSencenceWithTheSearchedPrefix
 	
 	self assert: (sentences = expectedResult).! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 14:24:02'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'CMS 4/28/2022 15:54:22'!
 test03SearchPreservesStack
 	|stack|
 	stack := OOStack new.
 	stack push: 'A ...'.
 	sentenceFinderByPrefix findSentencesWithPrefix: 'A' inStack: stack.
 	
-	self deny: stack isEmpty.
-	self assert: stack top equals: 'A ...'.! !
+	self assertStack: stack hasContents: (OrderedCollection with: 'A ...').! !
+
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'CMS 4/28/2022 15:17:34'!
+test04SearchIsCaseSensitive
+	|stack searchResult|
+	stack := OOStack new.
+	stack push: 'A ...'.
+	searchResult := sentenceFinderByPrefix findSentencesWithPrefix: 'a' inStack: stack.
+	
+	self assert: searchResult isEmpty.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'CMS 4/28/2022 15:41:52'!
+test05SearchWithEmptyPrefixRaisesError
+	|stack|
+	stack := OOStack new.
+	self
+		should: [sentenceFinderByPrefix findSentencesWithPrefix: '' inStack: stack]
+		raise: Error
+		description: SentenceFinderByPrefix emptyPrefixErrorDescription.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'CMS 4/28/2022 15:42:28'!
+test06SearchWithPrefixContainingWhitespaceRaisesError
+	|stack|
+	stack := OOStack new.
+	self
+		should: [sentenceFinderByPrefix findSentencesWithPrefix: ' ' inStack: stack]
+		raise: Error
+		description: SentenceFinderByPrefix prefixContainsWhitespaceErrorDescription.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'CMS 4/28/2022 15:54:06'!
+test07SearchPreservesStackOrder
+	|stack|
+	stack := OOStack new.
+	stack push: 'A'.
+	stack push: 'B'.
+	sentenceFinderByPrefix findSentencesWithPrefix: 'A' inStack: stack.
+	
+	self assertStack: stack hasContents: (OrderedCollection with: 'A' with: 'B').! !
 
 
 !classDefinition: #OOImmutableStack category: 'Stack-Exercise'!
@@ -205,6 +251,17 @@ tail
 top
 	self subclassResponsibility.! !
 
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'OOImmutableStack class' category: 'Stack-Exercise'!
+OOImmutableStack class
+	instanceVariableNames: ''!
+
+!OOImmutableStack class methodsFor: 'error descriptions' stamp: 'CMS 4/28/2022 15:23:58'!
+stackEmptyErrorDescription
+	
+	^ 'stack is empty!!!!!!'! !
+
 
 !classDefinition: #OOEmptyImmutableStack category: 'Stack-Exercise'!
 OOImmutableStack subclass: #OOEmptyImmutableStack
@@ -221,13 +278,13 @@ isEmpty
 size
 	^ 0.! !
 
-!OOEmptyImmutableStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:32:34'!
+!OOEmptyImmutableStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 15:43:26'!
 tail
-	self error: OOStack stackEmptyErrorDescription.! !
+	self error: self class stackEmptyErrorDescription.! !
 
-!OOEmptyImmutableStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:29:00'!
+!OOEmptyImmutableStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 15:43:20'!
 top
-	self error: OOStack stackEmptyErrorDescription.! !
+	self error: self class stackEmptyErrorDescription.! !
 
 
 !classDefinition: #OONonEmptyImmutableStack category: 'Stack-Exercise'!
@@ -311,10 +368,9 @@ top
 OOStack class
 	instanceVariableNames: ''!
 
-!OOStack class methodsFor: 'error descriptions' stamp: 'NR 9/16/2021 17:39:43'!
+!OOStack class methodsFor: 'error descriptions' stamp: 'CMS 4/28/2022 15:24:37'!
 stackEmptyErrorDescription
-	
-	^ 'stack is empty!!!!!!'! !
+	^ OOImmutableStack stackEmptyErrorDescription! !
 
 
 !classDefinition: #SentenceFinderByPrefix category: 'Stack-Exercise'!
@@ -324,13 +380,42 @@ Object subclass: #SentenceFinderByPrefix
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:58:49'!
+!SentenceFinderByPrefix methodsFor: 'search' stamp: 'CMS 4/28/2022 15:58:06'!
 findSentencesWithPrefix: prefix inStack: stack
 	|top rest|
+	self ensurePrefixDoesntContainWhitespace: prefix.
+	self ensurePrefixIsntEmpty: prefix.
+	
 	stack isEmpty ifTrue: [^OrderedCollection new].
 	top := stack pop.
 	rest := self findSentencesWithPrefix: prefix inStack: stack.
 	stack push: top.
+
 	(top beginsWith: prefix) ifTrue: [rest add: top].
-	^rest.
-	! !
+	^rest.! !
+
+
+!SentenceFinderByPrefix methodsFor: 'precondition checks' stamp: 'CMS 4/28/2022 15:36:52'!
+ensurePrefixDoesntContainWhitespace: prefix
+	(prefix findString: ' ') = 0 ifFalse: 
+		[self error: self class prefixContainsWhitespaceErrorDescription.]! !
+
+!SentenceFinderByPrefix methodsFor: 'precondition checks' stamp: 'CMS 4/28/2022 15:31:11'!
+ensurePrefixIsntEmpty: prefix
+	prefix = '' ifTrue: [self error: self class emptyPrefixErrorDescription.]! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'SentenceFinderByPrefix class' category: 'Stack-Exercise'!
+SentenceFinderByPrefix class
+	instanceVariableNames: ''!
+
+!SentenceFinderByPrefix class methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 15:29:14'!
+emptyPrefixErrorDescription
+	
+	^ 'prefix is empty!!!!!!'! !
+
+!SentenceFinderByPrefix class methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 15:29:39'!
+prefixContainsWhitespaceErrorDescription
+	
+	^ 'prefix contains whitespace!!!!!!'! !
