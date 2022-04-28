@@ -139,48 +139,171 @@ test10CanNotTopWhenThereAreNoObjectsInTheStack
 
 !classDefinition: #SentenceFinderByPrefixTest category: 'Stack-Exercise'!
 TestCase subclass: #SentenceFinderByPrefixTest
+	instanceVariableNames: 'sentenceFinderByPrefix'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 14:07:36'!
+setUp
+	sentenceFinderByPrefix := SentenceFinderByPrefix new.	! !
+
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 14:09:53'!
+test01SearchOnEmptyStackReturnsNoSentences
+	|stack sentences|
+	stack := OOStack new.
+	sentences := sentenceFinderByPrefix findSentencesWithPrefix: 'Paul McCartney' inStack: stack.
+	self assert: sentences isEmpty.
+	
+	! !
+
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 14:19:41'!
+test02SearchOnStackWithTwoSentencesFindsOnlyTheSencenceWithTheSearchedPrefix
+	|stack sentences expectedResult|
+	stack := OOStack new.
+	stack push: 'A ...'.
+	stack push: 'B ...'.
+	sentences := sentenceFinderByPrefix findSentencesWithPrefix: 'A' inStack: stack.
+	
+	
+	expectedResult := OrderedCollection new.
+	expectedResult add: 'A ...'.
+	
+	self assert: (sentences = expectedResult).! !
+
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 14:24:02'!
+test03SearchPreservesStack
+	|stack|
+	stack := OOStack new.
+	stack push: 'A ...'.
+	sentenceFinderByPrefix findSentencesWithPrefix: 'A' inStack: stack.
+	
+	self deny: stack isEmpty.
+	self assert: stack top equals: 'A ...'.! !
+
+
+!classDefinition: #OOImmutableStack category: 'Stack-Exercise'!
+Object subclass: #OOImmutableStack
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
+!OOImmutableStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:28:10'!
+isEmpty
+	self subclassResponsibility.! !
+
+!OOImmutableStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:27:07'!
+size
+	self subclassResponsibility.! !
+
+!OOImmutableStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:32:25'!
+tail
+	self subclassResponsibility.! !
+
+!OOImmutableStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:28:49'!
+top
+	self subclassResponsibility.! !
+
 
-!classDefinition: #OOStack category: 'Stack-Exercise'!
-Object subclass: #OOStack
-	instanceVariableNames: 'top'
+!classDefinition: #OOEmptyImmutableStack category: 'Stack-Exercise'!
+OOImmutableStack subclass: #OOEmptyImmutableStack
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 16:59:00'!
-initialize
-	top := OOStackContainer new.! !
-
-!OOStack methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 16:39:47'!
+!OOEmptyImmutableStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:28:21'!
 isEmpty
-	^ top isLast.! !
+	^ true.! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 17:02:17'!
+!OOEmptyImmutableStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:27:34'!
+size
+	^ 0.! !
+
+!OOEmptyImmutableStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:32:34'!
+tail
+	self error: OOStack stackEmptyErrorDescription.! !
+
+!OOEmptyImmutableStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:29:00'!
+top
+	self error: OOStack stackEmptyErrorDescription.! !
+
+
+!classDefinition: #OONonEmptyImmutableStack category: 'Stack-Exercise'!
+OOImmutableStack subclass: #OONonEmptyImmutableStack
+	instanceVariableNames: 'value next'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!OONonEmptyImmutableStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:33:20'!
+initializeWithTop: anObject andTail: aYYYY
+	value := anObject.
+	next :=  aYYYY.! !
+
+!OONonEmptyImmutableStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:28:30'!
+isEmpty
+	^ false.! !
+
+!OONonEmptyImmutableStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:27:47'!
+size
+	^  1 + next size.! !
+
+!OONonEmptyImmutableStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:32:47'!
+tail
+	^ next.! !
+
+!OONonEmptyImmutableStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:29:17'!
+top
+	^ value.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'OONonEmptyImmutableStack class' category: 'Stack-Exercise'!
+OONonEmptyImmutableStack class
+	instanceVariableNames: ''!
+
+!OONonEmptyImmutableStack class methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:37:50'!
+withTop: anObject andTail: anImmutableStack
+	^self new initializeWithTop: anObject andTail: anImmutableStack.
+! !
+
+
+!classDefinition: #OOStack category: 'Stack-Exercise'!
+Object subclass: #OOStack
+	instanceVariableNames: 'myImmutableRepresentation'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!OOStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:45:07'!
+initialize
+	myImmutableRepresentation := OOEmptyImmutableStack new.! !
+
+!OOStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:45:07'!
+isEmpty
+	^ myImmutableRepresentation isEmpty.! !
+
+!OOStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:45:07'!
 pop
 	|poppedElement|
 	poppedElement := self top.
-	top := 	top next.
+	myImmutableRepresentation := 	myImmutableRepresentation tail.
 	^ poppedElement.! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 16:49:41'!
+!OOStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:45:07'!
 push: anObject
-	|temp|
-	temp := top.
-	top := OOStackElement withValue: anObject andNext: temp.
+	myImmutableRepresentation := OONonEmptyImmutableStack withTop: anObject andTail: myImmutableRepresentation.
 ! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 17:03:29'!
+!OOStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:45:07'!
 size
-	^ top lengthUntilContainer.! !
+	^ myImmutableRepresentation size.! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 17:00:27'!
+!OOStack methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:45:07'!
 top
-	^ top value.! !
+	^ myImmutableRepresentation top.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -201,91 +324,13 @@ Object subclass: #SentenceFinderByPrefix
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-
-!classDefinition: #YYYY category: 'Stack-Exercise'!
-Object subclass: #YYYY
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Stack-Exercise'!
-
-!YYYY methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 16:40:37'!
-isLast
-	self subclassResponsibility.! !
-
-!YYYY methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 17:03:42'!
-lengthUntilContainer
-	self subclassResponsibility.! !
-
-!YYYY methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 16:56:36'!
-next
-	self subclassResponsibility.! !
-
-!YYYY methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 17:00:42'!
-value
-	self subclassResponsibility.! !
-
-
-!classDefinition: #OOStackContainer category: 'Stack-Exercise'!
-YYYY subclass: #OOStackContainer
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Stack-Exercise'!
-
-!OOStackContainer methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 16:52:41'!
-isLast
-	^ true.! !
-
-!OOStackContainer methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 17:04:08'!
-lengthUntilContainer
-	^ 0.! !
-
-!OOStackContainer methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 16:57:15'!
-next
-	self error: OOStack stackEmptyErrorDescription.! !
-
-!OOStackContainer methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 17:00:48'!
-value
-	self error: OOStack stackEmptyErrorDescription.! !
-
-
-!classDefinition: #OOStackElement category: 'Stack-Exercise'!
-YYYY subclass: #OOStackElement
-	instanceVariableNames: 'value next'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Stack-Exercise'!
-
-!OOStackElement methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 16:48:35'!
-initializeWithValue: anObject andNext: aYYYY
-	value := anObject.
-	next :=  aYYYY.! !
-
-!OOStackElement methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 16:52:36'!
-isLast
-	^ false.! !
-
-!OOStackElement methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 17:04:31'!
-lengthUntilContainer
-	^  1 + next lengthUntilContainer.! !
-
-!OOStackElement methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 16:57:24'!
-next
-	^ next.! !
-
-!OOStackElement methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 17:00:59'!
-value
-	^ value.! !
-
-"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
-
-!classDefinition: 'OOStackElement class' category: 'Stack-Exercise'!
-OOStackElement class
-	instanceVariableNames: ''!
-
-!OOStackElement class methodsFor: 'as yet unclassified' stamp: 'DW 4/27/2022 16:50:21'!
-withValue: anObject andNext: aYYYY
-	|newOOStackElement|
-	newOOStackElement := self new initializeWithValue: anObject andNext: aYYYY.
-	^ newOOStackElement.! !
+!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'CMS 4/28/2022 13:58:49'!
+findSentencesWithPrefix: prefix inStack: stack
+	|top rest|
+	stack isEmpty ifTrue: [^OrderedCollection new].
+	top := stack pop.
+	rest := self findSentencesWithPrefix: prefix inStack: stack.
+	stack push: top.
+	(top beginsWith: prefix) ifTrue: [rest add: top].
+	^rest.
+	! !
