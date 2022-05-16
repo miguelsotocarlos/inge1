@@ -5,140 +5,122 @@ TestCase subclass: #MarsRoverTests
 	poolDictionaries: ''
 	category: 'MarsRover'!
 
-!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/12/2022 21:22:22'!
+!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/16/2022 14:52:28'!
 test01RoverDoesNothingWhenEmptyStringIsSent
-	|rover|
-	rover := MarsRover at: 0@0 heading: South new.
-	rover send: ''.
-	self assert:  0@0 equals: rover position.! !
+	self rover: (self roverHeading: South) didNothingAfterSending: #('') .
+	! !
 
-!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/12/2022 21:36:44'!
+!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/16/2022 14:35:20'!
 test02RoverMovesForwardOnce
-	|rover|
-	rover := MarsRover at: 0@0 heading: South new .
-	rover send: 'f'.
-	self assert: 0@-1 equals: rover position.! !
+	self rover: (self roverHeading: South) movedRelatively: 0@-1 afterSending: #('f').
+! !
 
-!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/12/2022 21:36:39'!
+!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/16/2022 14:36:07'!
 test03RoverMovesForwardMultipleTimes
-	|rover|
-	rover := MarsRover at: 0@0 heading: South new.
-	rover send: 'f'.
-	rover send: 'f'.
-	self assert: 0@-2 equals: rover position.! !
+	self rover: (self roverHeading: South) movedRelatively: 0@-2 afterSending: #('f' 'f').
+! !
 
-!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/12/2022 21:36:32'!
+!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/16/2022 14:36:38'!
 test04RoverMovesBackwardsOnce
-	|rover|
-	rover := MarsRover at: 0@0 heading: South new.
-	rover send: 'b'.
-	self assert: 0@1 equals: rover position.! !
+		self rover: (self roverHeading: South) movedRelatively: 0@1 afterSending: #('b').! !
 
-!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/12/2022 21:36:27'!
+!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/16/2022 14:38:01'!
 test05RoverMovesBackwardsMultipleTimes
-	|rover|
-	rover := MarsRover at: 0@0 heading: South new.
-	rover send: 'b'.
-	rover send: 'b'.
-	self assert: 0@2 equals: rover position.! !
+		self rover: (self roverHeading: South) movedRelatively: 0@2 afterSending: #('b' 'b').! !
 
-!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/12/2022 21:24:00'!
+!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/16/2022 14:22:04'!
 test06RoverFacesSouthTurnsLeftAndThenFacesEast
-	|rover|
-	rover := MarsRover at: 0@0 heading: South new.
-	rover send: 'l'.
-	self assert: East new equals: rover facingDirection.! !
+	self rover: (self roverHeading: South) faces: (East new) afterSending: #('l')! !
 
-!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/12/2022 21:24:05'!
+!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/16/2022 14:20:59'!
 test07RoverFacesEastTurnsLeftAndThenFacesNorth
-	|rover|
-	rover := MarsRover at: 0@0 heading: East new.
-	rover send: 'l'.
-	self assert: North new equals: rover facingDirection.! !
+	self rover: (self roverHeading: East) faces: (North new) afterSending: #('l')! !
 
-!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/12/2022 21:24:09'!
+!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/16/2022 14:22:39'!
 test08RoverFacesNorthTurnsLeftAndThenFacesWest
-	|rover|
-	rover := MarsRover at: 0@0 heading: North new.
-	rover send: 'l'.
-	self assert: West new equals: rover facingDirection.! !
+	self rover: (self roverHeading: North) faces: (West new) afterSending: #('l')! !
 
-!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/12/2022 21:24:15'!
+!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/16/2022 14:22:53'!
 test09RoverFacesWestTurnsLeftAndThenFacesSouth
-	|rover|
-	rover := MarsRover at: 0@0 heading: West new.
-	rover send: 'l'.
-	self assert: South new equals: rover facingDirection.! !
+	self rover: (self roverHeading: West) faces: (South new) afterSending: #('l')! !
 
-!MarsRoverTests methodsFor: 'tests' stamp: 'CMS 5/15/2022 12:15:13'!
+!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/16/2022 14:44:13'!
 test10RoverFacingNorthMovesNorthWhenSentForward
-	|rover|
-	rover := MarsRover at: 0@0 heading: North new.
-	rover send: 'f'.
-	self assert: 0@1 equals: rover position.! !
+		self rover: (self roverHeading: North) movedRelatively: 0@1 afterSending: #('f').! !
 
-!MarsRoverTests methodsFor: 'tests' stamp: 'CMS 5/15/2022 12:15:18'!
-test11RoverFacingNorthMovesNorthWhenSentForward
-	|rover|
-	rover := MarsRover at: 0@0 heading: North new.
-	rover send: 'f'.
-	self assert: 0@1 equals: rover position.! !
+!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/16/2022 14:46:02'!
+test11RoverFacingWestMovesWestWhenSentForward
+		self rover: (self roverHeading: West) movedRelatively: -1@0 afterSending: #('f').! !
 
-!MarsRoverTests methodsFor: 'tests' stamp: 'CMS 5/15/2022 12:19:02'!
+!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/16/2022 14:45:52'!
 test12RoverFacingEastMovesEastWhenSentForward
-	|rover|
-	rover := MarsRover at: 0@0 heading: East new.
-	rover send: 'f'.
-	self assert: 1@0 equals: rover position.! !
+		self rover: (self roverHeading: East) movedRelatively: 1@0 afterSending: #('f').! !
 
-!MarsRoverTests methodsFor: 'tests' stamp: 'CMS 5/15/2022 12:29:47'!
+!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/16/2022 14:44:57'!
 test13RoverFacingEastMovesWestWhenSentBackwards
-	|rover|
-	rover := MarsRover at: 0@0 heading: East new.
-	rover send: 'b'.
-	self assert: -1@0 equals: rover position.! !
+		self rover: (self roverHeading: East) movedRelatively: -1@0 afterSending: #('b').! !
 
-!MarsRoverTests methodsFor: 'tests' stamp: 'CMS 5/15/2022 12:37:01'!
+!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/16/2022 14:23:59'!
 test14RoverFacingEastFacesSouthAfterTurningRight
-	|rover|
-	rover := MarsRover at: 0@0 heading: East new.
-	rover send: 'r'.
-	self assert: rover facingDirection equals: South new.! !
+	self rover: (self roverHeading: East) faces: (South new) afterSending: #('r')! !
 
-!MarsRoverTests methodsFor: 'tests' stamp: 'CMS 5/15/2022 12:39:45'!
+!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/16/2022 14:23:39'!
 test15RoverFacingNorthFacesEastAfterTurningRight
-	|rover|
-	rover := MarsRover at: 0@0 heading: North new.
-	rover send: 'r'.
-	self assert: rover facingDirection equals: East new.! !
+	self rover: (self roverHeading: North) faces: (East new) afterSending: #('r')! !
 
-!MarsRoverTests methodsFor: 'tests' stamp: 'CMS 5/15/2022 12:49:13'!
+!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/16/2022 14:46:51'!
 test16RoverProcessesStringWithMultipleCommands
-	|rover|
-	rover := MarsRover at: 0@0 heading: North new.
-	rover send: 'ff'.
-	self assert: rover position equals: (0@2).! !
+	self rover: (self roverHeading: North) movedRelatively: 0@2 afterSending: #('ff').! !
 
-!MarsRoverTests methodsFor: 'tests' stamp: 'CMS 5/15/2022 12:54:03'!
+!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/16/2022 14:46:33'!
 test17RoverProcessesStringWithDifferentCommands
-	|rover|
-	rover := MarsRover at: 0@0 heading: North new.
-	rover send: 'ffb'.
-	self assert: rover position equals: (0@1).! !
+	self rover: (self roverHeading: North) movedRelatively: 0@1 afterSending: #('ffb').! !
 
-!MarsRoverTests methodsFor: 'tests' stamp: 'CMS 5/15/2022 13:24:21'!
+!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/16/2022 14:53:09'!
 test18RoverDoesNothingWhenInvalidCommandIsSent
-	|rover|
-	rover := MarsRover at: 0@0 heading: North new.
-	rover send: 'x'.
-	self assert: rover position equals: (0@0).! !
+	
+	self rover: (self roverHeading: North) didNothingAfterSending: #('x') .! !
 
-!MarsRoverTests methodsFor: 'tests' stamp: 'CMS 5/15/2022 13:28:23'!
-test19RoverDoesntProcessCommandsAfterInvalidCommand
-	|rover|
-	rover := MarsRover at: 0@0 heading: North new.
-	rover send: 'xf'.
-	self assert: rover position equals: (0@0).! !
+!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/16/2022 14:53:30'!
+test19RoverDoesntProcessCommandsAfterInvalidCommand	
+	self rover: (self roverHeading: North) didNothingAfterSending: #('xf').! !
+
+!MarsRoverTests methodsFor: 'tests' stamp: 'DW 5/16/2022 14:58:36'!
+test20RoverIsAtStartingPosition	
+	|rover| 
+	rover := MarsRover at: 2@3 heading: South.
+	
+	self assert: 2@3 equals: rover position.! !
+
+
+!MarsRoverTests methodsFor: 'assertions' stamp: 'DW 5/16/2022 14:54:43'!
+rover: marsRover didNothingAfterSending: anArrayOfCommandStrings
+	
+	self rover: marsRover movedRelatively: 0@0 afterSending: anArrayOfCommandStrings.
+	self rover: marsRover faces: marsRover facingDirection afterSending: anArrayOfCommandStrings.
+	! !
+
+!MarsRoverTests methodsFor: 'assertions' stamp: 'DW 5/16/2022 14:18:13'!
+rover: marsRover faces: aCardinalDirection afterSending: anArrayOfCommandStrings
+
+	anArrayOfCommandStrings do: 	[:commandString | marsRover send: commandString ].
+
+	self assert: aCardinalDirection equals: marsRover facingDirection.! !
+
+!MarsRoverTests methodsFor: 'assertions' stamp: 'DW 5/16/2022 14:43:06'!
+rover: marsRover movedRelatively: expectedDisplacement afterSending: anArrayOfCommandStrings
+	|initalPosition|
+	
+	initalPosition := marsRover position.
+	
+	anArrayOfCommandStrings do: [:commandString | marsRover send: commandString].
+		
+	self assert: initalPosition + expectedDisplacement equals: marsRover position.! !
+
+
+!MarsRoverTests methodsFor: 'setUp' stamp: 'DW 5/16/2022 14:21:46'!
+roverHeading: aCardinalDirection 
+	^ MarsRover at: 0@0 heading: aCardinalDirection new! !
 
 
 !classDefinition: #CardinalDirection category: 'MarsRover'!
@@ -285,9 +267,9 @@ send: commandString
 ! !
 
 
-!MarsRover methodsFor: 'initialization' stamp: 'DW 5/12/2022 21:22:00'!
+!MarsRover methodsFor: 'initialization' stamp: 'DW 5/16/2022 14:58:56'!
 initializeAt: startingPosition heading: aCardinalDirection 
-	position := startingPosition.
+	position :=startingPosition .
 	facingDirection := aCardinalDirection.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
