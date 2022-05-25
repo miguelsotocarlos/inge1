@@ -1,0 +1,3001 @@
+
+
+----STARTUP---- (16 May 2022 13:41:08) as /home/charles/uni/inge1/linux64/CuisUniversity-5093.image!
+
+
+!classRemoval: #RoverCommandTurnRight stamp: 'CMS 5/16/2022 13:41:16'!
+RoverCommand subclass: #RoverCommandTurnRight
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+!classRemoval: #RoverCommandTurnLeft stamp: 'CMS 5/16/2022 13:41:17'!
+RoverCommand subclass: #RoverCommandTurnLeft
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+!classRemoval: #RoverCommandForwards stamp: 'CMS 5/16/2022 13:41:17'!
+RoverCommand subclass: #RoverCommandForwards
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+!classRemoval: #RoverCommandBackwards stamp: 'CMS 5/16/2022 13:41:17'!
+RoverCommand subclass: #RoverCommandBackwards
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+!classRemoval: #RoverCommand stamp: 'CMS 5/16/2022 13:41:18'!
+Object subclass: #RoverCommand
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+!classRemoval: #MarsRover stamp: 'CMS 5/16/2022 13:41:18'!
+Object subclass: #MarsRover
+	instanceVariableNames: 'position facingDirection'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+!classRemoval: #West stamp: 'CMS 5/16/2022 13:41:18'!
+CardinalDirection subclass: #West
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+!classRemoval: #South stamp: 'CMS 5/16/2022 13:41:18'!
+CardinalDirection subclass: #South
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+!classRemoval: #North stamp: 'CMS 5/16/2022 13:41:19'!
+CardinalDirection subclass: #North
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+!classRemoval: #East stamp: 'CMS 5/16/2022 13:41:19'!
+CardinalDirection subclass: #East
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+!classRemoval: #CardinalDirection stamp: 'CMS 5/16/2022 13:41:19'!
+Object subclass: #CardinalDirection
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+!classRemoval: #MarsRoverTests stamp: 'CMS 5/16/2022 13:41:20'!
+TestCase subclass: #MarsRoverTests
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+----QUIT----(16 May 2022 13:41:24) CuisUniversity-5093.image priorSource: 4671208!
+
+----STARTUP---- (25 May 2022 12:45:29) as /home/charles/uni/inge1/linux64/CuisUniversity-5093.image!
+
+
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #PortfolioTest category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 12:46:28'!
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:16:26'!
+                            test01BalanceOfPortfolioWithoutAccountsIsZero
+
+	self assert: 0 equals: Portfolio new balance! !
+!PortfolioTest methodsFor: 'tests' stamp: 'NR 5/27/2021 17:36:04'!
+                             test02BalanceOfPortfolioWithAccountsIsSumOfAccountsBalance
+
+	| account portfolio |
+	
+	account := ReceptiveAccount new.
+	Deposit register: 100 on: account.
+	portfolio := Portfolio with: account.
+	
+	self assert: account balance equals: portfolio balance! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:23:25'!
+                             test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios
+
+	| simplePortfolioAccount simplePortfolio composedPortfolioAccount composedPortofolio |
+	
+	simplePortfolioAccount := ReceptiveAccount new.
+	Deposit register: 100 on: simplePortfolioAccount.
+	simplePortfolio := Portfolio with: simplePortfolioAccount.
+	
+	composedPortfolioAccount := ReceptiveAccount new.
+	Withdraw register: 50 on: composedPortfolioAccount.
+	composedPortofolio := Portfolio with: simplePortfolio with: composedPortfolioAccount.
+	
+	self assert: (composedPortfolioAccount balance + simplePortfolio balance) equals: composedPortofolio balance! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:43:15'!
+                 test04PortfolioWithoutAccountsHasNoRegisteredTransaction
+
+	self deny: (Portfolio new hasRegistered: (Deposit for: 100))! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:43:11'!
+ test05PortfolioHasRegisteredItsAccountsTransactions
+
+	| account portfolio deposit |
+	
+	account := ReceptiveAccount new.
+	deposit := Deposit register: 100 on: account.
+	portfolio := Portfolio with: account.
+	
+	self assert: (portfolio hasRegistered: deposit)! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:58:06'!
+                        test06PortfolioLooksForRegisteredTransactionsRecursively
+
+	| simplePortfolioAccount simplePortfolio composedPortfolioAccount composedPortfolio composedPortfolioAccountWithdraw simplePortfolioAccountDeposit |
+	
+	simplePortfolioAccount := ReceptiveAccount new.
+	simplePortfolioAccountDeposit := Deposit register: 100 on: simplePortfolioAccount.
+	simplePortfolio := Portfolio with: simplePortfolioAccount.
+	
+	composedPortfolioAccount := ReceptiveAccount new.
+	composedPortfolioAccountWithdraw := Withdraw register: 50 on: composedPortfolioAccount.
+	composedPortfolio := Portfolio with: simplePortfolio with: composedPortfolioAccount.
+	
+	self assert: (composedPortfolio hasRegistered: simplePortfolioAccountDeposit).
+	self assert: (composedPortfolio hasRegistered: composedPortfolioAccountWithdraw)! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:58:10'!
+                              test07PortfolioHasNoTransactionWhenHasNoAccounts
+
+	self assert: Portfolio new transactions isEmpty! !
+!PortfolioTest methodsFor: 'tests' stamp: 'NR 6/22/2020 07:31:19'!
+                       test08PortfolioTransactionsIncludesAllItsAccountsTransactions
+
+	| account portfolio accountDeposit anotherAccount portfolioTransactions anotherAccountWithdraw |
+	
+	account := ReceptiveAccount new.
+	accountDeposit := Deposit register: 100 on: account.
+	anotherAccount := ReceptiveAccount new.
+	anotherAccountWithdraw := Withdraw register: 100 on: account.
+	portfolio := Portfolio with: account.
+	
+	portfolioTransactions := portfolio transactions.
+	
+	self assert: 2 equals: portfolioTransactions size.
+	self assert: (portfolioTransactions includes: accountDeposit).
+	self assert: (portfolioTransactions includes: anotherAccountWithdraw)! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:58:20'!
+                              test09PortfolioTransactionsAreCalculatedRecursively
+
+	| simplePortfolioAccount simplePortfolio composedPortfolioAccount composedPortfolio composedPortfolioAccountWithdraw simplePortfolioAccountDeposit composedPortfolioTransactions |
+	
+	simplePortfolioAccount := ReceptiveAccount new.
+	simplePortfolioAccountDeposit := Deposit register: 100 on: simplePortfolioAccount.
+	simplePortfolio := Portfolio with: simplePortfolioAccount.
+	
+	composedPortfolioAccount := ReceptiveAccount new.
+	composedPortfolioAccountWithdraw := Withdraw register: 50 on: composedPortfolioAccount.
+	composedPortfolio := Portfolio with: simplePortfolio with: composedPortfolioAccount.
+	
+	composedPortfolioTransactions := composedPortfolio transactions.
+	self assert: 2 equals: composedPortfolioTransactions size.
+	self assert: (composedPortfolioTransactions includes: simplePortfolioAccountDeposit).
+	self assert: (composedPortfolioTransactions includes: composedPortfolioAccountWithdraw)! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:58:24'!
+                         test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce
+
+	| account portfolio |
+	
+	account := ReceptiveAccount new.
+	portfolio := Portfolio with: account.
+	
+	self 
+		should: [ portfolio add: account ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: Portfolio canNotAddAccountErrorMessage equals: anError messageText.
+			self assert: 1 equals: portfolio accountsSize.
+			self assert: (portfolio accountsIncludes: account) ]! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:58:28'!
+            test11PortfolioCanNotIncludeAccountOfItsPortfolios
+
+	| account simplePortfolio composedPortfolio |
+	
+	account := ReceptiveAccount new.
+	simplePortfolio := Portfolio with: account.
+	composedPortfolio := Portfolio with: simplePortfolio.
+	
+	self 
+		should: [ composedPortfolio add: account ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: Portfolio canNotAddAccountErrorMessage equals: anError messageText.
+			self assert: 1 equals: composedPortfolio accountsSize.
+			self assert: (composedPortfolio accountsIncludes: simplePortfolio) ]! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:58:32'!
+                           test12PortfolioCanNotIncludeItself
+
+	| account simplePortfolio |
+	
+	account := ReceptiveAccount new.
+	simplePortfolio := Portfolio with: account.
+	
+	self 
+		should: [ simplePortfolio add: simplePortfolio ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: Portfolio canNotAddAccountErrorMessage equals: anError messageText.
+			self assert: 1 equals: simplePortfolio accountsSize.
+			self assert: (simplePortfolio accountsIncludes: account) ]! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 12:01:51'!
+                          test13ComposedPortfolioCanNotHaveParentPortfolioAccount
+
+	| account simplePortfolio composedPortfolio |
+	
+	account := ReceptiveAccount new.
+	simplePortfolio := Portfolio new.
+	composedPortfolio := Portfolio with: simplePortfolio.
+	composedPortfolio add: account.
+	
+	self 
+		should: [ simplePortfolio add: account ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: Portfolio canNotAddAccountErrorMessage equals: anError messageText.
+			self assert: simplePortfolio accountsIsEmpty ]! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 12:12:16'!
+                 test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively
+
+	| account leftParentPortfolio leftRootParentPortfolio portfolio rightParentPortfolio rightRootParentPortfolio |
+	
+	account := ReceptiveAccount new.
+	portfolio := Portfolio new.
+	leftParentPortfolio := Portfolio with: portfolio .
+	leftRootParentPortfolio := Portfolio with: leftParentPortfolio.
+	leftRootParentPortfolio add: account.
+	
+	rightParentPortfolio := Portfolio with: portfolio .
+	rightRootParentPortfolio := Portfolio with: rightParentPortfolio.
+	rightRootParentPortfolio add: account.
+
+	self 
+		should: [ portfolio add: account ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: Portfolio canNotAddAccountErrorMessage equals: anError messageText.
+			self assert: portfolio accountsIsEmpty ]! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/29/2019 16:31:18'!
+                 test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd
+
+	| portfolioToAdd portfolioToModify rootPortfolio sharedAccount |
+	
+	sharedAccount := ReceptiveAccount new.
+	portfolioToModify := Portfolio new.
+	rootPortfolio := Portfolio with: sharedAccount with: portfolioToModify.
+	portfolioToAdd := Portfolio with: sharedAccount.
+	
+	self 
+		should: [ portfolioToModify add: portfolioToAdd ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError | 
+			self assert: Portfolio canNotAddAccountErrorMessage equals: anError messageText.
+			self assert: portfolioToModify accountsIsEmpty ]! !
+
+TestCase subclass: #ReceptiveAccountTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #ReceptiveAccountTest category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 12:46:28'!
+TestCase subclass: #ReceptiveAccountTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:19:48'!
+    test01ReceptiveAccountHaveZeroAsBalanceWhenCreated 
+
+	| account |
+	
+	account := ReceptiveAccount new.
+
+	self assert: 0 equals: account balance .
+! !
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:19:54'!
+test02DepositIncreasesBalanceOnTransactionValue 
+
+	| account |
+	
+	account := ReceptiveAccount  new.
+	Deposit register: 100 on: account.
+		
+	self assert: 100 equals: account balance .
+! !
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:20:02'!
+                          test03WithdrawDecreasesBalanceOnTransactionValue 
+
+	| account |
+	
+	account := ReceptiveAccount new.
+	Deposit register: 100 on: account.
+	Withdraw register: 50 on: account.
+		
+	self assert: 50 equals: account balance .
+! !
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:20:32'!
+                       test04WithdrawValueMustBePositive 
+
+	| account withdrawValue |
+	
+	account := ReceptiveAccount new.
+	withdrawValue := 50.
+	
+	self assert: withdrawValue equals: (Withdraw register: withdrawValue on: account) value
+! !
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:20:46'!
+                             test05ReceptiveAccountKnowsRegisteredTransactions 
+
+	| account deposit withdraw |
+	
+	account := ReceptiveAccount new.
+	deposit := Deposit register: 100 on: account.
+	withdraw := Withdraw register: 50 on: account.
+		
+	self assert: (account hasRegistered: deposit).
+	self assert: (account hasRegistered: withdraw).
+! !
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:20:54'!
+                        test06ReceptiveAccountDoNotKnowNotRegisteredTransactions
+
+	| account deposit withdraw |
+	
+	account := ReceptiveAccount new.
+	deposit :=  Deposit for: 100.
+	withdraw := Withdraw for: 50.
+		
+	self deny: (account hasRegistered: deposit).
+	self deny: (account hasRegistered:withdraw).
+! !
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:21:24'!
+                        test07AccountKnowsItsTransactions 
+
+	| account1 deposit1 |
+	
+	account1 := ReceptiveAccount new.
+	
+	deposit1 := Deposit register: 100 on: account1.
+		
+	self assert: 1 equals: account1 transactions size .
+	self assert: (account1 transactions includes: deposit1).
+! !
+
+Object subclass: #Account
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Account category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 12:46:28'!
+Object subclass: #Account
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Account methodsFor: 'testing' stamp: 'HAW 5/25/2019 12:23:47'!
+                  hasRegistered: aTransaction
+
+	self subclassResponsibility ! !
+!Account methodsFor: 'testing' stamp: 'HAW 5/25/2019 12:24:25'!
+  isComposedBy: anAccount
+
+	self subclassResponsibility ! !
+!Account methodsFor: 'balance' stamp: 'HAW 5/25/2019 12:23:40'!
+      balance
+
+	self subclassResponsibility ! !
+!Account methodsFor: 'transactions' stamp: 'HAW 5/25/2019 12:23:27'!
+                 addTransactionsTo: aCollectionOfTransactions
+
+	self subclassResponsibility ! !
+!Account methodsFor: 'transactions' stamp: 'HAW 5/25/2019 12:23:15'!
+            transactions
+
+	self subclassResponsibility ! !
+!Account methodsFor: 'composition' stamp: 'HAW 5/25/2019 12:24:04'!
+             addedTo: aPortfolio
+
+	self subclassResponsibility ! !
+
+Account subclass: #Portfolio
+	instanceVariableNames: 'accounts parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Portfolio category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 12:46:28'!
+Account subclass: #Portfolio
+	instanceVariableNames: 'accounts parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Portfolio methodsFor: 'accounts management' stamp: 'HAW 5/25/2019 11:49:20'!
+               accountsIncludes: anAccount
+
+	^accounts includes: anAccount ! !
+!Portfolio methodsFor: 'accounts management' stamp: 'HAW 5/25/2019 12:05:04'!
+                  accountsIsEmpty
+	
+	^accounts isEmpty ! !
+!Portfolio methodsFor: 'accounts management' stamp: 'HAW 5/25/2019 11:49:06'!
+         accountsSize
+	
+	^accounts size! !
+!Portfolio methodsFor: 'accounts management' stamp: 'HAW 5/25/2019 12:19:20'!
+                add: accountToAdd
+
+	self assertCanAdd: accountToAdd.
+		
+	accounts add: accountToAdd.
+	accountToAdd addedTo: self 
+	! !
+!Portfolio methodsFor: 'accounts management' stamp: 'HAW 5/25/2019 12:17:31'!
+                           rootParents
+	
+	| rootParents |
+	
+	rootParents := Set new.
+	self addRootParentsTo: rootParents.
+	
+	^ rootParents! !
+!Portfolio methodsFor: 'initialization' stamp: 'HAW 5/25/2019 12:03:18' overrides: 16920235!
+                initialize
+
+	accounts := OrderedCollection new.
+	parents := OrderedCollection new.! !
+!Portfolio methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:19:36' overrides: 50332121!
+                    balance
+	
+	^accounts sum: [ :anAccount | anAccount balance ] ifEmpty: [ 0 ]! !
+!Portfolio methodsFor: 'transactions' stamp: 'HAW 5/25/2019 11:42:55' overrides: 50332125!
+                      addTransactionsTo: aCollectionOfTransactions
+
+	accounts do: [ :anAccount | anAccount addTransactionsTo: aCollectionOfTransactions ]! !
+!Portfolio methodsFor: 'transactions' stamp: 'HAW 5/25/2019 11:38:32' overrides: 50332130!
+                              transactions
+	
+	| transactions |
+	
+	transactions := OrderedCollection new.
+	accounts do: [ :anAccount | anAccount addTransactionsTo: transactions ].
+	
+	^transactions ! !
+!Portfolio methodsFor: 'composition' stamp: 'HAW 5/25/2019 12:02:59' overrides: 50332134!
+                            addedTo: aPortfolio 
+	
+	parents add: aPortfolio ! !
+!Portfolio methodsFor: 'testing' stamp: 'HAW 5/25/2019 12:20:56'!
+          anyRootParentIsComposedBy: accountToAdd
+
+	^self rootParents anySatisfy: [ :aParent | aParent isComposedBy: accountToAdd]! !
+!Portfolio methodsFor: 'testing' stamp: 'HAW 5/25/2019 11:28:29' overrides: 50332113!
+              hasRegistered: aTransaction
+
+	^accounts anySatisfy: [ :anAccount | anAccount hasRegistered: aTransaction ]! !
+!Portfolio methodsFor: 'testing' stamp: 'HAW 5/29/2019 16:24:54' overrides: 50332117!
+                            isComposedBy: anAccount
+
+	^ self = anAccount or: [ accounts anySatisfy: [ :composedAccount | (composedAccount isComposedBy: anAccount) or: [ anAccount isComposedBy: composedAccount ]]]! !
+!Portfolio methodsFor: 'account management - private' stamp: 'HAW 5/25/2019 12:17:31'!
+             addRootParentsTo: rootParents
+
+	parents 
+		ifEmpty: [ rootParents add: self ] 
+		ifNotEmpty: [ parents do: [ :aParent | aParent addRootParentsTo: rootParents ]]! !
+!Portfolio methodsFor: 'account management - private' stamp: 'HAW 5/25/2019 12:20:36'!
+     assertCanAdd: accountToAdd
+
+	(self anyRootParentIsComposedBy: accountToAdd) ifTrue: [ self signalCanNotAddAccount ].
+! !
+!Portfolio methodsFor: 'account management - private' stamp: 'HAW 5/25/2019 11:48:34'!
+                signalCanNotAddAccount
+	
+	self error: self class canNotAddAccountErrorMessage! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+Portfolio class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Portfolio class' category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 12:46:28'!
+Portfolio class
+	instanceVariableNames: ''!
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'HAW 5/25/2019 11:48:55'!
+  canNotAddAccountErrorMessage
+	
+	^'Can not add repeated account to a portfolio'! !
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'HAW 5/25/2019 11:18:21'!
+                          with: anAccount
+
+	^self new 
+		add: anAccount;
+		yourself! !
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'HAW 5/25/2019 11:23:59'!
+               with: anAccount with: anotherAccount
+
+	^self new 
+		add: anAccount;
+		add: anotherAccount;
+		yourself! !
+
+Account subclass: #ReceptiveAccount
+	instanceVariableNames: 'transactions'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #ReceptiveAccount category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 12:46:28'!
+Account subclass: #ReceptiveAccount
+	instanceVariableNames: 'transactions'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!ReceptiveAccount methodsFor: 'initialization' stamp: 'HernanWilkinson 7/13/2011 18:35' overrides: 16920235!
+                initialize
+
+	super initialize.
+	transactions := OrderedCollection new.! !
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'HAW 5/25/2019 11:38:52' overrides: 50332125!
+                    addTransactionsTo: aCollectionOfTransactions
+
+	aCollectionOfTransactions addAll: transactions ! !
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'HernanWilkinson 7/13/2011 18:37'!
+       register: aTransaction
+
+	transactions add: aTransaction 
+! !
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'HernanWilkinson 7/13/2011 18:37' overrides: 50332130!
+                        transactions 
+
+	^ transactions copy! !
+!ReceptiveAccount methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:24:46' overrides: 50332121!
+                            balance
+
+	^transactions 
+		inject: 0
+		into: [ :currentBalance :transaction | transaction affectBalance: currentBalance ]! !
+!ReceptiveAccount methodsFor: 'testing' stamp: 'NR 10/21/2019 18:55:56' overrides: 50332113!
+      hasRegistered: aTransaction
+
+	^ transactions includes: aTransaction 
+! !
+!ReceptiveAccount methodsFor: 'testing' stamp: 'HAW 5/25/2019 11:54:51' overrides: 50332117!
+                          isComposedBy: anAccount
+
+	^self = anAccount ! !
+!ReceptiveAccount methodsFor: 'composition' stamp: 'HAW 5/25/2019 12:03:32' overrides: 50332134!
+               addedTo: aPortfolio 
+	
+	! !
+
+Object subclass: #AccountTransaction
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #AccountTransaction category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 12:46:29'!
+Object subclass: #AccountTransaction
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!AccountTransaction methodsFor: 'value' stamp: 'HernanWilkinson 9/12/2011 12:25' overrides: 16902254!
+                        value 
+
+	self subclassResponsibility ! !
+!AccountTransaction methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:25:39'!
+            affectBalance: aBalance
+
+	self subclassResponsibility ! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+AccountTransaction class
+	instanceVariableNames: ''!
+
+!classDefinition: 'AccountTransaction class' category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 12:46:29'!
+AccountTransaction class
+	instanceVariableNames: ''!
+!AccountTransaction class methodsFor: 'instance creation' stamp: 'NR 10/21/2019 18:54:27'!
+                       register: aValue on: account
+
+	| transaction |
+	
+	transaction := self for: aValue.
+	account register: transaction.
+		
+	^ transaction! !
+
+AccountTransaction subclass: #Deposit
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Deposit category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 12:46:29'!
+AccountTransaction subclass: #Deposit
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Deposit methodsFor: 'initialization' stamp: 'HernanWilkinson 7/13/2011 18:45'!
+ initializeFor: aValue
+
+	value := aValue ! !
+!Deposit methodsFor: 'value' stamp: 'HernanWilkinson 7/13/2011 18:38' overrides: 50332351!
+                         value
+
+	^ value! !
+!Deposit methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:25:02' overrides: 50332355!
+                         affectBalance: aBalance
+
+	^aBalance + value ! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+Deposit class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Deposit class' category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 12:46:29'!
+Deposit class
+	instanceVariableNames: ''!
+!Deposit class methodsFor: 'instance creation' stamp: 'HernanWilkinson 7/13/2011 18:38'!
+    for: aValue
+
+	^ self new initializeFor: aValue ! !
+
+AccountTransaction subclass: #Withdraw
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Withdraw category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 12:46:29'!
+AccountTransaction subclass: #Withdraw
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Withdraw methodsFor: 'initialization' stamp: 'HernanWilkinson 7/13/2011 18:46'!
+                  initializeFor: aValue
+
+	value := aValue ! !
+!Withdraw methodsFor: 'value' stamp: 'HernanWilkinson 7/13/2011 18:33' overrides: 50332351!
+                        value
+
+	^ value! !
+!Withdraw methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:25:15' overrides: 50332355!
+                        affectBalance: aBalance
+
+	^aBalance - value! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+Withdraw class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Withdraw class' category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 12:46:29'!
+Withdraw class
+	instanceVariableNames: ''!
+!Withdraw class methodsFor: 'instance creation' stamp: 'HernanWilkinson 7/13/2011 18:33'!
+ for: aValue
+
+	^ self new initializeFor: aValue ! !
+
+----End fileIn of /home/charles/uni/inge1/tps/06-Portfolio 2/Portfolio-Solucion.st----!
+
+TestCase subclass: #TransactionTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #TransactionTest category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 12:50:46'!
+TestCase subclass: #TransactionTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+TestCase subclass: #AccountTransactionTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #AccountTransactionTest category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 12:50:54'!
+TestCase subclass: #AccountTransactionTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #TransactionTest stamp: 'CMS 5/25/2022 12:51:00'!
+TestCase subclass: #TransactionTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #WireTransfer category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 12:55:29'!
+Object subclass: #WireTransfer
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!AccountTransactionTest methodsFor: 'no messages' stamp: 'CMS 5/25/2022 12:55:17'!
+                test01WireTransferReducesSenderBalance
+	| sender receiver |
+	sender := ReceptiveAccount new.
+	Deposit register: 200 on: sender.
+	
+	receiver := ReceptiveAccount new.
+	
+	WireTransfer transfer: 100 from: sender to: receiver.
+	
+	
+	! !
+
+AccountTransaction subclass: #WireTransfer
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #WireTransfer category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 12:56:07'!
+AccountTransaction subclass: #WireTransfer
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!AccountTransactionTest methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 12:56:47' prior: 50332493!
+  test01WireTransferReducesSenderBalance
+	| sender receiver |
+	sender := ReceptiveAccount new.
+	Deposit register: 200 on: sender.
+	
+	receiver := ReceptiveAccount new.
+	
+	WireTransfer transfer: 50 from: sender to: receiver.
+	
+	self assert: sender balance equals: 150.
+	
+	
+	! !
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 12:56:49'!
+ERROR!
+!WireTransfer class methodsFor: 'instance creation' stamp: 'CMS 5/25/2022 12:57:04'!
+      transfer: aSmallInteger from: aReceptiveAccount to: aReceptiveAccount3 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeTransfer: aSmallInteger from: aReceptiveAccount to: aReceptiveAccount3 ! !
+!WireTransfer class methodsFor: 'instance creation' stamp: 'CMS 5/25/2022 12:59:53' prior: 50332531!
+                   transfer: anAmount from: sender to: receiver 
+	| wireTransfer |
+	
+	wireTransfer := self for: anAmount.
+	sender register: wireTransfer.
+		
+	^ wireTransfer! !
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 12:59:59'!
+ERROR!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'CMS 5/25/2022 12:59:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithAccountsIsSumOfAccountsBalance stamp: 'CMS 5/25/2022 12:59:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'CMS 5/25/2022 12:59:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'CMS 5/25/2022 12:59:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'CMS 5/25/2022 12:59:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'CMS 5/25/2022 12:59:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'CMS 5/25/2022 12:59:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'CMS 5/25/2022 12:59:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'CMS 5/25/2022 12:59:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'CMS 5/25/2022 12:59:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'CMS 5/25/2022 12:59:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'CMS 5/25/2022 12:59:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'CMS 5/25/2022 12:59:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'CMS 5/25/2022 12:59:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'CMS 5/25/2022 12:59:59'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'CMS 5/25/2022 12:59:59'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 12:59:59'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 12:59:59'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'CMS 5/25/2022 12:59:59'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'CMS 5/25/2022 12:59:59'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'CMS 5/25/2022 12:59:59'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'CMS 5/25/2022 12:59:59'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 12:59:59'!
+ERROR!
+
+!classDefinition: #WireTransfer category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 13:01:10'!
+AccountTransaction subclass: #WireTransfer
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!WireTransfer methodsFor: 'no messages' stamp: 'CMS 5/25/2022 13:01:05'!
+                   initializeFor: aValue
+
+	value := aValue ! !
+!WireTransfer methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 13:01:23' overrides: 50332355!
+               affectBalance: aBalance
+
+	^aBalance - value! !
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:01:24'!
+ERROR!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'CMS 5/25/2022 13:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithAccountsIsSumOfAccountsBalance stamp: 'CMS 5/25/2022 13:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'CMS 5/25/2022 13:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'CMS 5/25/2022 13:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'CMS 5/25/2022 13:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'CMS 5/25/2022 13:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'CMS 5/25/2022 13:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'CMS 5/25/2022 13:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'CMS 5/25/2022 13:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'CMS 5/25/2022 13:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'CMS 5/25/2022 13:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'CMS 5/25/2022 13:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'CMS 5/25/2022 13:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'CMS 5/25/2022 13:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'CMS 5/25/2022 13:01:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'CMS 5/25/2022 13:01:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:01:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:01:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'CMS 5/25/2022 13:01:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'CMS 5/25/2022 13:01:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'CMS 5/25/2022 13:01:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'CMS 5/25/2022 13:01:24'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:01:24'!
+ERROR!
+!WireTransfer class methodsFor: 'instance creation' stamp: 'CMS 5/25/2022 13:01:40'!
+                for: aValue
+
+	^ self new initializeFor: aValue ! !
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithAccountsIsSumOfAccountsBalance stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'CMS 5/25/2022 13:01:41'!
+PASSED!
+!AccountTransactionTest methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 13:02:39'!
+                        test01WireTransferIncreasesReceiverBalance
+	| sender receiver |
+	sender := ReceptiveAccount new.
+	Deposit register: 200 on: sender.
+	
+	receiver := ReceptiveAccount new.
+	
+	WireTransfer transfer: 50 from: sender to: receiver.
+	
+	self assert: receiver balance equals: 50.
+	
+	
+	! !
+!AccountTransactionTest methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 13:03:03'!
+              test02WireTransferIncreasesReceiverBalance
+	| sender receiver |
+	sender := ReceptiveAccount new.
+	Deposit register: 200 on: sender.
+	
+	receiver := ReceptiveAccount new.
+	
+	WireTransfer transfer: 50 from: sender to: receiver.
+	
+	self assert: receiver balance equals: 50.
+	
+	
+	! !
+
+!methodRemoval: AccountTransactionTest #test01WireTransferIncreasesReceiverBalance stamp: 'CMS 5/25/2022 13:03:03'!
+test01WireTransferIncreasesReceiverBalance
+	| sender receiver |
+	sender := ReceptiveAccount new.
+	Deposit register: 200 on: sender.
+	
+	receiver := ReceptiveAccount new.
+	
+	WireTransfer transfer: 50 from: sender to: receiver.
+	
+	self assert: receiver balance equals: 50.
+	
+	
+	!
+!WireTransfer class methodsFor: 'instance creation' stamp: 'CMS 5/25/2022 13:04:23' prior: 50332543!
+                          transfer: anAmount from: sender to: receiver 
+	Withdraw register: anAmount on: sender.
+	Deposit register: anAmount on: receiver.! !
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test02WireTransferIncreasesReceiverBalance stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithAccountsIsSumOfAccountsBalance stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'CMS 5/25/2022 13:04:24'!
+PASSED!
+!AccountTransactionTest methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 13:06:19'!
+               test03BothPartiesRegisterWireTransfer
+	| sender receiver transfer |
+	sender := ReceptiveAccount new.
+	Deposit register: 200 on: sender.
+	
+	receiver := ReceptiveAccount new.
+	
+	transfer := WireTransfer transfer: 50 from: sender to: receiver.
+	
+	self assert: (receiver hasRegistered: transfer).
+	self assert: (sender hasRegistered: transfer).
+
+	
+	
+	! !
+
+!testRun: #AccountTransactionTest #test03BothPartiesRegisterWireTransfer stamp: 'CMS 5/25/2022 13:06:23'!
+FAILURE!
+!WireTransfer methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 13:07:03' prior: 50332655 overrides: 50332355!
+                        affectBalance: aBalance
+	^aBalance! !
+!WireTransfer class methodsFor: 'instance creation' stamp: 'CMS 5/25/2022 13:08:13' prior: 50332881!
+                     transfer: anAmount from: sender to: receiver 
+	|transfer|
+	Withdraw register: anAmount on: sender.
+	Deposit register: anAmount on: receiver.
+	
+	transfer := WireTransfer new.
+	sender register: transfer.
+	receiver register: transfer.! !
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test02WireTransferIncreasesReceiverBalance stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test03BothPartiesRegisterWireTransfer stamp: 'CMS 5/25/2022 13:08:14'!
+FAILURE!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithAccountsIsSumOfAccountsBalance stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'CMS 5/25/2022 13:08:14'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test03BothPartiesRegisterWireTransfer stamp: 'CMS 5/25/2022 13:08:14'!
+FAILURE!
+!WireTransfer class methodsFor: 'instance creation' stamp: 'CMS 5/25/2022 13:08:25' prior: 50333004!
+                      transfer: anAmount from: sender to: receiver 
+	|transfer|
+	Withdraw register: anAmount on: sender.
+	Deposit register: anAmount on: receiver.
+	
+	transfer := WireTransfer new.
+	sender register: transfer.
+	receiver register: transfer.
+	^transfer.! !
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test02WireTransferIncreasesReceiverBalance stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test03BothPartiesRegisterWireTransfer stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithAccountsIsSumOfAccountsBalance stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'CMS 5/25/2022 13:08:26'!
+PASSED!
+!AccountTransactionTest methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 13:11:00'!
+         test04WireTransferKnowsItsAmount
+	| sender receiver transfer |
+	sender := ReceptiveAccount new.
+	Deposit register: 200 on: sender.
+	
+	receiver := ReceptiveAccount new.
+	
+	transfer := WireTransfer transfer: 50 from: sender to: receiver.
+	
+	self assert: transfer value equals: 50.
+
+	
+	
+	! !
+
+!testRun: #AccountTransactionTest #test04WireTransferKnowsItsAmount stamp: 'CMS 5/25/2022 13:11:02'!
+ERROR!
+!WireTransfer methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 13:11:12' overrides: 50332351!
+             value
+
+	^ value! !
+!WireTransfer class methodsFor: 'instance creation' stamp: 'CMS 5/25/2022 13:11:27' prior: 50333114!
+        transfer: anAmount from: sender to: receiver 
+	|transfer|
+	Withdraw register: anAmount on: sender.
+	Deposit register: anAmount on: receiver.
+	
+	transfer := WireTransfer for: anAmount.
+	sender register: transfer.
+	receiver register: transfer.
+	^transfer.! !
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test02WireTransferIncreasesReceiverBalance stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test03BothPartiesRegisterWireTransfer stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test04WireTransferKnowsItsAmount stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithAccountsIsSumOfAccountsBalance stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'CMS 5/25/2022 13:11:28'!
+PASSED!
+!AccountTransactionTest methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 13:17:40'!
+                 test05WireTransferKnowsAssociatedDepositAndWithdrawal
+	| sender receiver transfer |
+	sender := ReceptiveAccount new.
+	Deposit register: 200 on: sender.
+	
+	receiver := ReceptiveAccount new.
+	
+	transfer := WireTransfer transfer: 50 from: sender to: receiver.
+	
+	self assert: (receiver hasRegistered: (transfer withdrawal)).
+	self assert: (transfer hasRegistered: (transfer deposit)).
+	
+	
+	! !
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:17:44'!
+ERROR!
+
+!classDefinition: #WireTransfer category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 13:19:07'!
+AccountTransaction subclass: #WireTransfer
+	instanceVariableNames: 'value deposit'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #WireTransfer category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 13:19:08'!
+AccountTransaction subclass: #WireTransfer
+	instanceVariableNames: 'value deposit withdrawal'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!WireTransfer methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 13:19:04'!
+                     initializeFor: aValue deposit: aDeposit withdrawal: aWithdrawal
+	value := aValue.
+	deposit := aDeposit.
+	withdrawal := aWithdrawal.! !
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test02WireTransferIncreasesReceiverBalance stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test03BothPartiesRegisterWireTransfer stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test04WireTransferKnowsItsAmount stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:19:11'!
+ERROR!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithAccountsIsSumOfAccountsBalance stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'CMS 5/25/2022 13:19:11'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:19:11'!
+ERROR!
+!WireTransfer methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 13:19:25'!
+                 withdrawal
+	self shouldBeImplemented.
+	^withdrawal! !
+!WireTransfer methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 13:19:31' prior: 50333500!
+         withdrawal
+	^withdrawal! !
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:19:35'!
+FAILURE!
+!WireTransfer methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 13:19:57'!
+                deposit
+	^deposit! !
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test02WireTransferIncreasesReceiverBalance stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test03BothPartiesRegisterWireTransfer stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test04WireTransferKnowsItsAmount stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:19:59'!
+FAILURE!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithAccountsIsSumOfAccountsBalance stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'CMS 5/25/2022 13:19:59'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:19:59'!
+FAILURE!
+!WireTransfer class methodsFor: 'instance creation' stamp: 'CMS 5/25/2022 13:20:50' prior: 50333240!
+           transfer: anAmount from: sender to: receiver 
+	|transfer|
+	transfer := WireTransfer for: anAmount deposit: (Deposit register: anAmount on: receiver) withdrawal: (Withdraw register: anAmount on: sender).
+	sender register: transfer.
+	receiver register: transfer.
+	^transfer.! !
+!WireTransfer class methodsFor: 'instance creation' stamp: 'CMS 5/25/2022 13:21:27'!
+                       for: aValue deposit: aDeposit withdrawal: aWithdrawal
+	^ self new initializeFor: aValue deposit: aDeposit withdrawal: aWithdrawal.! !
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:21:28'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test02WireTransferIncreasesReceiverBalance stamp: 'CMS 5/25/2022 13:21:28'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test03BothPartiesRegisterWireTransfer stamp: 'CMS 5/25/2022 13:21:28'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test04WireTransferKnowsItsAmount stamp: 'CMS 5/25/2022 13:21:28'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:21:29'!
+FAILURE!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'CMS 5/25/2022 13:21:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithAccountsIsSumOfAccountsBalance stamp: 'CMS 5/25/2022 13:21:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'CMS 5/25/2022 13:21:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'CMS 5/25/2022 13:21:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'CMS 5/25/2022 13:21:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'CMS 5/25/2022 13:21:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'CMS 5/25/2022 13:21:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'CMS 5/25/2022 13:21:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'CMS 5/25/2022 13:21:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'CMS 5/25/2022 13:21:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'CMS 5/25/2022 13:21:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'CMS 5/25/2022 13:21:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'CMS 5/25/2022 13:21:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'CMS 5/25/2022 13:21:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'CMS 5/25/2022 13:21:29'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'CMS 5/25/2022 13:21:29'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:21:29'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:21:29'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'CMS 5/25/2022 13:21:29'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'CMS 5/25/2022 13:21:29'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'CMS 5/25/2022 13:21:29'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'CMS 5/25/2022 13:21:29'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:21:29'!
+FAILURE!
+!WireTransfer methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 13:21:45' prior: 50333386!
+                              initializeFor: aValue deposit: aDeposit withdrawal: aWithdrawal
+	value := aValue.
+	deposit := aDeposit.
+	withdrawal := aWithdrawal.! !
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:22:01'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test02WireTransferIncreasesReceiverBalance stamp: 'CMS 5/25/2022 13:22:01'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test03BothPartiesRegisterWireTransfer stamp: 'CMS 5/25/2022 13:22:01'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test04WireTransferKnowsItsAmount stamp: 'CMS 5/25/2022 13:22:01'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:22:01'!
+FAILURE!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:22:01'!
+FAILURE!
+
+!methodRemoval: WireTransfer #initializeFor:deposit:withdrawal: stamp: 'CMS 5/25/2022 13:26:18'!
+initializeFor: aValue deposit: aDeposit withdrawal: aWithdrawal
+	value := aValue.
+	deposit := aDeposit.
+	withdrawal := aWithdrawal.!
+
+!methodRemoval: WireTransfer #withdrawal stamp: 'CMS 5/25/2022 13:26:22'!
+withdrawal
+	^withdrawal!
+
+!methodRemoval: WireTransfer #deposit stamp: 'CMS 5/25/2022 13:26:27'!
+deposit
+	^deposit!
+
+!methodRemoval: WireTransfer class #for:deposit:withdrawal: stamp: 'CMS 5/25/2022 13:26:47'!
+for: aValue deposit: aDeposit withdrawal: aWithdrawal
+	^ self new initializeFor: aValue deposit: aDeposit withdrawal: aWithdrawal.!
+!WireTransfer class methodsFor: 'instance creation' stamp: 'CMS 5/25/2022 13:11:27' prior: 50333624!
+                       transfer: anAmount from: sender to: receiver 
+	|transfer|
+	Withdraw register: anAmount on: sender.
+	Deposit register: anAmount on: receiver.
+	
+	transfer := WireTransfer for: anAmount.
+	sender register: transfer.
+	receiver register: transfer.
+	^transfer.! !
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test02WireTransferIncreasesReceiverBalance stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test03BothPartiesRegisterWireTransfer stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test04WireTransferKnowsItsAmount stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:27:01'!
+ERROR!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithAccountsIsSumOfAccountsBalance stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'CMS 5/25/2022 13:27:01'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:27:01'!
+ERROR!
+
+AccountTransaction subclass: #WireTransfer
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #WireTransfer category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 13:27:14'!
+AccountTransaction subclass: #WireTransfer
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+AccountTransaction subclass: #WireTransfer
+	instanceVariableNames: 'vallue'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #WireTransfer category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 13:27:22'!
+AccountTransaction subclass: #WireTransfer
+	instanceVariableNames: 'vallue'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+AccountTransaction subclass: #WireTransfer
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #WireTransfer category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 13:27:24'!
+AccountTransaction subclass: #WireTransfer
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:27:33'!
+ERROR!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:27:39'!
+ERROR!
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:27:43'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test02WireTransferIncreasesReceiverBalance stamp: 'CMS 5/25/2022 13:27:43'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test03BothPartiesRegisterWireTransfer stamp: 'CMS 5/25/2022 13:27:43'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test04WireTransferKnowsItsAmount stamp: 'CMS 5/25/2022 13:27:43'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:27:43'!
+ERROR!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:27:43'!
+ERROR!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:27:48'!
+ERROR!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:27:48'!
+ERROR!
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:27:52'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test02WireTransferIncreasesReceiverBalance stamp: 'CMS 5/25/2022 13:27:54'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test03BothPartiesRegisterWireTransfer stamp: 'CMS 5/25/2022 13:27:56'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test04WireTransferKnowsItsAmount stamp: 'CMS 5/25/2022 13:27:57'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:28:00'!
+ERROR!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:28:00'!
+ERROR!
+!AccountTransactionTest methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 13:28:23' prior: 50333350!
+                         test05WireTransferKnowsAssociatedDepositAndWithdrawal
+	| sender receiver transfer |
+	sender := ReceptiveAccount new.
+	Deposit register: 200 on: sender.
+	
+	receiver := ReceptiveAccount new.
+	
+	transfer := WireTransfer transfer: 50 from: sender to: receiver.
+	
+	self assert: (sender hasRegistered: (transfer withdrawal)).
+	self assert: (receiver hasRegistered: (transfer deposit)).
+	
+	
+	! !
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:28:25'!
+ERROR!
+!WireTransfer class methodsFor: 'instance creation' stamp: 'CMS 5/25/2022 13:29:02' prior: 50333802!
+                    transfer: anAmount from: sender to: receiver 
+	|transfer|
+	transfer := WireTransfer for: anAmount deposit: (Deposit register: anAmount on: receiver) withdrawal: (Withdraw register: anAmount on: sender).
+	sender register: transfer.
+	receiver register: transfer.
+	^transfer.! !
+!WireTransfer class methodsFor: 'instance creation' stamp: 'CMS 5/25/2022 13:29:42'!
+                       for: aValue deposit: aDeposit withdrawal: aWithdrawal
+	^ self new initializeFor: aValue deposit: aDeposit withdrawal: aWithdrawal.! !
+
+!classDefinition: #WireTransfer category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 13:30:21'!
+AccountTransaction subclass: #WireTransfer
+	instanceVariableNames: 'value deposit'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #WireTransfer category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 13:30:22'!
+AccountTransaction subclass: #WireTransfer
+	instanceVariableNames: 'value deposit withdrawal'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!WireTransfer methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 13:30:16'!
+                        initializeFor: aValue deposit: aDeposit withdrawal: aWithdrawal
+
+	value := aValue.
+	deposit := aDeposit.
+	withdrawal := aWithdrawal.! !
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test02WireTransferIncreasesReceiverBalance stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test03BothPartiesRegisterWireTransfer stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test04WireTransferKnowsItsAmount stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:30:24'!
+ERROR!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithAccountsIsSumOfAccountsBalance stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'CMS 5/25/2022 13:30:24'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:30:24'!
+ERROR!
+!WireTransfer methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 13:30:46'!
+                withdrawal
+	^withdrawal! !
+!WireTransfer methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 13:30:51'!
+                    deposit
+	^deposit! !
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test02WireTransferIncreasesReceiverBalance stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test03BothPartiesRegisterWireTransfer stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test04WireTransferKnowsItsAmount stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithAccountsIsSumOfAccountsBalance stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'CMS 5/25/2022 13:30:53'!
+PASSED!
+!AccountTransactionTest methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 13:33:55'!
+                          test06WithdrawalAndDepositKnowAssociatedWireTransfer
+	| sender receiver transfer |
+	sender := ReceptiveAccount new.
+	Deposit register: 200 on: sender.
+	
+	receiver := ReceptiveAccount new.
+	
+	transfer := WireTransfer transfer: 50 from: sender to: receiver.
+	
+	self assert: transfer equals: transfer withdrawal transfer.
+	self assert: transfer equals: transfer deposit transfer.
+	
+	
+	! !
+
+!testRun: #AccountTransactionTest #test06WithdrawalAndDepositKnowAssociatedWireTransfer stamp: 'CMS 5/25/2022 13:33:57'!
+ERROR!
+
+AccountTransaction subclass: #Withdraw
+	instanceVariableNames: 'value transfer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Withdraw category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 13:34:19'!
+AccountTransaction subclass: #Withdraw
+	instanceVariableNames: 'value transfer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+AccountTransaction subclass: #Withdraw
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Withdraw category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 13:34:36'!
+AccountTransaction subclass: #Withdraw
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!AccountTransactionTest methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 13:35:04' prior: 50334301!
+            test06WithdrawalAndDepositKnowAssociatedWireTransfer
+	| sender receiver transfer |
+	sender := ReceptiveAccount new.
+	Deposit register: 200 on: sender.
+	
+	receiver := ReceptiveAccount new.
+	
+	transfer := WireTransfer transfer: 50 from: sender to: receiver.
+	
+	self assert: transfer equals: transfer withdrawal associatedWireTransfer.
+	self assert: transfer equals: transfer deposit associatedWireTransfer.
+	
+	
+	! !
+
+!testRun: #AccountTransactionTest #test06WithdrawalAndDepositKnowAssociatedWireTransfer stamp: 'CMS 5/25/2022 13:35:07'!
+ERROR!
+
+AccountTransaction subclass: #Withdraw
+	instanceVariableNames: 'value associatedWireTransfer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Withdraw category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 13:35:15'!
+AccountTransaction subclass: #Withdraw
+	instanceVariableNames: 'value associatedWireTransfer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+AccountTransaction subclass: #Deposit
+	instanceVariableNames: 'value associatedWireTransfer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Deposit category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 13:35:20'!
+AccountTransaction subclass: #Deposit
+	instanceVariableNames: 'value associatedWireTransfer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Deposit methodsFor: 'balance' stamp: 'CMS 5/25/2022 13:35:50'!
+                    associatedWireTransfer
+	^associatedWireTransfer.! !
+!Withdraw methodsFor: 'initialization' stamp: 'CMS 5/25/2022 13:36:17'!
+    associatedWireTransfer
+	^associatedWireTransfer.! !
+!Withdraw methodsFor: 'initialization' stamp: 'CMS 5/25/2022 13:36:46'!
+    initializeFor: aValue wireTransfer: wireTransfer
+
+	value := aValue.
+	associatedWireTransfer := wireTransfer.! !
+!Deposit methodsFor: 'initialization' stamp: 'CMS 5/25/2022 13:38:30'!
+         initializeFor: aValue wireTransfer: wireTransfer
+
+	value := aValue.
+	associatedWireTransfer := wireTransfer.! !
+!Deposit class methodsFor: 'instance creation' stamp: 'CMS 5/25/2022 13:38:51'!
+for: aValue wireTransfer: wireTransfer
+
+	^ self new initializeFor: aValue wireTransfer: wireTransfer.! !
+!Withdraw class methodsFor: 'instance creation' stamp: 'CMS 5/25/2022 13:38:58'!
+      for: aValue wireTransfer: wireTransfer
+
+	^ self new initializeFor: aValue wireTransfer: wireTransfer.! !
+!WireTransfer class methodsFor: 'instance creation' stamp: 'CMS 5/25/2022 13:40:16' prior: 50334040!
+                  transfer: anAmount from: sender to: receiver 
+	|transfer|
+	transfer := WireTransfer for: anAmount.
+	transfer setDeposit: (Deposit register: anAmount on: receiver wireTransfer: self).
+	transfer setWithdrawal: (Deposit register: anAmount on: receiver wireTransfer: self). 
+	sender register: transfer.
+	receiver register: transfer.
+	^transfer.! !
+!WireTransfer class methodsFor: 'instance creation' stamp: 'CMS 5/25/2022 13:40:21' prior: 50334426!
+   transfer: anAmount from: sender to: receiver 
+	|transfer|
+	transfer := WireTransfer for: anAmount.
+	transfer setDeposit: (Deposit register: anAmount on: receiver wireTransfer: self).
+	transfer setWithdrawal: (Withdraw register: anAmount on: receiver wireTransfer: self). 
+	sender register: transfer.
+	receiver register: transfer.
+	^transfer.! !
+!AccountTransaction class methodsFor: 'instance creation' stamp: 'CMS 5/25/2022 13:40:55'!
+            register: aValue on: account wireTransfer: wireTransfer
+
+	| transaction |
+	
+	transaction := self for: aValue wireTransfer: wireTransfer.
+	account register: transaction.
+		
+	^ transaction! !
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:40:56'!
+ERROR!
+
+!testRun: #AccountTransactionTest #test02WireTransferIncreasesReceiverBalance stamp: 'CMS 5/25/2022 13:40:56'!
+ERROR!
+
+!testRun: #AccountTransactionTest #test03BothPartiesRegisterWireTransfer stamp: 'CMS 5/25/2022 13:40:56'!
+ERROR!
+
+!testRun: #AccountTransactionTest #test04WireTransferKnowsItsAmount stamp: 'CMS 5/25/2022 13:40:56'!
+ERROR!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:40:56'!
+ERROR!
+
+!testRun: #AccountTransactionTest #test06WithdrawalAndDepositKnowAssociatedWireTransfer stamp: 'CMS 5/25/2022 13:40:56'!
+ERROR!
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:41:04'!
+ERROR!
+!WireTransfer methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 13:41:33'!
+                  setDeposit: aDeposit
+	deposit := aDeposit! !
+!WireTransfer methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 13:41:48'!
+  setWithdrawal: aWithdrawal
+	withdrawal := aWithdrawal.! !
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:41:50'!
+FAILURE!
+
+!testRun: #AccountTransactionTest #test02WireTransferIncreasesReceiverBalance stamp: 'CMS 5/25/2022 13:41:50'!
+FAILURE!
+
+!testRun: #AccountTransactionTest #test03BothPartiesRegisterWireTransfer stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test04WireTransferKnowsItsAmount stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:41:50'!
+FAILURE!
+
+!testRun: #AccountTransactionTest #test06WithdrawalAndDepositKnowAssociatedWireTransfer stamp: 'CMS 5/25/2022 13:41:50'!
+FAILURE!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithAccountsIsSumOfAccountsBalance stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'CMS 5/25/2022 13:41:50'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:41:56'!
+FAILURE!
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:42:10'!
+FAILURE!
+
+!testRun: #AccountTransactionTest #test02WireTransferIncreasesReceiverBalance stamp: 'CMS 5/25/2022 13:42:10'!
+FAILURE!
+
+!testRun: #AccountTransactionTest #test03BothPartiesRegisterWireTransfer stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test04WireTransferKnowsItsAmount stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:42:10'!
+FAILURE!
+
+!testRun: #AccountTransactionTest #test06WithdrawalAndDepositKnowAssociatedWireTransfer stamp: 'CMS 5/25/2022 13:42:10'!
+FAILURE!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithAccountsIsSumOfAccountsBalance stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'CMS 5/25/2022 13:42:10'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:42:12'!
+FAILURE!
+!WireTransfer class methodsFor: 'instance creation' stamp: 'CMS 5/25/2022 13:42:35' prior: 50334440!
+                               transfer: anAmount from: sender to: receiver 
+	|transfer|
+	transfer := WireTransfer for: anAmount.
+	transfer setDeposit: (Deposit register: anAmount on: receiver wireTransfer: self).
+	transfer setWithdrawal: (Withdraw register: anAmount on: sender wireTransfer: self). 
+	sender register: transfer.
+	receiver register: transfer.
+	^transfer.! !
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:42:40'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test02WireTransferIncreasesReceiverBalance stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test03BothPartiesRegisterWireTransfer stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test04WireTransferKnowsItsAmount stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test06WithdrawalAndDepositKnowAssociatedWireTransfer stamp: 'CMS 5/25/2022 13:42:45'!
+FAILURE!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithAccountsIsSumOfAccountsBalance stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'CMS 5/25/2022 13:42:45'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test06WithdrawalAndDepositKnowAssociatedWireTransfer stamp: 'CMS 5/25/2022 13:42:45'!
+FAILURE!
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test02WireTransferIncreasesReceiverBalance stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test03BothPartiesRegisterWireTransfer stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test04WireTransferKnowsItsAmount stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test06WithdrawalAndDepositKnowAssociatedWireTransfer stamp: 'CMS 5/25/2022 13:43:02'!
+FAILURE!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithAccountsIsSumOfAccountsBalance stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'CMS 5/25/2022 13:43:02'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test06WithdrawalAndDepositKnowAssociatedWireTransfer stamp: 'CMS 5/25/2022 13:43:02'!
+FAILURE!
+
+transfer withdrawal associatedWireTransfer!
+!WireTransfer class methodsFor: 'instance creation' stamp: 'CMS 5/25/2022 13:44:46' prior: 50334720!
+           transfer: anAmount from: sender to: receiver 
+	|transfer|
+	transfer := WireTransfer for: anAmount.
+	transfer setDeposit: (Deposit register: anAmount on: receiver wireTransfer: transfer).
+	transfer setWithdrawal: (Withdraw register: anAmount on: sender wireTransfer: transfer). 
+	sender register: transfer.
+	receiver register: transfer.
+	^transfer.! !
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test02WireTransferIncreasesReceiverBalance stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test03BothPartiesRegisterWireTransfer stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test04WireTransferKnowsItsAmount stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test06WithdrawalAndDepositKnowAssociatedWireTransfer stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithAccountsIsSumOfAccountsBalance stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'CMS 5/25/2022 13:44:47'!
+PASSED!
+
+AccountTransaction subclass: #WireTransferSubtransaction
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #WireTransferSubtransaction category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 13:49:16'!
+AccountTransaction subclass: #WireTransferSubtransaction
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+AccountTransaction subclass: #WireTransferSubtransaction
+	instanceVariableNames: 'associatedTransfer subtransaction'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #WireTransferSubtransaction category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 13:49:51'!
+AccountTransaction subclass: #WireTransferSubtransaction
+	instanceVariableNames: 'associatedTransfer subtransaction'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!WireTransferSubtransaction methodsFor: 'no messages' stamp: 'CMS 5/25/2022 13:50:27' overrides: 50332355!
+                affectBalance: aBalance
+	^subtransaction affectBalance: aBalance.! !
+
+!classRemoval: #WireTransferSubtransaction stamp: 'CMS 5/25/2022 13:52:21'!
+AccountTransaction subclass: #WireTransferSubtransaction
+	instanceVariableNames: 'associatedTransfer subtransaction'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!testRun: #AccountTransactionTest #test01WireTransferReducesSenderBalance stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test02WireTransferIncreasesReceiverBalance stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test03BothPartiesRegisterWireTransfer stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test04WireTransferKnowsItsAmount stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test05WireTransferKnowsAssociatedDepositAndWithdrawal stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #AccountTransactionTest #test06WithdrawalAndDepositKnowAssociatedWireTransfer stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithAccountsIsSumOfAccountsBalance stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'CMS 5/25/2022 13:54:01'!
+PASSED!
+
+AccountTransaction subclass: #WireTransferDeposit
+	instanceVariableNames: 'associatedWireTransfer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #WireTransferDeposit category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 13:54:37'!
+AccountTransaction subclass: #WireTransferDeposit
+	instanceVariableNames: 'associatedWireTransfer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+AccountTransaction subclass: #WireTransferWithdraw
+	instanceVariableNames: 'associatedWireTransfer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #WireTransferWithdraw category: 'Portfolio-Solucion' stamp: 'CMS 5/25/2022 13:54:43'!
+AccountTransaction subclass: #WireTransferWithdraw
+	instanceVariableNames: 'associatedWireTransfer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #WireTransferWithdraw stamp: 'CMS 5/25/2022 13:56:12'!
+AccountTransaction subclass: #WireTransferWithdraw
+	instanceVariableNames: 'associatedWireTransfer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #WireTransferDeposit stamp: 'CMS 5/25/2022 13:56:20'!
+AccountTransaction subclass: #WireTransferDeposit
+	instanceVariableNames: 'associatedWireTransfer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+----SNAPSHOT----(25 May 2022 14:14:05) portfolio2.image priorSource: 2505!
+
+----QUIT----(25 May 2022 14:14:11) portfolio2.image priorSource: 116028!
