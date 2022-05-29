@@ -476,6 +476,64 @@ test07AccountSummaryShowsWireTransferDeposits
 Balance = 500'.
 	self assert: summary text equals: expected.! !
 
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'DW 5/29/2022 16:58:28'!
+test08NetTransferReportIsZeroOnNoTransfers
+	| account report |
+	account := ReceptiveAccount new.
+	report := NetTransferReport of: account.
+	self assert: 0 equals: report netTransferValue.! !
+
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'DW 5/29/2022 17:02:12'!
+test09NetTransferReportShowsValueOfWireTransferDeposit
+	| sender receiver report |
+	sender := ReceptiveAccount new.
+	receiver := ReceptiveAccount new.
+	WireTransfer transfer: 500 from: sender to: receiver. 
+	report := NetTransferReport of: receiver.
+	self assert: 500 equals: report netTransferValue.! !
+
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'DW 5/29/2022 17:06:17'!
+test10NetTransferReportIgnoresSimpleDeposits
+	| account report |
+	account := ReceptiveAccount new.
+	Deposit register: 500 on: account .
+	report := NetTransferReport of: account.
+	self assert: 0 equals: report netTransferValue.! !
+
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'DW 5/29/2022 17:17:11'!
+test11NetTransferReportShowsValueOfWireTransferWithdrawal
+	| sender receiver report |
+	sender := ReceptiveAccount new.
+	receiver := ReceptiveAccount new.
+	WireTransfer transfer: 500 from: sender to: receiver. 
+	report := NetTransferReport of: sender.
+	self assert: -500 equals: report netTransferValue.! !
+
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'DW 5/29/2022 17:53:44'!
+test12ReportsWorkOnEmptyPortfolios
+	| portfolio report |
+	portfolio := Portfolio new.
+	report := AccountSummary of: portfolio.
+	self assert: 'Balance = 0' equals: report text.! !
+
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'DW 5/29/2022 17:53:57'!
+test13ReportsWorkOnPortfolioWithTransactions
+	| portfolio report account expected|
+	portfolio := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	
+	Deposit register: 500 on: account.
+	
+	portfolio add: account.
+	
+	report := AccountSummary of: portfolio.
+	
+	expected :=
+'Depósito por 500.
+Balance = 500'.
+	self assert: expected equals: report text.! !
+
 
 !classDefinition: #Account category: 'Portfolio-Solucion'!
 Object subclass: #Account
@@ -629,6 +687,12 @@ signalCanNotAddAccount
 	
 	self error: self class canNotAddAccountErrorMessage! !
 
+
+!Portfolio methodsFor: 'category-name' stamp: 'DW 5/29/2022 17:53:14'!
+fillReport: anAccountSummary 
+	accounts do: [:account | account fillReport: anAccountSummary].
+	! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'Portfolio class' category: 'Portfolio-Solucion'!
@@ -669,16 +733,6 @@ initialize
 	super initialize.
 	transactions := OrderedCollection new.! !
 
-
-!ReceptiveAccount methodsFor: 'transactions' stamp: 'CMS 5/25/2022 16:26:48'!
-accountSummary
-	| report |
-	report := ''.
-	transactions do: [:transaction |
-		report := report append: (('Depósito por ' append: (transaction value asString)) append: '.
-')
-	].
-	^report.! !
 
 !ReceptiveAccount methodsFor: 'transactions' stamp: 'HAW 5/25/2019 11:38:52'!
 addTransactionsTo: aCollectionOfTransactions
@@ -728,8 +782,47 @@ addedTo: aPortfolio
 	! !
 
 
+!classDefinition: #AccountReport category: 'Portfolio-Solucion'!
+Object subclass: #AccountReport
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!AccountReport methodsFor: 'as yet unclassified' stamp: 'DW 5/29/2022 17:39:37'!
+reportSimpleDeposit: transaction
+	self subclassResponsibility.! !
+
+!AccountReport methodsFor: 'as yet unclassified' stamp: 'DW 5/29/2022 17:40:20'!
+reportSimpleWithdraw: transaction
+	self subclassResponsibility.! !
+
+!AccountReport methodsFor: 'as yet unclassified' stamp: 'DW 5/29/2022 17:30:39'!
+reportTransaction: transaction
+	transaction fillReport: self.
+! !
+
+!AccountReport methodsFor: 'as yet unclassified' stamp: 'DW 5/29/2022 17:40:39'!
+reportTransferDeposit: transaction
+	self subclassResponsibility.! !
+
+!AccountReport methodsFor: 'as yet unclassified' stamp: 'DW 5/29/2022 17:40:44'!
+reportTransferWithdraw: transaction
+	self subclassResponsibility.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'AccountReport class' category: 'Portfolio-Solucion'!
+AccountReport class
+	instanceVariableNames: ''!
+
+!AccountReport class methodsFor: 'as yet unclassified' stamp: 'DW 5/29/2022 17:42:22'!
+of: anAccount
+	^self new initializeWithAccount: anAccount.! !
+
+
 !classDefinition: #AccountSummary category: 'Portfolio-Solucion'!
-Object subclass: #AccountSummary
+AccountReport subclass: #AccountSummary
 	instanceVariableNames: 'account text'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -744,8 +837,8 @@ addLine: line
 	self add: (line append: '
 ').! !
 
-!AccountSummary methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 16:36:03'!
-addLineWithDot: line
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'DW 5/29/2022 17:42:01'!
+addLineWithPeriod: line
 	self addLine: (line append: '.').! !
 
 !AccountSummary methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 16:38:02'!
@@ -756,32 +849,64 @@ initializeWithAccount: anAccount
 	account fillReport: self.
 	self add: ('Balance = ' append: (account balance asString)).! !
 
-!AccountSummary methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 16:50:20'!
-reportTransaction: transaction
-	| prefix |
-	transaction isLeg ifTrue: [
-		(transaction isKindOf: Deposit) ifTrue: [prefix := 'Entrada por transferencia de '.].
-		(transaction isKindOf: Withdraw) ifTrue: [prefix := 'Salida por transferencia de '.].
-	] ifFalse: [
-		(transaction isKindOf: Deposit) ifTrue: [prefix := 'Depósito por '.].
-		(transaction isKindOf: Withdraw) ifTrue: [prefix := 'Extracción por '.].
-	].
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'DW 5/29/2022 17:42:01'!
+reportSimpleDeposit: transaction	
+	self addLineWithPeriod: ('Depósito por 'append: (transaction value asString)).! !
 
-	self addLineWithDot: (prefix append: (transaction value asString)).! !
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'DW 5/29/2022 17:42:01'!
+reportSimpleWithdraw: transaction	
+	self addLineWithPeriod: ('Extracción por 'append: (transaction value asString)).! !
+
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'DW 5/29/2022 17:23:18'!
+reportTransaction: transaction
+	transaction fillReport: self.
+! !
+
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'DW 5/29/2022 17:42:01'!
+reportTransferDeposit: transaction	
+	self addLineWithPeriod: ('Entrada por transferencia de 'append: (transaction value asString)).! !
+
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'DW 5/29/2022 17:42:01'!
+reportTransferWithdraw: transaction	
+	self addLineWithPeriod: ('Salida por transferencia de 'append: (transaction value asString)).! !
 
 !AccountSummary methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 16:35:13'!
 text
 	^text.! !
 
-"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: #NetTransferReport category: 'Portfolio-Solucion'!
+AccountReport subclass: #NetTransferReport
+	instanceVariableNames: 'netTransferValue'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
 
-!classDefinition: 'AccountSummary class' category: 'Portfolio-Solucion'!
-AccountSummary class
-	instanceVariableNames: ''!
+!NetTransferReport methodsFor: 'category-name' stamp: 'DW 5/29/2022 17:43:23'!
+initializeWithAccount: anAccount
+	netTransferValue := 0.
+	anAccount fillReport: self.
+! !
 
-!AccountSummary class methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 16:01:50'!
-of: anAccount
-	^self new initializeWithAccount: anAccount.! !
+!NetTransferReport methodsFor: 'category-name' stamp: 'DW 5/29/2022 17:13:32'!
+netTransferValue
+	^ netTransferValue ! !
+
+!NetTransferReport methodsFor: 'category-name' stamp: 'DW 5/29/2022 17:28:05'!
+reportSimpleDeposit: aTransaction
+	! !
+
+!NetTransferReport methodsFor: 'category-name' stamp: 'DW 5/29/2022 17:28:12'!
+reportSimpleWithdraw: aTransaction
+	! !
+
+!NetTransferReport methodsFor: 'category-name' stamp: 'DW 5/29/2022 17:28:40'!
+reportTransferDeposit: aTransaction
+	netTransferValue := aTransaction affectBalance: netTransferValue.! !
+
+!NetTransferReport methodsFor: 'category-name' stamp: 'DW 5/29/2022 17:28:32'!
+reportTransferWithdraw: aTransaction
+	netTransferValue := aTransaction affectBalance: netTransferValue.! !
 
 
 !classDefinition: #AccountTransaction category: 'Portfolio-Solucion'!
@@ -794,6 +919,10 @@ Object subclass: #AccountTransaction
 !AccountTransaction methodsFor: 'value' stamp: 'CMS 5/25/2022 15:38:44'!
 associatedWireTransfer
 	^transactionType associatedWireTransfer.! !
+
+!AccountTransaction methodsFor: 'value' stamp: 'DW 5/29/2022 17:27:12'!
+fillReport: aReport
+	^ transactionType fillReport: aReport withTransaction: self.! !
 
 !AccountTransaction methodsFor: 'value' stamp: 'CMS 5/25/2022 15:17:58'!
 initializeWithType: aType
@@ -848,12 +977,18 @@ AccountTransaction subclass: #Deposit
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-
-
 !Deposit methodsFor: 'balance' stamp: 'CMS 5/25/2022 15:18:38'!
 affectBalance: aBalance
 
 	^aBalance + self value ! !
+
+!Deposit methodsFor: 'balance' stamp: 'DW 5/29/2022 17:27:40'!
+fillReportAsLeg: aReport
+	aReport reportTransferDeposit: self. ! !
+
+!Deposit methodsFor: 'balance' stamp: 'DW 5/29/2022 17:27:46'!
+fillReportAsSimple: aReport
+	aReport reportSimpleDeposit: self. ! !
 
 
 !classDefinition: #Withdraw category: 'Portfolio-Solucion'!
@@ -863,12 +998,18 @@ AccountTransaction subclass: #Withdraw
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-
-
 !Withdraw methodsFor: 'balance' stamp: 'CMS 5/25/2022 15:18:47'!
 affectBalance: aBalance
 
 	^aBalance - self value! !
+
+!Withdraw methodsFor: 'balance' stamp: 'DW 5/29/2022 17:27:24'!
+fillReportAsLeg: aReport
+	aReport reportTransferWithdraw: self. ! !
+
+!Withdraw methodsFor: 'balance' stamp: 'DW 5/29/2022 17:27:29'!
+fillReportAsSimple: aReport
+	aReport reportSimpleWithdraw: self. ! !
 
 
 !classDefinition: #AccountTransactionType category: 'Portfolio-Solucion'!
@@ -907,6 +1048,12 @@ AccountTransactionType subclass: #SimpleTransaction
 !SimpleTransaction methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 15:45:14'!
 associatedWireTransfer
 	self error: self class noAssociatedWireTransferError.! !
+
+!SimpleTransaction methodsFor: 'as yet unclassified' stamp: 'DW 5/29/2022 17:26:37'!
+fillReport: aReport withTransaction: transactionFillingTheReport
+	transactionFillingTheReport fillReportAsSimple: aReport.
+
+! !
 
 !SimpleTransaction methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 15:12:25'!
 initializeWithValue: aValue
@@ -999,6 +1146,13 @@ AccountTransactionType subclass: #WireTransferLeg
 !WireTransferLeg methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 15:39:06'!
 associatedWireTransfer
 	^associatedWireTransfer.! !
+
+!WireTransferLeg methodsFor: 'as yet unclassified' stamp: 'DW 5/29/2022 17:27:00'!
+fillReport: aReport withTransaction: transactionFillingTheReport
+	transactionFillingTheReport fillReportAsLeg: aReport.
+
+
+! !
 
 !WireTransferLeg methodsFor: 'as yet unclassified' stamp: 'CMS 5/25/2022 15:14:16'!
 initializeFrom: aWireTransfer
