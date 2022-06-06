@@ -1,0 +1,754 @@
+
+
+----STARTUP---- (6 June 2022 14:42:48) as /home/charles/uni/inge1/linux64/CuisUniversity-5093.image!
+
+
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CartTest category: 'TusLibros' stamp: 'CMS 6/6/2022 14:44:55'!
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cart category: 'TusLibros' stamp: 'CMS 6/6/2022 14:47:15'!
+Object subclass: #Cart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CartTest methodsFor: 'no messages' stamp: 'CMS 6/6/2022 14:47:09'!
+test01CartIsEmptyWhenCreated
+	| cart |
+	cart := Cart new.
+	self assert: cart isEmpty.! !
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 14:47:18'!
+ERROR!
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 14:47:28'!
+isEmpty
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 14:47:33' prior: 50473851!
+isEmpty
+	^true.! !
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 14:47:35'!
+PASSED!
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 14:47:35'!
+PASSED!
+
+!classDefinition: #Book category: 'TusLibros' stamp: 'CMS 6/6/2022 14:49:18'!
+Object subclass: #Book
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/6/2022 14:49:13'!
+test01CartRemembersAddedBook
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	cart addBook: book.
+	self assert: cart books equals: #(book).! !
+
+#(book)!
+
+#(book)!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/6/2022 14:50:31' prior: 50473870!
+test01CartRemembersAddedBook
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	cart addBook: book.
+	self assert: cart books equals: (OrderedCollection with: book).! !
+
+!testRun: #CartTest #test01CartRemembersAddedBook stamp: 'CMS 6/6/2022 14:50:49'!
+ERROR!
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 14:50:58'!
+addBook: aBook 
+	self shouldBeImplemented.! !
+
+!classDefinition: #Cart category: 'TusLibros' stamp: 'CMS 6/6/2022 14:51:29'!
+Object subclass: #Cart
+	instanceVariableNames: 'books'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 14:51:25' prior: 50473890!
+addBook: aBook 
+	books add: aBook.! !
+
+!testRun: #CartTest #test01CartRemembersAddedBook stamp: 'CMS 6/6/2022 14:51:33'!
+ERROR!
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 14:51:56' overrides: 16920235!
+initialize
+	books := OrderedCollection new.! !
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 14:51:57'!
+PASSED!
+
+!testRun: #CartTest #test01CartRemembersAddedBook stamp: 'CMS 6/6/2022 14:51:57'!
+ERROR!
+
+!testRun: #CartTest #test01CartRemembersAddedBook stamp: 'CMS 6/6/2022 14:51:57'!
+ERROR!
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 14:52:03'!
+books
+	self shouldBeImplemented.
+	^books! !
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 14:52:06' prior: 50473920!
+books
+	^books! !
+
+!testRun: #CartTest #test01CartRemembersAddedBook stamp: 'CMS 6/6/2022 14:52:07'!
+PASSED!
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 14:52:10'!
+PASSED!
+
+!testRun: #CartTest #test01CartRemembersAddedBook stamp: 'CMS 6/6/2022 14:52:10'!
+PASSED!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/6/2022 14:52:51'!
+test01CartRemembersAddedBooks
+	| cart book1 book2 |
+	cart := Cart new.
+	book1 := Book new.
+	book2 := Book new.
+	cart addBook: book1.
+	cart addBook: book2.
+
+	self assert: cart books equals: (OrderedCollection with: book1 with: book2).! !
+
+!testRun: #CartTest #test01CartRemembersAddedBooks stamp: 'CMS 6/6/2022 14:52:52'!
+PASSED!
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 14:52:52'!
+PASSED!
+
+!testRun: #CartTest #test01CartRemembersAddedBook stamp: 'CMS 6/6/2022 14:52:52'!
+PASSED!
+
+!testRun: #CartTest #test01CartRemembersAddedBooks stamp: 'CMS 6/6/2022 14:52:52'!
+PASSED!
+
+!methodRemoval: CartTest #test01CartRemembersAddedBooks stamp: 'CMS 6/6/2022 14:52:57'!
+test01CartRemembersAddedBooks
+	| cart book1 book2 |
+	cart := Cart new.
+	book1 := Book new.
+	book2 := Book new.
+	cart addBook: book1.
+	cart addBook: book2.
+
+	self assert: cart books equals: (OrderedCollection with: book1 with: book2).!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/6/2022 14:53:09'!
+test02CartRemembersAddedBook
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	cart addBook: book.
+	self assert: cart books equals: (OrderedCollection with: book).! !
+
+!methodRemoval: CartTest #test01CartRemembersAddedBook stamp: 'CMS 6/6/2022 14:53:09'!
+test01CartRemembersAddedBook
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	cart addBook: book.
+	self assert: cart books equals: (OrderedCollection with: book).!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/6/2022 14:53:17'!
+test02CartRemembersAddedBooks
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	cart addBook: book.
+	self assert: cart books equals: (OrderedCollection with: book).! !
+
+!methodRemoval: CartTest #test02CartRemembersAddedBook stamp: 'CMS 6/6/2022 14:53:17'!
+test02CartRemembersAddedBook
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	cart addBook: book.
+	self assert: cart books equals: (OrderedCollection with: book).!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/6/2022 14:56:31'!
+test02CartRemembersBookQuantity
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	cart addBook: book amount: 5.
+	
+	self assert: (cart amountOf: book) equals: 5.
+	! !
+
+!testRun: #CartTest #test02CartRemembersBookQuantity stamp: 'CMS 6/6/2022 14:56:36'!
+ERROR!
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 14:56:44'!
+addBook: aBook amount: aSmallInteger 
+	self shouldBeImplemented.! !
+
+Dictionary!
+
+Dictionary!
+
+!classDefinition: #Cart category: 'TusLibros' stamp: 'CMS 6/6/2022 14:58:44'!
+Object subclass: #Cart
+	instanceVariableNames: 'books bookAmounts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 14:58:42' prior: 50474011!
+addBook: aBook amount: aSmallInteger
+	bookAmounts at: aBook put: aSmallInteger.! !
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 14:59:30'!
+amountOf: aBook
+	^bookAmounts at: aBook.! !
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 14:59:33'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 14:59:33'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersBookQuantity stamp: 'CMS 6/6/2022 14:59:33'!
+ERROR!
+
+!testRun: #CartTest #test02CartRemembersBookQuantity stamp: 'CMS 6/6/2022 14:59:33'!
+ERROR!
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 15:00:01' prior: 50473908 overrides: 16920235!
+initialize
+	books := OrderedCollection new.
+	bookAmounts := Dictionary new.! !
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 15:00:02'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 15:00:02'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersBookQuantity stamp: 'CMS 6/6/2022 15:00:02'!
+PASSED!
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 15:00:09' prior: 50474046 overrides: 16920235!
+initialize
+	bookAmounts := Dictionary new.! !
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 15:00:25' prior: 50473901!
+addBook: aBook 
+	self addBook: aBook amount: 1.! !
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 15:00:36' prior: 50473924!
+books
+	^bookAmounts keys.! !
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 15:00:37'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 15:00:37'!
+FAILURE!
+
+!testRun: #CartTest #test02CartRemembersBookQuantity stamp: 'CMS 6/6/2022 15:00:37'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 15:00:37'!
+FAILURE!
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 15:01:20' prior: 50474070!
+books
+	^OrderedCollection of: bookAmounts keys.! !
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 15:01:20'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 15:01:20'!
+ERROR!
+
+!testRun: #CartTest #test02CartRemembersBookQuantity stamp: 'CMS 6/6/2022 15:01:20'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 15:01:20'!
+ERROR!
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 15:01:28' prior: 50474086!
+books
+	^OrderedCollection withAll: bookAmounts keys.! !
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 15:01:29'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 15:01:29'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersBookQuantity stamp: 'CMS 6/6/2022 15:01:29'!
+PASSED!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/6/2022 15:03:06' prior: 50473984!
+test02CartRemembersAddedBooks
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	cart addBook: book.
+	self assert: (OrderedCollection withAll: cart books) equals: (OrderedCollection with: book).! !
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 15:03:08'!
+PASSED!
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 15:03:08'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 15:03:08'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersBookQuantity stamp: 'CMS 6/6/2022 15:03:08'!
+PASSED!
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 15:03:15' prior: 50474102!
+books
+	^bookAmounts keys.! !
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 15:03:16'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 15:03:16'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersBookQuantity stamp: 'CMS 6/6/2022 15:03:16'!
+PASSED!
+
+!methodRemoval: CartTest #test02CartRemembersBookQuantity stamp: 'CMS 6/6/2022 15:04:05'!
+test02CartRemembersBookQuantity
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	cart addBook: book amount: 5.
+	
+	self assert: (cart amountOf: book) equals: 5.
+	!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/6/2022 15:05:35'!
+test03CartRemembersBookAmount
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	cart addBook: book amount: 5.
+	self assert: (cart amountOf: book) equals: 5.! !
+
+!testRun: #CartTest #test03CartRemembersBookAmount stamp: 'CMS 6/6/2022 15:05:36'!
+PASSED!
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 15:05:36'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 15:05:36'!
+PASSED!
+
+!testRun: #CartTest #test03CartRemembersBookAmount stamp: 'CMS 6/6/2022 15:05:36'!
+PASSED!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/6/2022 15:06:28'!
+test04BookAmmountIsCumulative
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	cart addBook: book amount: 5.
+	cart addBook: book amount: 5.
+	self assert: (cart amountOf: book) equals: 10.! !
+
+!testRun: #CartTest #test04BookAmmountIsCumulative stamp: 'CMS 6/6/2022 15:06:30'!
+FAILURE!
+
+!testRun: #CartTest #test04BookAmmountIsCumulative stamp: 'CMS 6/6/2022 15:06:43'!
+FAILURE!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/6/2022 15:06:57' prior: 50474177!
+test04BookAmmountIsCumulative
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	cart addBook: book amount: 5.
+	cart addBook: book amount: 5.
+	self assert: 10 equals: (cart amountOf: book).! !
+
+!testRun: #CartTest #test04BookAmmountIsCumulative stamp: 'CMS 6/6/2022 15:06:57'!
+FAILURE!
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 15:08:25' prior: 50474024!
+addBook: aBook amount: aSmallInteger
+	bookAmounts at: aBook put: (aSmallInteger + (bookAmounts at: aBook ifAbsent: [0])).! !
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 15:08:37'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 15:08:37'!
+PASSED!
+
+!testRun: #CartTest #test03CartRemembersBookAmount stamp: 'CMS 6/6/2022 15:08:37'!
+PASSED!
+
+!testRun: #CartTest #test04BookAmmountIsCumulative stamp: 'CMS 6/6/2022 15:08:37'!
+PASSED!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/6/2022 15:13:57'!
+test05BookAmmountToAddToCartMustBeAtLeastOne
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	self should: [
+		cart addBook: book amount: 0.
+	] raise: Error.! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/6/2022 15:15:02' prior: 50474222!
+test05BookAmmountToAddToCartMustBeAtLeastOne
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	self should: [
+		cart addBook: book amount: 0.
+	] raise: Error description: Cart bookQuantitySmallerThanOneErrorDescription.! !
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAtLeastOne stamp: 'CMS 6/6/2022 15:15:04'!
+ERROR!
+!Cart class methodsFor: 'instance creation' stamp: 'CMS 6/6/2022 15:15:15'!
+bookQuantitySmallerThanOneErrorDescription
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeBookQuantitySmallerThanOneErrorDescription! !
+!Cart class methodsFor: 'instance creation' stamp: 'CMS 6/6/2022 15:15:35' prior: 50474244!
+bookQuantitySmallerThanOneErrorDescription
+	^'Book quantity must be at least one'.! !
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAtLeastOne stamp: 'CMS 6/6/2022 15:15:52'!
+FAILURE!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAtLeastOne stamp: 'CMS 6/6/2022 15:15:57'!
+PASSED!
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 15:15:57'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 15:15:57'!
+PASSED!
+
+!testRun: #CartTest #test03CartRemembersBookAmount stamp: 'CMS 6/6/2022 15:15:57'!
+PASSED!
+
+!testRun: #CartTest #test04BookAmmountIsCumulative stamp: 'CMS 6/6/2022 15:15:57'!
+PASSED!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAtLeastOne stamp: 'CMS 6/6/2022 15:15:57'!
+FAILURE!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAtLeastOne stamp: 'CMS 6/6/2022 15:15:57'!
+FAILURE!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAtLeastOne stamp: 'CMS 6/6/2022 15:15:58'!
+PASSED!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAtLeastOne stamp: 'CMS 6/6/2022 15:16:00'!
+FAILURE!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAtLeastOne stamp: 'CMS 6/6/2022 15:16:21'!
+FAILURE!
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 15:17:26' prior: 50474204!
+addBook: aBook amount: aSmallInteger
+	aSmallInteger >= 1 ifFalse: [self error: self class bookQuantitySmallerThanOneErrorDescription.].
+	bookAmounts at: aBook put: (aSmallInteger + (bookAmounts at: aBook ifAbsent: [0])).! !
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 15:17:27'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 15:17:27'!
+PASSED!
+
+!testRun: #CartTest #test03CartRemembersBookAmount stamp: 'CMS 6/6/2022 15:17:27'!
+PASSED!
+
+!testRun: #CartTest #test04BookAmmountIsCumulative stamp: 'CMS 6/6/2022 15:17:27'!
+PASSED!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAtLeastOne stamp: 'CMS 6/6/2022 15:17:27'!
+PASSED!
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 15:17:53' prior: 50474295!
+addBook: aBook amount: bookAmount
+	bookAmount >= 1 ifFalse: [self error: self class bookQuantitySmallerThanOneErrorDescription.].
+	bookAmounts at: aBook put: (bookAmount + (bookAmounts at: aBook ifAbsent: [0])).! !
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 15:17:58'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 15:17:58'!
+PASSED!
+
+!testRun: #CartTest #test03CartRemembersBookAmount stamp: 'CMS 6/6/2022 15:17:58'!
+PASSED!
+
+!testRun: #CartTest #test04BookAmmountIsCumulative stamp: 'CMS 6/6/2022 15:17:58'!
+PASSED!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAtLeastOne stamp: 'CMS 6/6/2022 15:17:58'!
+PASSED!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/6/2022 15:20:57'!
+test05BookAmmountToAddToCartMustBeAnInteger
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	self should: [
+		cart addBook: book amount: 1.5.
+	] raise: Error description: Cart nonintegerBookQuantityErrorDescription.! !
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAnInteger stamp: 'CMS 6/6/2022 15:20:59'!
+ERROR!
+!Cart class methodsFor: 'instance creation' stamp: 'CMS 6/6/2022 15:21:04'!
+nonintegerBookQuantityErrorDescription
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeNonintegerBookQuantityErrorDescription! !
+!Cart class methodsFor: 'instance creation' stamp: 'CMS 6/6/2022 15:21:27' prior: 50474357!
+nonintegerBookQuantityErrorDescription
+	^'Book amount must be an integer'.! !
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAnInteger stamp: 'CMS 6/6/2022 15:21:31'!
+FAILURE!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAnInteger stamp: 'CMS 6/6/2022 15:21:32'!
+PASSED!
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 15:21:32'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 15:21:32'!
+PASSED!
+
+!testRun: #CartTest #test03CartRemembersBookAmount stamp: 'CMS 6/6/2022 15:21:32'!
+PASSED!
+
+!testRun: #CartTest #test04BookAmmountIsCumulative stamp: 'CMS 6/6/2022 15:21:32'!
+PASSED!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAnInteger stamp: 'CMS 6/6/2022 15:21:32'!
+FAILURE!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAtLeastOne stamp: 'CMS 6/6/2022 15:21:32'!
+PASSED!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAnInteger stamp: 'CMS 6/6/2022 15:21:32'!
+FAILURE!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAnInteger stamp: 'CMS 6/6/2022 15:21:33'!
+PASSED!
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 15:22:46' prior: 50474320!
+addBook: aBook amount: bookAmount
+	(bookAmount isKindOf: Integer) ifFalse: [self error: self class nonintegerBookQuantityErrorDescription.].
+	bookAmount >= 1 ifFalse: [self error: self class bookQuantitySmallerThanOneErrorDescription.].
+	bookAmounts at: aBook put: (bookAmount + (bookAmounts at: aBook ifAbsent: [0])).! !
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 15:22:47'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 15:22:47'!
+PASSED!
+
+!testRun: #CartTest #test03CartRemembersBookAmount stamp: 'CMS 6/6/2022 15:22:47'!
+PASSED!
+
+!testRun: #CartTest #test04BookAmmountIsCumulative stamp: 'CMS 6/6/2022 15:22:47'!
+PASSED!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAnInteger stamp: 'CMS 6/6/2022 15:22:47'!
+PASSED!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAtLeastOne stamp: 'CMS 6/6/2022 15:22:47'!
+PASSED!
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 15:23:50' prior: 50474404!
+addBook: aBook amount: bookAmount
+	self assertBookAmountIsValid: bookAmount.
+	bookAmounts at: aBook put: (bookAmount + (bookAmounts at: aBook ifAbsent: [0])).! !
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 15:24:06'!
+assertBookAmountIsValid: bookAmount
+	(bookAmount isKindOf: Integer) ifFalse: [self error: self class nonintegerBookQuantityErrorDescription.].
+	bookAmount >= 1 ifFalse: [self error: self class bookQuantitySmallerThanOneErrorDescription.].! !
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 15:24:07'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 15:24:07'!
+PASSED!
+
+!testRun: #CartTest #test03CartRemembersBookAmount stamp: 'CMS 6/6/2022 15:24:07'!
+PASSED!
+
+!testRun: #CartTest #test04BookAmmountIsCumulative stamp: 'CMS 6/6/2022 15:24:07'!
+PASSED!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAnInteger stamp: 'CMS 6/6/2022 15:24:07'!
+PASSED!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAtLeastOne stamp: 'CMS 6/6/2022 15:24:07'!
+PASSED!
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 15:24:33'!
+assertBookAmountIsAnInteger: bookAmount
+	(bookAmount isKindOf: Integer) ifFalse: [self error: self class nonintegerBookQuantityErrorDescription.].
+! !
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 15:24:43'!
+assertBookAmountIsAtLeastOne: bookAmount
+	bookAmount >= 1 ifFalse: [self error: self class bookQuantitySmallerThanOneErrorDescription.].! !
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 15:24:59' prior: 50474443!
+assertBookAmountIsValid: bookAmount
+	self assertBookAmountIsAnInteger: bookAmount.
+	self assertBookAmountIsAtLeastOne: bookAmount.! !
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 15:25:00'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 15:25:00'!
+PASSED!
+
+!testRun: #CartTest #test03CartRemembersBookAmount stamp: 'CMS 6/6/2022 15:25:00'!
+PASSED!
+
+!testRun: #CartTest #test04BookAmmountIsCumulative stamp: 'CMS 6/6/2022 15:25:00'!
+PASSED!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAnInteger stamp: 'CMS 6/6/2022 15:25:00'!
+PASSED!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAtLeastOne stamp: 'CMS 6/6/2022 15:25:00'!
+PASSED!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/6/2022 15:25:52'!
+test06BookAmmountToAddToCartMustBeAtLeastOne
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	self should: [
+		cart addBook: book amount: 0.
+	] raise: Error description: Cart bookQuantitySmallerThanOneErrorDescription.! !
+
+!methodRemoval: CartTest #test05BookAmmountToAddToCartMustBeAtLeastOne stamp: 'CMS 6/6/2022 15:25:52'!
+test05BookAmmountToAddToCartMustBeAtLeastOne
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	self should: [
+		cart addBook: book amount: 0.
+	] raise: Error description: Cart bookQuantitySmallerThanOneErrorDescription.!
+
+!testRun: #CartTest #test06BookAmmountToAddToCartMustBeAtLeastOne stamp: 'CMS 6/6/2022 15:25:54'!
+PASSED!
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 15:25:54'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 15:25:54'!
+PASSED!
+
+!testRun: #CartTest #test03CartRemembersBookAmount stamp: 'CMS 6/6/2022 15:25:54'!
+PASSED!
+
+!testRun: #CartTest #test04BookAmmountIsCumulative stamp: 'CMS 6/6/2022 15:25:54'!
+PASSED!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAnInteger stamp: 'CMS 6/6/2022 15:25:54'!
+PASSED!
+
+!testRun: #CartTest #test06BookAmmountToAddToCartMustBeAtLeastOne stamp: 'CMS 6/6/2022 15:25:54'!
+PASSED!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/6/2022 15:26:50'!
+test07NonemptyCartIsntEmpty
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	cart addBook: book.
+	self deny: cart isEmpty.! !
+
+!testRun: #CartTest #test07NonemptyCartIsntEmpty stamp: 'CMS 6/6/2022 15:26:51'!
+FAILURE!
+!Cart methodsFor: 'category-name' stamp: 'CMS 6/6/2022 15:27:07' prior: 50473855!
+isEmpty
+	^bookAmounts isEmpty.! !
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 15:27:08'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 15:27:08'!
+PASSED!
+
+!testRun: #CartTest #test03CartRemembersBookAmount stamp: 'CMS 6/6/2022 15:27:08'!
+PASSED!
+
+!testRun: #CartTest #test04BookAmmountIsCumulative stamp: 'CMS 6/6/2022 15:27:08'!
+PASSED!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAnInteger stamp: 'CMS 6/6/2022 15:27:08'!
+PASSED!
+
+!testRun: #CartTest #test06BookAmmountToAddToCartMustBeAtLeastOne stamp: 'CMS 6/6/2022 15:27:08'!
+PASSED!
+
+!testRun: #CartTest #test07NonemptyCartIsntEmpty stamp: 'CMS 6/6/2022 15:27:08'!
+PASSED!
+
+Object subclass: #Cart
+	instanceVariableNames: 'bookAmounts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cart category: 'TusLibros' stamp: 'CMS 6/6/2022 15:27:17'!
+Object subclass: #Cart
+	instanceVariableNames: 'bookAmounts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 15:27:20'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 15:27:20'!
+PASSED!
+
+!testRun: #CartTest #test03CartRemembersBookAmount stamp: 'CMS 6/6/2022 15:27:20'!
+PASSED!
+
+!testRun: #CartTest #test04BookAmmountIsCumulative stamp: 'CMS 6/6/2022 15:27:20'!
+PASSED!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAnInteger stamp: 'CMS 6/6/2022 15:27:20'!
+PASSED!
+
+!testRun: #CartTest #test06BookAmmountToAddToCartMustBeAtLeastOne stamp: 'CMS 6/6/2022 15:27:20'!
+PASSED!
+
+!testRun: #CartTest #test07NonemptyCartIsntEmpty stamp: 'CMS 6/6/2022 15:27:20'!
+PASSED!
+
+!methodRemoval: CartTest #test07NonemptyCartIsntEmpty stamp: 'CMS 6/6/2022 15:35:43'!
+test07NonemptyCartIsntEmpty
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	cart addBook: book.
+	self deny: cart isEmpty.!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/6/2022 15:36:46'!
+test07NonemptyCartIsNotEmpty
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	cart addBook: book.
+	self deny: cart isEmpty.! !
+
+!testRun: #CartTest #test07NonemptyCartIsNotEmpty stamp: 'CMS 6/6/2022 15:36:47'!
+PASSED!
+
+!testRun: #CartTest #test01CartIsEmptyWhenCreated stamp: 'CMS 6/6/2022 15:36:47'!
+PASSED!
+
+!testRun: #CartTest #test02CartRemembersAddedBooks stamp: 'CMS 6/6/2022 15:36:47'!
+PASSED!
+
+!testRun: #CartTest #test03CartRemembersBookAmount stamp: 'CMS 6/6/2022 15:36:47'!
+PASSED!
+
+!testRun: #CartTest #test04BookAmmountIsCumulative stamp: 'CMS 6/6/2022 15:36:47'!
+PASSED!
+
+!testRun: #CartTest #test05BookAmmountToAddToCartMustBeAnInteger stamp: 'CMS 6/6/2022 15:36:47'!
+PASSED!
+
+!testRun: #CartTest #test06BookAmmountToAddToCartMustBeAtLeastOne stamp: 'CMS 6/6/2022 15:36:47'!
+PASSED!
+
+!testRun: #CartTest #test07NonemptyCartIsNotEmpty stamp: 'CMS 6/6/2022 15:36:47'!
+PASSED!
