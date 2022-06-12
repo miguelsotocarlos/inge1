@@ -246,6 +246,52 @@ debit: anAmount from: aCreditCard
 	^debitBehavior value: anAmount value: aCreditCard ! !
 
 
+!classDefinition: #CreditCardTest category: 'TusLibros'!
+TestCase subclass: #CreditCardTest
+	instanceVariableNames: 'testObjectsFactory'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/12/2022 16:20:00'!
+setUp 
+	testObjectsFactory := StoreTestObjectsFactory new.
+! !
+
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/12/2022 16:23:56'!
+test01CantCreateCreditCardWithNameLongerThan30Character 
+	self should: [
+		CreditCard
+			expiringOn: (testObjectsFactory monthOfNotExpiredCreditCard)
+			ownerName: '1234567890123456789012345678901'
+			number: '1234567890123456'.
+	]
+		raise: Error - MessageNotUnderstood
+		withMessageText: CreditCard ownerNameTooLongErrorDescription.! !
+
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/12/2022 16:29:24'!
+test02CreditCardNumberMustOnlyCointainDigits
+	self should: [
+		CreditCard
+			expiringOn: (testObjectsFactory monthOfNotExpiredCreditCard)
+			ownerName: '123456789012345678901234567890'
+			number: 'A234567890123456'.
+	]
+		raise: Error - MessageNotUnderstood
+		withMessageText: CreditCard numberCanOnlyContainDigitsErrorDescription.! !
+
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/12/2022 16:31:48'!
+test03CreditCardNumberMustBeOfLength16
+	self should: [
+		CreditCard
+			expiringOn: (testObjectsFactory monthOfNotExpiredCreditCard)
+			ownerName: '123456789012345678901234567890'
+			number: '1'.
+	]
+		raise: Error - MessageNotUnderstood
+		withMessageText: CreditCard numberMustBe16CharactersLong.! !
+
+
 !classDefinition: #SalesInterfaceTest category: 'TusLibros'!
 TestCase subclass: #SalesInterfaceTest
 	instanceVariableNames: 'testObjectsFactory'
@@ -257,29 +303,32 @@ TestCase subclass: #SalesInterfaceTest
 authenticatorWithSingleRegisteredUser
 	^ CredentialAuthenticatorDouble withAutheticationBehavior: [:u :p | u=self validUser and: [p=self passwordOfValidUser]]! !
 
-!SalesInterfaceTest methodsFor: 'objects' stamp: 'DW 6/12/2022 15:23:58'!
+!SalesInterfaceTest methodsFor: 'objects' stamp: 'CMS 6/12/2022 17:34:07'!
 defaultSalesInterface
 
 	^ SalesInterface 
 		withAuthenticator: (self authenticatorWithSingleRegisteredUser) 
 		withCatalog: testObjectsFactory defaultCatalog 
-		withMerchantProcessor: self merchantProcessorThatDoesNotFail! !
+		withMerchantProcessor: self merchantProcessorThatDoesNotFail
+		withClock: DateAndTime.! !
 
-!SalesInterfaceTest methodsFor: 'objects' stamp: 'DW 6/12/2022 15:25:07'!
+!SalesInterfaceTest methodsFor: 'objects' stamp: 'CMS 6/12/2022 17:34:13'!
 defaultSalesInterfaceWithAutehnticator: anAuthenticator
 
 	^ SalesInterface 
 		withAuthenticator: anAuthenticator 
 		withCatalog: testObjectsFactory defaultCatalog 
-		withMerchantProcessor: self merchantProcessorThatDoesNotFail! !
+		withMerchantProcessor: self merchantProcessorThatDoesNotFail
+		withClock: DateAndTime.! !
 
-!SalesInterfaceTest methodsFor: 'objects' stamp: 'DW 6/12/2022 15:26:02'!
+!SalesInterfaceTest methodsFor: 'objects' stamp: 'CMS 6/12/2022 17:34:19'!
 defaultSalesInterfaceWithMerchantProcessor: aMerchantProcessor
 
 	^ SalesInterface 
 		withAuthenticator: (self authenticatorWithSingleRegisteredUser) 
 		withCatalog: testObjectsFactory defaultCatalog 
-		withMerchantProcessor: aMerchantProcessor.! !
+		withMerchantProcessor: aMerchantProcessor
+		withClock: DateAndTime.! !
 
 !SalesInterfaceTest methodsFor: 'objects' stamp: 'DW 6/9/2022 20:59:25'!
 denyingAutheticator
@@ -333,10 +382,10 @@ addDefaultItemTo: salesInterface withCartId: id
 
 	^ salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 	1! !
 
-!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 15:44:25'!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 18:07:49'!
 assert: temp isEqualToListPurchasesOfDefaultUserOn: salesInterface
 
-	^ self assert: temp equals: (salesInterface listPurchasesWithClientId: self validUser password: self passwordOfValidUser)! !
+	^ self assert: temp equals: (salesInterface listPurchasesWithClientId: self validUser password: self passwordOfValidUser) books.! !
 
 !SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 15:29:19'!
 test01ListCartOfNewlyCreatedCartIsEmpty
@@ -563,6 +612,109 @@ test20CheckoutCartDoesNotCheckoutWhenMerchantProcessorFails
 	
 	self assert: (Bag new) isEqualToListPurchasesOfDefaultUserOn: salesInterface.! !
 
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 16:53:49'!
+test21CheckoutFailsWithInvalidCreditCardNumber
+	| salesInterface id |
+	
+	salesInterface := self defaultSalesInterfaceWithMerchantProcessor: self merchantProcessorThatFails.
+	
+	id := self createCartOfDefaultUser: salesInterface.
+
+	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.
+		
+	self should: [	
+		salesInterface
+			checkOutCartWithCartId: id
+			ccn: 'A'
+			cced: testObjectsFactory monthOfExpiredCreditCard
+			cco: testObjectsFactory creditCardOwner.
+	] raise: Error - MessageNotUnderstood
+	withMessageText: SalesInterface debitErrorDescription.
+	
+	self assert: (Bag new) isEqualToListPurchasesOfDefaultUserOn: salesInterface.! !
+
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 16:54:15'!
+test22CheckoutFailsWithInvalidCreditCardOwnerName
+	| salesInterface id |
+	
+	salesInterface := self defaultSalesInterfaceWithMerchantProcessor: self merchantProcessorThatFails.
+	
+	id := self createCartOfDefaultUser: salesInterface.
+
+	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.
+		
+	self should: [	
+		salesInterface
+			checkOutCartWithCartId: id
+			ccn: testObjectsFactory creditCardNumber
+			cced: testObjectsFactory monthOfExpiredCreditCard
+			cco: '1234567890123456789012345678901'.
+	] raise: Error - MessageNotUnderstood
+	withMessageText: SalesInterface debitErrorDescription.
+	
+	self assert: (Bag new) isEqualToListPurchasesOfDefaultUserOn: salesInterface.! !
+
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 17:37:31'!
+test23CannotListCartAfter30Minutes
+	| salesInterface id testTime |
+
+	testTime := DateAndTime now.
+	
+	salesInterface := SalesInterface 
+		withAuthenticator: (self authenticatorWithSingleRegisteredUser) 
+		withCatalog: testObjectsFactory defaultCatalog 
+		withMerchantProcessor: self merchantProcessorThatDoesNotFail
+		withClock: (ClockDouble of: [testTime]).
+
+	id := self createCartOfDefaultUser: salesInterface.
+	
+	testTime := testTime + (Duration minutes: 31).
+		
+	self should: [
+		salesInterface listCartWithCartId: id
+	] raise: Error
+	withMessageText: SalesInterface invalidCartIdErrorDescription.
+	
+
+! !
+
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 17:58:07'!
+test24CartTimerResetsOnEveryOperation
+	| salesInterface id testTime |
+
+	testTime := DateAndTime now.
+	
+	salesInterface := SalesInterface 
+		withAuthenticator: (self authenticatorWithSingleRegisteredUser) 
+		withCatalog: testObjectsFactory defaultCatalog 
+		withMerchantProcessor: self merchantProcessorThatDoesNotFail
+		withClock: (ClockDouble of: [testTime]).
+
+	id := self createCartOfDefaultUser: salesInterface.
+	
+	testTime := testTime + (Duration minutes: 20).
+	salesInterface listCartWithCartId: id.
+
+	testTime := testTime + (Duration minutes: 20).
+	salesInterface listCartWithCartId: id.
+	
+
+! !
+
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 18:11:52'!
+test25ListPurchasesReturnsTotalCost
+	| salesInterface id |
+	
+	salesInterface := self defaultSalesInterface .
+		
+	id := self createCartOfDefaultUser: salesInterface.
+
+	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.
+	
+	self checkoutWithDefaultCardOn: salesInterface withCartId: id.
+	
+	self assert: (salesInterface listPurchasesWithClientId: self validUser password: self passwordOfValidUser) total equals: testObjectsFactory itemSellByTheStorePrice.! !
+
 
 !SalesInterfaceTest methodsFor: 'actions' stamp: 'DW 6/12/2022 15:34:17'!
 checkoutWithDefaultCardOn: salesInterface withCartId: id
@@ -674,10 +826,9 @@ calculateTotal
 	total := cart total.
 	! !
 
-!Cashier methodsFor: 'checkout - private' stamp: 'CMS 6/12/2022 12:17:29'!
+!Cashier methodsFor: 'checkout - private' stamp: 'CMS 6/12/2022 16:56:30'!
 createSale
-
-	^ Sale of: total
+	^ Sale of: total andCart: cart.
 ! !
 
 !Cashier methodsFor: 'checkout - private' stamp: 'HernanWilkinson 6/17/2013 19:06'!
@@ -752,6 +903,32 @@ creditCardHasNoCreditErrorMessage
 	^'Credit card has no credit'! !
 
 
+!classDefinition: #ClockDouble category: 'TusLibros'!
+Object subclass: #ClockDouble
+	instanceVariableNames: 'timeClosure'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!ClockDouble methodsFor: 'as yet unclassified' stamp: 'CMS 6/12/2022 17:32:21'!
+initializeWith: aTimeClosure
+	timeClosure := aTimeClosure.! !
+
+!ClockDouble methodsFor: 'as yet unclassified' stamp: 'CMS 6/12/2022 17:32:30'!
+now
+	^timeClosure value.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'ClockDouble class' category: 'TusLibros'!
+ClockDouble class
+	instanceVariableNames: ''!
+
+!ClockDouble class methodsFor: 'as yet unclassified' stamp: 'CMS 6/12/2022 17:32:59'!
+of: aTimeClosure
+	^self new initializeWith: aTimeClosure.! !
+
+
 !classDefinition: #CredentialAuthenticatorDouble category: 'TusLibros'!
 Object subclass: #CredentialAuthenticatorDouble
 	instanceVariableNames: 'autheticationBehavior'
@@ -780,7 +957,7 @@ withAutheticationBehavior: anAutheticationBehavior
 
 !classDefinition: #CreditCard category: 'TusLibros'!
 Object subclass: #CreditCard
-	instanceVariableNames: 'expiration'
+	instanceVariableNames: 'expiration ownerName number'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
@@ -791,10 +968,11 @@ isExpiredOn: aDate
 	^expiration start < (Month month: aDate monthIndex year: aDate yearNumber) start ! !
 
 
-!CreditCard methodsFor: 'initialization' stamp: 'HernanWilkinson 6/17/2013 18:38'!
-initializeExpiringOn: aMonth 
-	
-	expiration := aMonth ! !
+!CreditCard methodsFor: 'initialization' stamp: 'CMS 6/12/2022 16:46:57'!
+initializeExpiringOn: expirationMonth ownerName: name number: creditCardNumber 
+	expiration := expirationMonth.
+	ownerName := name.
+	number := creditCardNumber.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -802,10 +980,49 @@ initializeExpiringOn: aMonth
 CreditCard class
 	instanceVariableNames: ''!
 
-!CreditCard class methodsFor: 'instance creation' stamp: 'HernanWilkinson 6/17/2013 18:38'!
-expiringOn: aMonth 
-	
-	^self new initializeExpiringOn: aMonth! !
+!CreditCard class methodsFor: 'instance creation' stamp: 'CMS 6/12/2022 16:35:03'!
+assertCreditCardNumberIsOfLength16: number
+
+	^ (number size = 16) ifFalse: [self error: self numberMustBe16CharactersLong ]! !
+
+!CreditCard class methodsFor: 'instance creation' stamp: 'CMS 6/12/2022 16:34:47'!
+assertCreditCardNumberOnlyContainsDigits: number
+
+	^ (number anySatisfy: [:c | c isDigit not]) ifTrue: [self error: self numberCanOnlyContainDigitsErrorDescription ]! !
+
+!CreditCard class methodsFor: 'instance creation' stamp: 'CMS 6/12/2022 16:35:03'!
+assertIsValidCreditCardNumber: number
+
+	self assertCreditCardNumberOnlyContainsDigits: number.
+	self assertCreditCardNumberIsOfLength16: number! !
+
+!CreditCard class methodsFor: 'instance creation' stamp: 'CMS 6/12/2022 16:33:59'!
+assertOwnerNameHasAtMost30Characters: ownerName
+
+	^ (ownerName size > 30) ifTrue: [self error: self ownerNameTooLongErrorDescription ]! !
+
+!CreditCard class methodsFor: 'instance creation' stamp: 'CMS 6/12/2022 16:34:02'!
+assertValidOwnerName: ownerName
+	^ self assertOwnerNameHasAtMost30Characters: ownerName! !
+
+!CreditCard class methodsFor: 'instance creation' stamp: 'CMS 6/12/2022 16:34:20'!
+expiringOn: expirationMonth ownerName: ownerName number: number
+	self assertValidOwnerName: ownerName.
+	self assertIsValidCreditCardNumber: number.
+	^self new initializeExpiringOn: expirationMonth ownerName: ownerName number: number ! !
+
+
+!CreditCard class methodsFor: 'error description' stamp: 'CMS 6/12/2022 16:29:00'!
+numberCanOnlyContainDigitsErrorDescription
+	^'credit card number can only contain digits'.! !
+
+!CreditCard class methodsFor: 'error description' stamp: 'CMS 6/12/2022 16:32:12'!
+numberMustBe16CharactersLong
+	^'credit card number must be 16 characters long'.! !
+
+!CreditCard class methodsFor: 'error description' stamp: 'CMS 6/12/2022 16:24:25'!
+ownerNameTooLongErrorDescription
+	^'Owner name can be at most 30 characters'.! !
 
 
 !classDefinition: #MerchantProcessorDouble category: 'TusLibros'!
@@ -837,7 +1054,7 @@ withDebitBehavior: debitBehavior
 
 !classDefinition: #Sale category: 'TusLibros'!
 Object subclass: #Sale
-	instanceVariableNames: 'total'
+	instanceVariableNames: 'total cart'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
@@ -848,10 +1065,14 @@ total
 	^ total! !
 
 
-!Sale methodsFor: 'initialization' stamp: 'HernanWilkinson 6/17/2013 18:47'!
-initializeTotal: aTotal
+!Sale methodsFor: 'initialization' stamp: 'CMS 6/12/2022 16:59:47'!
+initializeOf: aTotal andCart: aCart
+	total := aTotal.
+	cart := aCart.! !
 
-	total := aTotal ! !
+!Sale methodsFor: 'initialization' stamp: 'CMS 6/12/2022 17:18:49'!
+registerSoldBooksOn: collection
+	collection addAll: cart books.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -859,16 +1080,40 @@ initializeTotal: aTotal
 Sale class
 	instanceVariableNames: ''!
 
-!Sale class methodsFor: 'instance creation' stamp: 'HernanWilkinson 6/17/2013 18:47'!
-of: aTotal
+!Sale class methodsFor: 'instance creation' stamp: 'CMS 6/12/2022 16:58:19'!
+of: total andCart: aCart 
+	^self new initializeOf: total andCart: aCart ! !
 
-	"should assert total is not negative or 0!!"
-	^self new initializeTotal: aTotal ! !
+
+!classDefinition: #SalesBook category: 'TusLibros'!
+Object subclass: #SalesBook
+	instanceVariableNames: 'total books'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!SalesBook methodsFor: 'as yet unclassified' stamp: 'CMS 6/12/2022 18:04:27'!
+add: sale
+	total := total + sale total.
+	sale registerSoldBooksOn: books.! !
+
+!SalesBook methodsFor: 'as yet unclassified' stamp: 'CMS 6/12/2022 18:06:25'!
+books
+	^books.! !
+
+!SalesBook methodsFor: 'as yet unclassified' stamp: 'CMS 6/12/2022 18:04:51'!
+initialize
+	total := 0.
+	books := Bag new.! !
+
+!SalesBook methodsFor: 'as yet unclassified' stamp: 'CMS 6/12/2022 18:12:46'!
+total
+	^total.! !
 
 
 !classDefinition: #SalesInterface category: 'TusLibros'!
 Object subclass: #SalesInterface
-	instanceVariableNames: 'lastId credentialAuthenticator carts catalog clientOfCart purchases merchantProcessor'
+	instanceVariableNames: 'lastId credentialAuthenticator carts catalog clientOfCart purchases merchantProcessor clock cartLastSeenTime'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
@@ -885,15 +1130,34 @@ initializeWithAuthenticator: aCredentialAutheticator withCatalog: aCatalog withM
 	clientOfCart := Dictionary new.
 	purchases := Dictionary new.! !
 
+!SalesInterface methodsFor: 'initialize' stamp: 'CMS 6/12/2022 17:43:49'!
+initializeWithAuthenticator: aCredentialAutheticator withCatalog: aCatalog withMerchantProcessor: aMerchantProcessor withClock: aClock.
+	
+	credentialAuthenticator := aCredentialAutheticator.
+	merchantProcessor := aMerchantProcessor.
+	catalog := aCatalog.
+	
+	lastId := 0.
+	carts := Dictionary new.
+	clientOfCart := Dictionary new.
+	purchases := Dictionary new.
+	clock := aClock.
+	cartLastSeenTime := Dictionary new.! !
+
 
 !SalesInterface methodsFor: 'private' stamp: 'DW 6/12/2022 11:00:05'!
 assertBookInCatalog: bookIsbn
 
 	^ (catalog includesKey: bookIsbn) ifFalse: [self error: self class itemNotInCatalogErrorDescription]! !
 
-!SalesInterface methodsFor: 'private' stamp: 'CMS 6/12/2022 12:39:26'!
-assertCartWithIdExists: cartId
-	(carts includesKey: cartId) ifFalse: [self error: self class invalidCartIdErrorDescription].! !
+!SalesInterface methodsFor: 'private' stamp: 'CMS 6/12/2022 17:59:30'!
+assertCartWithIdExistsAndResetClock: cartId
+	((self cartLastSeenTime: cartId) + (Duration minutes: 30) < clock now) ifTrue: [
+		self removeCartId: cartId.	
+		self error: self class invalidCartIdErrorDescription.
+	].
+	cartLastSeenTime at: cartId put: clock now.
+! !
 
 !SalesInterface methodsFor: 'private' stamp: 'DW 6/12/2022 11:17:22'!
 assertQuantityIsAPositiveInteger: bookQuantity
@@ -905,20 +1169,31 @@ authenticateClientWithId: password andPassword: clientId
 
 	^ (credentialAuthenticator password: password isValidForClientId: clientId) ifFalse: [self error: self class invalidCredentialsErrorDescription]! !
 
-!SalesInterface methodsFor: 'private' stamp: 'DW 6/12/2022 10:40:27'!
+!SalesInterface methodsFor: 'private' stamp: 'CMS 6/12/2022 17:53:17'!
+cartLastSeenTime: cartId
+	^cartLastSeenTime at: cartId ifAbsent: [self error: self class invalidCartIdErrorDescription].
+
+! !
+
+!SalesInterface methodsFor: 'private' stamp: 'CMS 6/12/2022 17:59:30'!
 getCartWithId: cartId
+	self assertCartWithIdExistsAndResetClock: cartId.
+	^ carts at: cartId.! !
 
-	^ carts at: cartId ifAbsent: [self error: self class invalidCartIdErrorDescription]! !
-
-!SalesInterface methodsFor: 'private' stamp: 'DW 6/12/2022 10:40:27'!
-listCartWithCartId: cartId 
+!SalesInterface methodsFor: 'private' stamp: 'CMS 6/12/2022 17:59:30'!
+listCartWithCartId: cartId
+	self assertCartWithIdExistsAndResetClock: cartId.
+		(clock now > ((cartLastSeenTime at: cartId) + (Duration minutes: 30))) ifTrue: [
+			self removeCartId: cartId.
+		].
 	^ (self getCartWithId: cartId) books.! !
 
-!SalesInterface methodsFor: 'private' stamp: 'DW 6/12/2022 16:02:37'!
+!SalesInterface methodsFor: 'private' stamp: 'CMS 6/12/2022 17:56:22'!
 removeCartId: cartId
 
 	carts removeKey: cartId.
-	clientOfCart removeKey: cartId.! !
+	clientOfCart removeKey: cartId.
+	cartLastSeenTime removeKey: cartId.! !
 
 
 !SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 11:17:10'!
@@ -929,49 +1204,44 @@ addToCartWithCartId: cartId bookIsbn: bookIsbn bookQuantity: bookQuantity
 	
 	(self getCartWithId: cartId) add: bookQuantity of: bookIsbn.! !
 
-!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 16:05:33'!
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 17:59:30'!
 checkOutCartWithCartId: cartId ccn: creditCardNumber cced: expirationDate cco: ownerName
 	| creditCard |
-	self assertCartWithIdExists: cartId.
+	self assertCartWithIdExistsAndResetClock: cartId.
 	
-	creditCard := CreditCard expiringOn: expirationDate.
 	
-	[Cashier toCheckout: (carts at: cartId) 
+	[
+		creditCard := CreditCard expiringOn: expirationDate ownerName: ownerName number: creditCardNumber.
+		(Cashier toCheckout: (carts at: cartId) 
 			charging: creditCard 
 			through: merchantProcessor 
 			on: (DateAndTime now) 
-			registeringOn: OrderedCollection new]
+			registeringOn: (self getClientPurchases: (clientOfCart at: cartId))) checkOut.
+	]
 	on: Error
 	do:  [self error: self class debitErrorDescription].
-	
-	self registerCheckoutOf: cartId.
-	
+		
 	self removeCartId: cartId.! !
 
-!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 16:02:37'!
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 17:44:30'!
 createCartWithClientId: clientId password: password 
 	self authenticateClientWithId: password andPassword: clientId.
 	lastId := lastId + 1.
 	carts at: lastId put: (Cart acceptingItemsOf: catalog).
 	clientOfCart at: lastId put: clientId.
+	cartLastSeenTime at: lastId put: clock now.
 	^ lastId! !
 
-!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 16:09:40'!
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 18:05:23'!
 getClientPurchases: client
 
-	^ purchases at: client ifAbsent: [purchases at: client put: Bag new] ! !
+	^ purchases at: client ifAbsent: [purchases at: client put: SalesBook new] ! !
 
-!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 12:02:21'!
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 18:12:35'!
 listPurchasesWithClientId: clientId password: password
 	self authenticateClientWithId: password andPassword: clientId.
-	^(purchases at: clientId ifAbsent: [^Bag new]).! !
-
-!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 16:09:01'!
-registerCheckoutOf: cartId
-
-	| client |
-	client _ clientOfCart at: cartId.
-	(self getClientPurchases: client) addAll: (self getCartWithId: cartId) books.! !
+	^(self getClientPurchases: clientId).
+! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -982,6 +1252,10 @@ SalesInterface class
 !SalesInterface class methodsFor: 'instance creation' stamp: 'DW 6/12/2022 13:01:41'!
 withAuthenticator: aCredentialAutheticator withCatalog: aCatalog withMerchantProcessor: aMerchantProcessor 
 	^self new initializeWithAuthenticator: aCredentialAutheticator withCatalog: aCatalog withMerchantProcessor: aMerchantProcessor ! !
+
+!SalesInterface class methodsFor: 'instance creation' stamp: 'CMS 6/12/2022 17:35:47'!
+withAuthenticator: aCredentialAutheticator withCatalog: aCatalog withMerchantProcessor: aMerchantProcessor withClock: aClock
+	^self new initializeWithAuthenticator: aCredentialAutheticator withCatalog: aCatalog withMerchantProcessor: aMerchantProcessor  withClock: aClock.! !
 
 
 !SalesInterface class methodsFor: 'error description' stamp: 'DW 6/12/2022 13:07:20'!
@@ -1041,10 +1315,17 @@ defaultCatalog
 		yourself ! !
 
 
-!StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'HernanWilkinson 6/17/2013 18:37'!
+!StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'CMS 6/12/2022 16:42:18'!
+creditCardNumber
+	^'1234567890123456'.! !
+
+!StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'CMS 6/12/2022 16:39:36'!
+creditCardOwner
+	^'Juan perez'! !
+
+!StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'CMS 6/12/2022 16:44:44'!
 expiredCreditCard
-	
-	^CreditCard expiringOn: (Month month: today monthIndex year: today yearNumber - 1)! !
+	^CreditCard expiringOn: self monthOfExpiredCreditCard ownerName: self creditCardOwner number: self creditCardNumber.! !
 
 !StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'DW 6/12/2022 15:12:42'!
 monthOfExpiredCreditCard
@@ -1056,10 +1337,9 @@ monthOfNotExpiredCreditCard
 	
 	^Month month: today monthIndex year: today yearNumber + 1.! !
 
-!StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'HernanWilkinson 6/17/2013 18:36'!
+!StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'CMS 6/12/2022 16:44:49'!
 notExpiredCreditCard
-	
-	^CreditCard expiringOn: (Month month: today monthIndex year: today yearNumber + 1)! !
+	^CreditCard expiringOn: self monthOfNotExpiredCreditCard ownerName: self creditCardOwner number: self creditCardNumber.! !
 
 
 !StoreTestObjectsFactory methodsFor: 'initialization' stamp: 'HernanWilkinson 6/17/2013 18:37'!
