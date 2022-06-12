@@ -97,7 +97,7 @@ setUp
 
 	testObjectsFactory := StoreTestObjectsFactory new.! !
 
-
+
 !classDefinition: #CashierTest category: 'TusLibros'!
 TestCase subclass: #CashierTest
 	instanceVariableNames: 'testObjectsFactory debitBehavior'
@@ -245,7 +245,7 @@ debit: anAmount from: aCreditCard
 
 	^debitBehavior value: anAmount value: aCreditCard ! !
 
-
+
 !classDefinition: #SalesInterfaceTest category: 'TusLibros'!
 TestCase subclass: #SalesInterfaceTest
 	instanceVariableNames: 'testObjectsFactory'
@@ -270,11 +270,6 @@ invalidPasswordOfValidUser
 passwordOfValidUser
 	^ 'pass123'.! !
 
-!SalesInterfaceTest methodsFor: 'objects' stamp: 'DW 6/9/2022 20:59:34'!
-permissiveAuthenticator
-
-	^ CredentialAuthenticatorDouble withAutheticationBehavior: [:u :p | true]! !
-
 !SalesInterfaceTest methodsFor: 'objects' stamp: 'DW 6/9/2022 21:23:31'!
 setUp
 	testObjectsFactory := StoreTestObjectsFactory new.! !
@@ -284,17 +279,17 @@ validUser
 	^ 'Juan'.! !
 
 
-!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/9/2022 21:27:51'!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:31:54'!
 test01ListCartOfNewlyCreatedCartIsEmpty
 	| id salesInterface |
-	salesInterface := SalesInterface withAuthenticator: (self permissiveAuthenticator) withCatalog: testObjectsFactory defaultCatalog.
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
 	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
-	self assert: OrderedCollection new equals: (salesInterface listCartWithCartId: id).! !
+	self assert: Bag new equals: (salesInterface listCartWithCartId: id).! !
 
-!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/9/2022 21:27:45'!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:31:11'!
 test02NewCartGenreatesUniqueIds
 	| salesInterface id1 id2 |
-	salesInterface := SalesInterface withAuthenticator: (self permissiveAuthenticator) withCatalog: testObjectsFactory defaultCatalog.
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
 	id1 := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
 	id2 := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
 	self deny: (id1 = id2).! !
@@ -319,30 +314,78 @@ test04CannotCreateCartWithInvalidPassword
 	
 	! !
 
-!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/9/2022 21:25:18'!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:32:02'!
 test05ListCartReflectsAddToCart
 	| salesInterface id |
-	salesInterface := SalesInterface withAuthenticator: (self permissiveAuthenticator) withCatalog: testObjectsFactory defaultCatalog.
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
 	
 	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
 	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 	1.
-	self assert: (OrderedCollection with: testObjectsFactory itemSellByTheStore) equals: (salesInterface listCartWithCartId: id).
+	self assert: (Bag with: testObjectsFactory itemSellByTheStore) equals: (salesInterface listCartWithCartId: id).
 	! !
 
-!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/9/2022 21:30:08'!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:32:05'!
 test06AddToCartDoesntAffectOtherCarts
 	| salesInterface id1 id2 |
-	salesInterface := SalesInterface withAuthenticator: (self permissiveAuthenticator) withCatalog: testObjectsFactory defaultCatalog.
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
 	
 	id1 := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
 	id2 := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
 	
 	salesInterface addToCartWithCartId: id1 bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 	1.
 	
-	self assert: (OrderedCollection new) equals: (salesInterface listCartWithCartId: id2).
+	self assert: (Bag new) equals: (salesInterface listCartWithCartId: id2).
 	! !
 
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:43:17'!
+test07CannotListCartWithInvalidCartId
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	self should: [salesInterface listCartWithCartId: nil]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface invalidCartIdErrorDescription.
+	! !
 
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:43:09'!
+test08CannotAddToCartWithInvalidCartId
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	self should: [salesInterface addToCartWithCartId: nil bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface invalidCartIdErrorDescription.
+	! !
+
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:47:12'!
+test09CannotAddToCartAnItemNotSoldByTheStore
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	
+	self should: [salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemNotSellByTheStore bookQuantity: 1]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface itemNotInCatalogErrorDescription.
+	! !
+
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 11:02:33'!
+test10AddToCartQuantityMustBeANaturalNumber
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	
+	self should: [salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemNotSellByTheStore bookQuantity: 1]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface itemNotInCatalogErrorDescription.
+	! !
+
+
 !classDefinition: #Cart category: 'TusLibros'!
 Object subclass: #Cart
 	instanceVariableNames: 'catalog items'
@@ -372,18 +415,18 @@ assertIsValidQuantity: aQuantity
 	aQuantity strictlyPositive ifFalse: [ self error: self invalidQuantityErrorMessage ]! !
 
 
-!Cart methodsFor: 'initialization' stamp: 'HernanWilkinson 6/17/2013 17:48'!
+!Cart methodsFor: 'initialization' stamp: 'DW 6/12/2022 10:17:26'!
 initializeAcceptingItemsOf: aCatalog
 
 	catalog := aCatalog.
-	items := OrderedCollection new.! !
+	items := Bag new.! !
 
 
-!Cart methodsFor: 'queries' stamp: 'DW 6/9/2022 21:17:55'!
+!Cart methodsFor: 'queries' stamp: 'DW 6/12/2022 10:25:13'!
 books
-	^items! !
+	^items ! !
 
-!Cart methodsFor: 'queries' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+!Cart methodsFor: 'queries' stamp: 'DW 6/12/2022 10:25:22'!
 occurrencesOf: anItem
 
 	^items occurrencesOf: anItem  ! !
@@ -400,24 +443,22 @@ isEmpty
 	^items isEmpty ! !
 
 
-!Cart methodsFor: 'total' stamp: 'HernanWilkinson 6/17/2013 19:09'!
+!Cart methodsFor: 'total' stamp: 'DW 6/12/2022 10:11:49'!
 total
 
 	^ items sum: [ :anItem | catalog at: anItem ]! !
 
 
-!Cart methodsFor: 'adding' stamp: 'HernanWilkinson 6/17/2013 17:44'!
+!Cart methodsFor: 'adding' stamp: 'DW 6/12/2022 10:20:46'!
 add: anItem
-
 	^ self add: 1 of: anItem ! !
 
-!Cart methodsFor: 'adding' stamp: 'HernanWilkinson 6/17/2013 17:51'!
+!Cart methodsFor: 'adding' stamp: 'DW 6/12/2022 10:20:31'!
 add: aQuantity of: anItem
-
 	self assertIsValidQuantity: aQuantity.
 	self assertIsValidItem: anItem.
 
-	1 to: aQuantity do: [ :aNumber | items add: anItem ]! !
+	items add: anItem withOccurrences: aQuantity.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -430,7 +471,7 @@ acceptingItemsOf: aCatalog
 
 	^self new initializeAcceptingItemsOf: aCatalog ! !
 
-
+
 !classDefinition: #Cashier category: 'TusLibros'!
 Object subclass: #Cashier
 	instanceVariableNames: 'cart salesBook merchantProcessor creditCard total'
@@ -521,7 +562,7 @@ creditCardHasNoCreditErrorMessage
 	
 	^'Credit card has no credit'! !
 
-
+
 !classDefinition: #CredentialAuthenticatorDouble category: 'TusLibros'!
 Object subclass: #CredentialAuthenticatorDouble
 	instanceVariableNames: 'autheticationBehavior'
@@ -547,7 +588,7 @@ CredentialAuthenticatorDouble class
 withAutheticationBehavior: anAutheticationBehavior 
 	^self new initializeWithAutheticationBehavior: anAutheticationBehavior ! !
 
-
+
 !classDefinition: #CreditCard category: 'TusLibros'!
 Object subclass: #CreditCard
 	instanceVariableNames: 'expiration'
@@ -577,7 +618,7 @@ expiringOn: aMonth
 	
 	^self new initializeExpiringOn: aMonth! !
 
-
+
 !classDefinition: #Sale category: 'TusLibros'!
 Object subclass: #Sale
 	instanceVariableNames: 'total'
@@ -608,7 +649,7 @@ of: aTotal
 	"should assert total is not negative or 0!!"
 	^self new initializeTotal: aTotal ! !
 
-
+
 !classDefinition: #SalesInterface category: 'TusLibros'!
 Object subclass: #SalesInterface
 	instanceVariableNames: 'lastId credentialAuthenticator carts catalog'
@@ -624,9 +665,17 @@ initializeWithAuthenticator: aCredentialAuthenticator withCatalog: aCatalog
 	carts := Dictionary new.! !
 
 
-!SalesInterface methodsFor: 'interface' stamp: 'DW 6/9/2022 21:32:13'!
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 11:00:05'!
 addToCartWithCartId: cartId bookIsbn: bookIsbn bookQuantity: bookQuantity 
-	(carts at: cartId) add: bookQuantity of: bookIsbn.! !
+
+	self assertBookInCatalog: bookIsbn.
+	
+	(self getCartWithId: cartId) add: bookQuantity of: bookIsbn.! !
+
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 11:00:05'!
+assertBookInCatalog: bookIsbn
+
+	^ (catalog includesKey: bookIsbn) ifFalse: [self error: self class itemNotInCatalogErrorDescription]! !
 
 !SalesInterface methodsFor: 'interface' stamp: 'DW 6/9/2022 21:36:27'!
 createCartWithClientId: clientId password: password 
@@ -635,9 +684,14 @@ createCartWithClientId: clientId password: password
 	carts at: lastId put: (Cart acceptingItemsOf: catalog).
 	^ lastId! !
 
-!SalesInterface methodsFor: 'interface' stamp: 'DW 6/9/2022 21:31:47'!
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 10:40:27'!
+getCartWithId: cartId
+
+	^ carts at: cartId ifAbsent: [self error: self class invalidCartIdErrorDescription]! !
+
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 10:40:27'!
 listCartWithCartId: cartId 
-	^ (carts at: cartId) books! !
+	^ (self getCartWithId: cartId) books.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -650,11 +704,19 @@ withAuthenticator: aCredentialAuthenticator withCatalog: aCatalog
 	^self new initializeWithAuthenticator: aCredentialAuthenticator withCatalog: aCatalog ! !
 
 
+!SalesInterface class methodsFor: 'error description' stamp: 'DW 6/12/2022 10:39:19'!
+invalidCartIdErrorDescription
+	^ 'cart id does not reference a cart in the system'.! !
+
 !SalesInterface class methodsFor: 'error description' stamp: 'DW 6/9/2022 21:36:27'!
 invalidCredentialsErrorDescription
 	^ 'Invalid Client Id'.! !
 
+!SalesInterface class methodsFor: 'error description' stamp: 'DW 6/12/2022 10:47:57'!
+itemNotInCatalogErrorDescription
+	^ 'book not on sale'.! !
 
+
 !classDefinition: #StoreTestObjectsFactory category: 'TusLibros'!
 Object subclass: #StoreTestObjectsFactory
 	instanceVariableNames: 'today'
