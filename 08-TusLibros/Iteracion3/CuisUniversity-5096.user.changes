@@ -1,0 +1,4167 @@
+
+
+----STARTUP---- (12 June 2022 10:08:40) as C:\Users\Dani\Desktop\Cursada\Inge 1\Cuis\Tuslibros\CuisUniversity-5096.image!
+
+
+----End fileIn of C:\Users\Dani\Desktop\Cursada\Inge 1\Cuis\Tuslibros\TusLibros.st----!
+!Cart methodsFor: 'total' stamp: 'DW 6/12/2022 10:11:49' prior: 50474555!
+total
+
+	^ items sum: [ :anItem | catalog at: anItem ]! !
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 10:13:31' prior: 50474835!
+listCartWithCartId: cartId 
+	^ (carts at: cartId) books asOrderedCollection.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'DW 6/12/2022 10:13:34'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'DW 6/12/2022 10:13:34'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'DW 6/12/2022 10:13:34'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'DW 6/12/2022 10:13:34'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'DW 6/12/2022 10:13:34'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'DW 6/12/2022 10:13:34'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'DW 6/12/2022 10:13:34'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'DW 6/12/2022 10:13:34'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'DW 6/12/2022 10:13:34'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'DW 6/12/2022 10:13:34'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'DW 6/12/2022 10:13:34'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'DW 6/12/2022 10:13:34'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'DW 6/12/2022 10:13:34'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'DW 6/12/2022 10:13:34'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'DW 6/12/2022 10:13:34'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'DW 6/12/2022 10:13:34'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'DW 6/12/2022 10:13:34'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'DW 6/12/2022 10:13:34'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'DW 6/12/2022 10:13:34'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'DW 6/12/2022 10:13:34'!
+PASSED!
+!Cart methodsFor: 'initialization' stamp: 'DW 6/12/2022 10:17:26' prior: 50474534!
+initializeAcceptingItemsOf: aCatalog
+
+	catalog := aCatalog.
+	items := Bag new.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'DW 6/12/2022 10:17:27'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'DW 6/12/2022 10:17:27'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'DW 6/12/2022 10:17:27'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'DW 6/12/2022 10:17:27'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'DW 6/12/2022 10:17:27'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'DW 6/12/2022 10:17:27'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'DW 6/12/2022 10:17:27'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'DW 6/12/2022 10:17:27'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'DW 6/12/2022 10:17:27'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'DW 6/12/2022 10:17:27'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'DW 6/12/2022 10:17:27'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'DW 6/12/2022 10:17:27'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'DW 6/12/2022 10:17:27'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'DW 6/12/2022 10:17:27'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'DW 6/12/2022 10:17:27'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'DW 6/12/2022 10:17:28'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'DW 6/12/2022 10:17:28'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'DW 6/12/2022 10:17:28'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'DW 6/12/2022 10:17:28'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'DW 6/12/2022 10:17:28'!
+PASSED!
+!Cart methodsFor: 'adding' stamp: 'DW 6/12/2022 10:20:31' prior: 50474563!
+add: aQuantity of: anItem
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+
+	items add: anItem withOccurrences: aQuantity.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'DW 6/12/2022 10:20:37'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'DW 6/12/2022 10:20:37'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'DW 6/12/2022 10:20:37'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'DW 6/12/2022 10:20:37'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'DW 6/12/2022 10:20:37'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'DW 6/12/2022 10:20:37'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'DW 6/12/2022 10:20:37'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'DW 6/12/2022 10:20:37'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'DW 6/12/2022 10:20:37'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'DW 6/12/2022 10:20:37'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'DW 6/12/2022 10:20:37'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'DW 6/12/2022 10:20:37'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'DW 6/12/2022 10:20:37'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'DW 6/12/2022 10:20:37'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'DW 6/12/2022 10:20:37'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'DW 6/12/2022 10:20:37'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'DW 6/12/2022 10:20:37'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'DW 6/12/2022 10:20:37'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'DW 6/12/2022 10:20:37'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'DW 6/12/2022 10:20:37'!
+PASSED!
+!Cart methodsFor: 'adding' stamp: 'DW 6/12/2022 10:20:46' prior: 50474559!
+add: anItem
+	^ self add: 1 of: anItem ! !
+!Cart methodsFor: 'queries' stamp: 'DW 6/12/2022 10:25:13' prior: 50474539!
+books
+	^items ! !
+!Cart methodsFor: 'queries' stamp: 'DW 6/12/2022 10:25:22' prior: 50474542!
+occurrencesOf: anItem
+
+	^items occurrencesOf: anItem  ! !
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:25:46' prior: 50474397!
+test01ListCartOfNewlyCreatedCartIsEmpty
+	| id salesInterface |
+	salesInterface := SalesInterface withAuthenticator: (self permissiveAuthenticator) withCatalog: testObjectsFactory defaultCatalog.
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	self assert: Bag new equals: (salesInterface listCartWithCartId: id).! !
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'DW 6/12/2022 10:25:49'!
+FAILURE!
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 10:25:58' prior: 50474929!
+listCartWithCartId: cartId 
+	^ (carts at: cartId) books.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'DW 6/12/2022 10:26:00'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'DW 6/12/2022 10:26:00'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'DW 6/12/2022 10:26:00'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'DW 6/12/2022 10:26:00'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'DW 6/12/2022 10:26:00'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'DW 6/12/2022 10:26:00'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'DW 6/12/2022 10:26:00'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'DW 6/12/2022 10:26:00'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'DW 6/12/2022 10:26:00'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'DW 6/12/2022 10:26:00'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'DW 6/12/2022 10:26:00'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'DW 6/12/2022 10:26:00'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'DW 6/12/2022 10:26:00'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'DW 6/12/2022 10:26:00'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'DW 6/12/2022 10:26:00'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'DW 6/12/2022 10:26:00'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'DW 6/12/2022 10:26:00'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'DW 6/12/2022 10:26:00'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'DW 6/12/2022 10:26:00'!
+FAILURE!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'DW 6/12/2022 10:26:00'!
+FAILURE!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'DW 6/12/2022 10:26:11'!
+PASSED!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:26:23' prior: 50474459!
+test05ListCartReflectsAddToCart
+	| salesInterface id |
+	salesInterface := SalesInterface withAuthenticator: (self permissiveAuthenticator) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 	1.
+	self assert: (Bag with: testObjectsFactory itemSellByTheStore) equals: (salesInterface listCartWithCartId: id).
+	! !
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:26:30' prior: 50474478!
+test06AddToCartDoesntAffectOtherCarts
+	| salesInterface id1 id2 |
+	salesInterface := SalesInterface withAuthenticator: (self permissiveAuthenticator) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id1 := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	id2 := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	
+	salesInterface addToCartWithCartId: id1 bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 	1.
+	
+	self assert: (Bag new) equals: (salesInterface listCartWithCartId: id2).
+	! !
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'DW 6/12/2022 10:26:31'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'DW 6/12/2022 10:26:32'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'DW 6/12/2022 10:26:32'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'DW 6/12/2022 10:26:32'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'DW 6/12/2022 10:26:32'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'DW 6/12/2022 10:26:32'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'DW 6/12/2022 10:26:32'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'DW 6/12/2022 10:26:32'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'DW 6/12/2022 10:26:32'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'DW 6/12/2022 10:26:32'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'DW 6/12/2022 10:26:32'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'DW 6/12/2022 10:26:32'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'DW 6/12/2022 10:26:32'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'DW 6/12/2022 10:26:32'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'DW 6/12/2022 10:26:32'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'DW 6/12/2022 10:26:32'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'DW 6/12/2022 10:26:32'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'DW 6/12/2022 10:26:32'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'DW 6/12/2022 10:26:32'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'DW 6/12/2022 10:26:32'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'DW 6/12/2022 10:26:32'!
+PASSED!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:30:38' prior: 50474412!
+test02NewCartGenreatesUniqueIds
+	| salesInterface id1 id2 |
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser ) withCatalog: testObjectsFactory defaultCatalog.
+	id1 := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	id2 := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	self deny: (id1 = id2).! !
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'DW 6/12/2022 10:30:39'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'DW 6/12/2022 10:30:39'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'DW 6/12/2022 10:30:39'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'DW 6/12/2022 10:30:39'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'DW 6/12/2022 10:30:39'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'DW 6/12/2022 10:30:39'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'DW 6/12/2022 10:30:39'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'DW 6/12/2022 10:30:39'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'DW 6/12/2022 10:30:39'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'DW 6/12/2022 10:30:39'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'DW 6/12/2022 10:30:39'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'DW 6/12/2022 10:30:39'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'DW 6/12/2022 10:30:39'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'DW 6/12/2022 10:30:39'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'DW 6/12/2022 10:30:39'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'DW 6/12/2022 10:30:39'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'DW 6/12/2022 10:30:39'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'DW 6/12/2022 10:30:39'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'DW 6/12/2022 10:30:39'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'DW 6/12/2022 10:30:39'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'DW 6/12/2022 10:30:39'!
+PASSED!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:31:11' prior: 50475358!
+test02NewCartGenreatesUniqueIds
+	| salesInterface id1 id2 |
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	id1 := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	id2 := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	self deny: (id1 = id2).! !
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:31:54' prior: 50475156!
+test01ListCartOfNewlyCreatedCartIsEmpty
+	| id salesInterface |
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	self assert: Bag new equals: (salesInterface listCartWithCartId: id).! !
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:32:02' prior: 50475248!
+test05ListCartReflectsAddToCart
+	| salesInterface id |
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 	1.
+	self assert: (Bag with: testObjectsFactory itemSellByTheStore) equals: (salesInterface listCartWithCartId: id).
+	! !
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:32:05' prior: 50475267!
+test06AddToCartDoesntAffectOtherCarts
+	| salesInterface id1 id2 |
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id1 := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	id2 := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	
+	salesInterface addToCartWithCartId: id1 bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 	1.
+	
+	self assert: (Bag new) equals: (salesInterface listCartWithCartId: id2).
+	! !
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'DW 6/12/2022 10:32:07'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'DW 6/12/2022 10:32:07'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'DW 6/12/2022 10:32:07'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'DW 6/12/2022 10:32:07'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'DW 6/12/2022 10:32:07'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'DW 6/12/2022 10:32:07'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'DW 6/12/2022 10:32:07'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'DW 6/12/2022 10:32:07'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'DW 6/12/2022 10:32:07'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'DW 6/12/2022 10:32:07'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'DW 6/12/2022 10:32:07'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'DW 6/12/2022 10:32:07'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'DW 6/12/2022 10:32:07'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'DW 6/12/2022 10:32:07'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'DW 6/12/2022 10:32:08'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'DW 6/12/2022 10:32:08'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'DW 6/12/2022 10:32:08'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'DW 6/12/2022 10:32:08'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'DW 6/12/2022 10:32:08'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'DW 6/12/2022 10:32:08'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'DW 6/12/2022 10:32:08'!
+PASSED!
+
+!methodRemoval: SalesInterfaceTest #permissiveAuthenticator stamp: 'DW 6/12/2022 10:32:19'!
+permissiveAuthenticator
+
+	^ CredentialAuthenticatorDouble withAutheticationBehavior: [:u :p | true]!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:38:15'!
+test07CannotListCartWithInvalidCartId
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	self should: [salesInterface listCartWithCartId: nil]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface invalidCartIdErrorDescription.
+	! !
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'DW 6/12/2022 10:38:19'!
+ERROR!
+!SalesInterface class methodsFor: 'error description' stamp: 'DW 6/12/2022 10:38:28'!
+invalidCartIdErrorDescription
+	self shouldBeImplemented.! !
+!SalesInterface class methodsFor: 'error description' stamp: 'DW 6/12/2022 10:38:46' prior: 50475611!
+invalidCartIdErrorDescription
+	'cart id does not reference a cart in the system'.! !
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'DW 6/12/2022 10:38:49'!
+FAILURE!
+!SalesInterface class methodsFor: 'error description' stamp: 'DW 6/12/2022 10:39:19' prior: 50475617!
+invalidCartIdErrorDescription
+	^ 'cart id does not reference a cart in the system'.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'DW 6/12/2022 10:39:21'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'DW 6/12/2022 10:39:21'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'DW 6/12/2022 10:39:21'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'DW 6/12/2022 10:39:21'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'DW 6/12/2022 10:39:21'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'DW 6/12/2022 10:39:21'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'DW 6/12/2022 10:39:21'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'DW 6/12/2022 10:39:21'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'DW 6/12/2022 10:39:21'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'DW 6/12/2022 10:39:21'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'DW 6/12/2022 10:39:21'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'DW 6/12/2022 10:39:21'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'DW 6/12/2022 10:39:21'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'DW 6/12/2022 10:39:21'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'DW 6/12/2022 10:39:21'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'DW 6/12/2022 10:39:21'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'DW 6/12/2022 10:39:21'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'DW 6/12/2022 10:39:21'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'DW 6/12/2022 10:39:21'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'DW 6/12/2022 10:39:21'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'DW 6/12/2022 10:39:21'!
+FAILURE!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'DW 6/12/2022 10:39:21'!
+FAILURE!
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 10:40:10' prior: 50475174!
+listCartWithCartId: cartId 
+	^ (carts at: cartId ifAbsent: [self error: self class invalidCartIdErrorDescription]) books.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'DW 6/12/2022 10:40:11'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'DW 6/12/2022 10:40:11'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'DW 6/12/2022 10:40:11'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'DW 6/12/2022 10:40:11'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'DW 6/12/2022 10:40:11'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'DW 6/12/2022 10:40:11'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'DW 6/12/2022 10:40:11'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'DW 6/12/2022 10:40:11'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'DW 6/12/2022 10:40:11'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'DW 6/12/2022 10:40:11'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'DW 6/12/2022 10:40:11'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'DW 6/12/2022 10:40:11'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'DW 6/12/2022 10:40:11'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'DW 6/12/2022 10:40:11'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'DW 6/12/2022 10:40:11'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'DW 6/12/2022 10:40:11'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'DW 6/12/2022 10:40:11'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'DW 6/12/2022 10:40:11'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'DW 6/12/2022 10:40:11'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'DW 6/12/2022 10:40:11'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'DW 6/12/2022 10:40:11'!
+PASSED!
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 10:40:27'!
+getCartWithId: cartId
+
+	^ carts at: cartId ifAbsent: [self error: self class invalidCartIdErrorDescription]! !
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 10:40:27' prior: 50475706!
+listCartWithCartId: cartId 
+	^ (self getCartWithId: cartId) books.! !
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:42:12'!
+test07CannotAddToCartWithInvalidCartId
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	self should: [salesInterface addToCartWithCartId: nil bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface invalidCartIdErrorDescription.
+	! !
+
+!testRun: #SalesInterfaceTest #test07CannotAddToCartWithInvalidCartId stamp: 'DW 6/12/2022 10:42:13'!
+FAILURE!
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 10:42:39' prior: 50474816!
+addToCartWithCartId: cartId bookIsbn: bookIsbn bookQuantity: bookQuantity 
+	(self getCartWithId: cartId) add: bookQuantity of: bookIsbn.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'DW 6/12/2022 10:42:39'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'DW 6/12/2022 10:42:39'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'DW 6/12/2022 10:42:39'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'DW 6/12/2022 10:42:39'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'DW 6/12/2022 10:42:39'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'DW 6/12/2022 10:42:39'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'DW 6/12/2022 10:42:39'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'DW 6/12/2022 10:42:39'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'DW 6/12/2022 10:42:40'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'DW 6/12/2022 10:42:40'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'DW 6/12/2022 10:42:40'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'DW 6/12/2022 10:42:40'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'DW 6/12/2022 10:42:40'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'DW 6/12/2022 10:42:40'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'DW 6/12/2022 10:42:40'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'DW 6/12/2022 10:42:40'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'DW 6/12/2022 10:42:40'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'DW 6/12/2022 10:42:40'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'DW 6/12/2022 10:42:40'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'DW 6/12/2022 10:42:40'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotAddToCartWithInvalidCartId stamp: 'DW 6/12/2022 10:42:40'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'DW 6/12/2022 10:42:40'!
+PASSED!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:42:58'!
+test08CannotListCartWithInvalidCartId
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	self should: [salesInterface listCartWithCartId: nil]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface invalidCartIdErrorDescription.
+	! !
+
+!methodRemoval: SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'DW 6/12/2022 10:42:58'!
+test07CannotListCartWithInvalidCartId
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	self should: [salesInterface listCartWithCartId: nil]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface invalidCartIdErrorDescription.
+	!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:43:09'!
+test08CannotAddToCartWithInvalidCartId
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	self should: [salesInterface addToCartWithCartId: nil bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface invalidCartIdErrorDescription.
+	! !
+
+!methodRemoval: SalesInterfaceTest #test07CannotAddToCartWithInvalidCartId stamp: 'DW 6/12/2022 10:43:09'!
+test07CannotAddToCartWithInvalidCartId
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	self should: [salesInterface addToCartWithCartId: nil bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface invalidCartIdErrorDescription.
+	!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:43:17'!
+test07CannotListCartWithInvalidCartId
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	self should: [salesInterface listCartWithCartId: nil]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface invalidCartIdErrorDescription.
+	! !
+
+!methodRemoval: SalesInterfaceTest #test08CannotListCartWithInvalidCartId stamp: 'DW 6/12/2022 10:43:17'!
+test08CannotListCartWithInvalidCartId
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	self should: [salesInterface listCartWithCartId: nil]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface invalidCartIdErrorDescription.
+	!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:44:34'!
+test09CannotAddToCartAnItemNotSoldByTheStore
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	self should: [salesInterface addToCartWithCartId: nil bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface invalidCartIdErrorDescription.
+	! !
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:45:52' prior: 50475985!
+test09CannotAddToCartAnItemNotSoldByTheStore
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCart.
+	
+	self should: [salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemNotSellByTheStore bookQuantity: 1]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface itemNotInCatalogErrorDescription.
+	! !
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'DW 6/12/2022 10:45:56'!
+ERROR!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 10:47:12' prior: 50476002!
+test09CannotAddToCartAnItemNotSoldByTheStore
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	
+	self should: [salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemNotSellByTheStore bookQuantity: 1]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface itemNotInCatalogErrorDescription.
+	! !
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'DW 6/12/2022 10:47:13'!
+ERROR!
+!SalesInterface class methodsFor: 'error description' stamp: 'DW 6/12/2022 10:47:18'!
+itemNotInCatalogErrorDescription
+	self shouldBeImplemented.! !
+!SalesInterface class methodsFor: 'error description' stamp: 'DW 6/12/2022 10:47:36' prior: 50476048!
+itemNotInCatalogErrorDescription
+	^ 'book not at sale'.! !
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'DW 6/12/2022 10:47:43'!
+FAILURE!
+!SalesInterface class methodsFor: 'error description' stamp: 'DW 6/12/2022 10:47:57' prior: 50476054!
+itemNotInCatalogErrorDescription
+	^ 'book not on sale'.! !
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 10:48:37' prior: 50475814!
+addToCartWithCartId: cartId bookIsbn: bookIsbn bookQuantity: bookQuantity 
+
+	(self getCartWithId: cartId) add: bookQuantity of: bookIsbn.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'DW 6/12/2022 10:48:37'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'DW 6/12/2022 10:48:37'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'DW 6/12/2022 10:48:37'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'DW 6/12/2022 10:48:37'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'DW 6/12/2022 10:48:37'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'DW 6/12/2022 10:48:37'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'DW 6/12/2022 10:48:37'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'DW 6/12/2022 10:48:37'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'DW 6/12/2022 10:48:37'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'DW 6/12/2022 10:48:37'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'DW 6/12/2022 10:48:37'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'DW 6/12/2022 10:48:37'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'DW 6/12/2022 10:48:37'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'DW 6/12/2022 10:48:37'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'DW 6/12/2022 10:48:37'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'DW 6/12/2022 10:48:37'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'DW 6/12/2022 10:48:37'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'DW 6/12/2022 10:48:37'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'DW 6/12/2022 10:48:37'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'DW 6/12/2022 10:48:37'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'DW 6/12/2022 10:48:37'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'DW 6/12/2022 10:48:37'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'DW 6/12/2022 10:48:37'!
+FAILURE!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'DW 6/12/2022 10:48:37'!
+FAILURE!
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 10:56:03' prior: 50476068!
+addToCartWithCartId: cartId bookIsbn: bookIsbn bookQuantity: bookQuantity 
+
+	(catalog includes: bookIsbn) ifFalse: [self error: self class itemNotInCatalogErrorDescription].
+	
+	(self getCartWithId: cartId) add: bookQuantity of: bookIsbn.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'DW 6/12/2022 10:56:04'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'DW 6/12/2022 10:56:04'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'DW 6/12/2022 10:56:04'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'DW 6/12/2022 10:56:04'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'DW 6/12/2022 10:56:04'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'DW 6/12/2022 10:56:04'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'DW 6/12/2022 10:56:04'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'DW 6/12/2022 10:56:04'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'DW 6/12/2022 10:56:04'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'DW 6/12/2022 10:56:05'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'DW 6/12/2022 10:56:05'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'DW 6/12/2022 10:56:05'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'DW 6/12/2022 10:56:05'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'DW 6/12/2022 10:56:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'DW 6/12/2022 10:56:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'DW 6/12/2022 10:56:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'DW 6/12/2022 10:56:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'DW 6/12/2022 10:56:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'DW 6/12/2022 10:56:05'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'DW 6/12/2022 10:56:05'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'DW 6/12/2022 10:56:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'DW 6/12/2022 10:56:05'!
+FAILURE!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'DW 6/12/2022 10:56:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'DW 6/12/2022 10:56:09'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'DW 6/12/2022 10:56:26'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'DW 6/12/2022 10:56:43'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'DW 6/12/2022 10:56:44'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'DW 6/12/2022 10:56:45'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'DW 6/12/2022 10:56:46'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'DW 6/12/2022 10:56:47'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'DW 6/12/2022 10:56:47'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'DW 6/12/2022 10:56:59'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'DW 6/12/2022 10:56:59'!
+ERROR!
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 10:57:33' prior: 50476156!
+addToCartWithCartId: cartId bookIsbn: bookIsbn bookQuantity: bookQuantity 
+
+	self halt.
+
+	(catalog includes: bookIsbn) ifFalse: [self error: self class itemNotInCatalogErrorDescription].
+	
+	(self getCartWithId: cartId) add: bookQuantity of: bookIsbn.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'DW 6/12/2022 10:57:33'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'DW 6/12/2022 10:57:33'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'DW 6/12/2022 10:57:33'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'DW 6/12/2022 10:57:33'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'DW 6/12/2022 10:57:33'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'DW 6/12/2022 10:57:33'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'DW 6/12/2022 10:57:33'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'DW 6/12/2022 10:57:33'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'DW 6/12/2022 10:57:33'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'DW 6/12/2022 10:57:33'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'DW 6/12/2022 10:57:33'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'DW 6/12/2022 10:57:33'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'DW 6/12/2022 10:57:33'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'DW 6/12/2022 10:57:33'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'DW 6/12/2022 10:57:33'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'DW 6/12/2022 10:57:33'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'DW 6/12/2022 10:57:33'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'DW 6/12/2022 10:57:33'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'DW 6/12/2022 10:57:33'!
+PASSED!
+
+(catalog includes: bookIsbn)!
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 10:59:29' prior: 50476277!
+addToCartWithCartId: cartId bookIsbn: bookIsbn bookQuantity: bookQuantity 
+
+	self halt.
+
+	(catalog includesKey: bookIsbn) ifFalse: [self error: self class itemNotInCatalogErrorDescription].
+	
+	(self getCartWithId: cartId) add: bookQuantity of: bookIsbn.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'DW 6/12/2022 10:59:30'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'DW 6/12/2022 10:59:30'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'DW 6/12/2022 10:59:30'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'DW 6/12/2022 10:59:30'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'DW 6/12/2022 10:59:30'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'DW 6/12/2022 10:59:30'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'DW 6/12/2022 10:59:30'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'DW 6/12/2022 10:59:30'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'DW 6/12/2022 10:59:30'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'DW 6/12/2022 10:59:30'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'DW 6/12/2022 10:59:30'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'DW 6/12/2022 10:59:30'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'DW 6/12/2022 10:59:31'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'DW 6/12/2022 10:59:31'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'DW 6/12/2022 10:59:31'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'DW 6/12/2022 10:59:31'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'DW 6/12/2022 10:59:31'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'DW 6/12/2022 10:59:31'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'DW 6/12/2022 10:59:31'!
+PASSED!
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 10:59:40' prior: 50476352!
+addToCartWithCartId: cartId bookIsbn: bookIsbn bookQuantity: bookQuantity 
+
+	(catalog includesKey: bookIsbn) ifFalse: [self error: self class itemNotInCatalogErrorDescription].
+	
+	(self getCartWithId: cartId) add: bookQuantity of: bookIsbn.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'DW 6/12/2022 10:59:42'!
+PASSED!
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 11:00:05'!
+assertBookInCatalog: bookIsbn
+
+	^ (catalog includesKey: bookIsbn) ifFalse: [self error: self class itemNotInCatalogErrorDescription]! !
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 11:00:05' prior: 50476426!
+addToCartWithCartId: cartId bookIsbn: bookIsbn bookQuantity: bookQuantity 
+
+	self assertBookInCatalog: bookIsbn.
+	
+	(self getCartWithId: cartId) add: bookQuantity of: bookIsbn.! !
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 11:02:33'!
+test10AddToCartQuantityMustBeANaturalNumber
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	
+	self should: [salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemNotSellByTheStore bookQuantity: 1]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface itemNotInCatalogErrorDescription.
+	! !
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 11:12:02'!
+test10AddToCartQuantityMustBeAPositiveNumber
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	
+	self should: [salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemNotSellByTheStore bookQuantity: -1]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface itemNotInCatalogErrorDescription.
+	! !
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 11:12:34' prior: 50476548!
+test10AddToCartQuantityMustBeAPositiveNumber
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	
+	self should: [salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemNotSellByTheStore bookQuantity: -1]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface quantityNotAPositiveIntegerErrorDescription.
+	! !
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'DW 6/12/2022 11:12:38'!
+ERROR!
+!SalesInterface class methodsFor: 'error description' stamp: 'DW 6/12/2022 11:12:44'!
+quantityNotAPositiveIntegerErrorDescription
+	self shouldBeImplemented.! !
+!SalesInterface class methodsFor: 'error description' stamp: 'DW 6/12/2022 11:13:09' prior: 50476592!
+quantityNotAPositiveIntegerErrorDescription
+	^ 'quantity to add to a cart of an item must be a positive integer'. ! !
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'DW 6/12/2022 11:13:11'!
+FAILURE!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 11:13:22' prior: 50476568!
+test10AddToCartQuantityMustBeAPositiveNumber
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	
+	self should: [salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: -1]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface quantityNotAPositiveIntegerErrorDescription.
+	! !
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'DW 6/12/2022 11:13:23'!
+FAILURE!
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 11:14:15' prior: 50476520!
+addToCartWithCartId: cartId bookIsbn: bookIsbn bookQuantity: bookQuantity 
+
+	self assertBookInCatalog: bookIsbn.
+	bookQuantity <= 0 ifTrue: [self error: self class quantityNotAPositiveIntegerErrorDescription].
+	
+	(self getCartWithId: cartId) add: bookQuantity of: bookIsbn.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeANaturalNumber stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'DW 6/12/2022 11:14:16'!
+PASSED!
+
+!methodRemoval: SalesInterfaceTest #test10AddToCartQuantityMustBeANaturalNumber stamp: 'DW 6/12/2022 11:14:27'!
+test10AddToCartQuantityMustBeANaturalNumber
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	
+	self should: [salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemNotSellByTheStore bookQuantity: 1]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface itemNotInCatalogErrorDescription.
+	!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 11:14:48'!
+test11AddToCartQuantityMustBeAnInteger
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	
+	self should: [salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.5]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface quantityNotAPositiveIntegerErrorDescription.
+	! !
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'DW 6/12/2022 11:14:50'!
+FAILURE!
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 11:16:48' prior: 50476633!
+addToCartWithCartId: cartId bookIsbn: bookIsbn bookQuantity: bookQuantity 
+
+	self assertBookInCatalog: bookIsbn.
+	(bookQuantity <= 0 or: [(bookQuantity isKindOf: Integer) not]) ifTrue: [self error: self class quantityNotAPositiveIntegerErrorDescription].
+	
+	(self getCartWithId: cartId) add: bookQuantity of: bookIsbn.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'DW 6/12/2022 11:16:50'!
+PASSED!
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 11:17:10'!
+assertQuantityIsAPositiveInteger: bookQuantity
+
+	^ (bookQuantity <= 0 or: [(bookQuantity isKindOf: Integer) not]) ifTrue: [self error: self class quantityNotAPositiveIntegerErrorDescription]! !
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 11:17:10' prior: 50476773!
+addToCartWithCartId: cartId bookIsbn: bookIsbn bookQuantity: bookQuantity 
+
+	self assertBookInCatalog: bookIsbn.
+	self assertQuantityIsAPositiveInteger: bookQuantity.
+	
+	(self getCartWithId: cartId) add: bookQuantity of: bookIsbn.! !
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 11:17:22' prior: 50476869!
+assertQuantityIsAPositiveInteger: bookQuantity
+
+	^ (bookQuantity <= 0 or: [(bookQuantity isKindOf: Integer) not]) ifTrue: [self error: self class quantityNotAPositiveIntegerErrorDescription].! !
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 11:18:18'!
+test12ListPurchasesOfNewCartIsEmpty
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	
+	self should: [salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.5]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface quantityNotAPositiveIntegerErrorDescription.
+	! !
+
+----QUIT----(12 June 2022 11:18:33) CuisUniversity-5096.image priorSource: 4557982!
+
+----STARTUP---- (12 June 2022 11:24:53) as /home/charles/uni/inge1/linux64/CuisUniversity-5096.image!
+
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 11:30:22' prior: 50476898!
+test12ListPurchasesOfNewCartIsEmpty
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+
+	self assert: Bag new equals: (salesInterface listPurchasesWithClientId: self validUser password: self passwordOfValidUser).! !
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfNewCartIsEmpty stamp: 'CMS 6/12/2022 11:30:43'!
+ERROR!
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 11:30:51'!
+listPurchasesWithClientId: aString password: aString2 
+	self shouldBeImplemented.! !
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 11:30:55' prior: 50476941!
+listPurchasesWithClientId: aString password: aString2 
+	^Bag new.! !
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfNewCartIsEmpty stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfNewCartIsEmpty stamp: 'CMS 6/12/2022 11:31:21'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfNewCartIsEmpty stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfNewCartIsEmpty stamp: 'CMS 6/12/2022 11:31:27'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfNewCartIsEmpty stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfNewCartIsEmpty stamp: 'CMS 6/12/2022 11:31:33'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfNewCartIsEmpty stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfNewCartIsEmpty stamp: 'CMS 6/12/2022 11:31:40'!
+PASSED!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 11:32:53'!
+test12ListPurchasesOfIvalidUserFails
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+
+	self should: [salesInterface listPurchasesWithClientId: self validUser password: self invalidPasswordOfValidUser]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: SalesInterface invalidCredentialsErrorDescription.! !
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfIvalidUserFails stamp: 'CMS 6/12/2022 11:32:54'!
+FAILURE!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 11:33:03'!
+test13ListPurchasesOfNewCartIsEmpty
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+
+	self assert: Bag new equals: (salesInterface listPurchasesWithClientId: self validUser password: self passwordOfValidUser).! !
+
+!methodRemoval: SalesInterfaceTest #test12ListPurchasesOfNewCartIsEmpty stamp: 'CMS 6/12/2022 11:33:03'!
+test12ListPurchasesOfNewCartIsEmpty
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+
+	self assert: Bag new equals: (salesInterface listPurchasesWithClientId: self validUser password: self passwordOfValidUser).!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesOfNewCartIsEmpty stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfIvalidUserFails stamp: 'CMS 6/12/2022 11:33:06'!
+FAILURE!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesOfNewCartIsEmpty stamp: 'CMS 6/12/2022 11:33:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfIvalidUserFails stamp: 'CMS 6/12/2022 11:33:06'!
+FAILURE!
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 11:33:36' prior: 50476947!
+listPurchasesWithClientId: aString password: aString2
+	^Bag new.! !
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 11:34:00' prior: 50477461!
+listPurchasesWithClientId: clientId password: password
+	(credentialAuthenticator password: password isValidForClientId: clientId) ifFalse: [self error: self class invalidCredentialsErrorDescription].
+	^Bag new.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfIvalidUserFails stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesOfNewCartIsEmpty stamp: 'CMS 6/12/2022 11:34:01'!
+PASSED!
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 11:34:41'!
+authenticateClientWithId: password andPassword: clientId
+
+	^ (credentialAuthenticator password: password isValidForClientId: clientId) ifFalse: [self error: self class invalidCredentialsErrorDescription]! !
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 11:34:41' prior: 50474823!
+createCartWithClientId: clientId password: password 
+	self authenticateClientWithId: password andPassword: clientId.
+	lastId := lastId + 1.
+	carts at: lastId put: (Cart acceptingItemsOf: catalog).
+	^ lastId! !
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 11:34:41' prior: 50477466!
+listPurchasesWithClientId: clientId password: password
+	self authenticateClientWithId: password andPassword: clientId.
+	^Bag new.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfIvalidUserFails stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesOfNewCartIsEmpty stamp: 'CMS 6/12/2022 11:34:45'!
+PASSED!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 11:36:42'!
+test13ListPurchasesAffectedByCheckout
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+
+	self assert: Bag new equals: (salesInterface listPurchasesWithClientId: self validUser password: self passwordOfValidUser).! !
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 11:43:41' prior: 50477684!
+test13ListPurchasesAffectedByCheckout
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+
+	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.
+	
+	salesInterface checkOutCartWithCartId: id ccn: '0123456789012345' cced: (GregorianMonthOfYear juneOf: 2024) cco: 'Carlos Miguel Soto'.! !
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesAffectedByCheckout stamp: 'CMS 6/12/2022 11:43:46'!
+ERROR!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 11:44:59' prior: 50477701!
+test13ListPurchasesAffectedByCheckout
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+
+	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.
+	
+	salesInterface checkOutCartWithCartId: id ccn: '0123456789012345' cced: (GregorianMonthOfYear juneOf: 2024) cco: 'Carlos Miguel Soto'.
+	
+	self assert: (Bag with: testObjectsFactory itemSellByTheStore) equals: (salesInterface listPurchasesWithClientId: self validUser password: self passwordOfValidUser).! !
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesAffectedByCheckout stamp: 'CMS 6/12/2022 11:45:03'!
+ERROR!
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 11:45:14'!
+checkOutCartWithCartId: aSmallInteger ccn: aString cced: aGregorianMonthOfYear cco: aString4 
+	self shouldBeImplemented.! !
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 11:47:17' prior: 50477754!
+checkOutCartWithCartId: cartId ccn: creditCardNumber cced: expirationDate cco: ownerName! !
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesAffectedByCheckout stamp: 'CMS 6/12/2022 11:47:26'!
+FAILURE!
+
+!classDefinition: #SalesInterface category: 'TusLibros' stamp: 'CMS 6/12/2022 11:48:35'!
+Object subclass: #SalesInterface
+	instanceVariableNames: 'lastId credentialAuthenticator carts catalog purchases'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 11:48:34' prior: 50477586!
+listPurchasesWithClientId: clientId password: password
+	self authenticateClientWithId: password andPassword: clientId.
+	^purchases at: clientId.! !
+!SalesInterface methodsFor: 'initialize' stamp: 'CMS 6/12/2022 11:49:11' prior: 50474807!
+initializeWithAuthenticator: aCredentialAuthenticator withCatalog: aCatalog 
+	credentialAuthenticator := aCredentialAuthenticator.
+	catalog := aCatalog.
+	lastId := 0.
+	carts := Dictionary new.
+	purchases := Dictionary new.! !
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 11:50:34' prior: 50477761!
+checkOutCartWithCartId: cartId ccn: creditCardNumber cced: expirationDate cco: ownerName! !
+
+!classDefinition: #SalesInterface category: 'TusLibros' stamp: 'CMS 6/12/2022 11:51:35'!
+Object subclass: #SalesInterface
+	instanceVariableNames: 'lastId credentialAuthenticator carts catalog purchases clientCart'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 11:51:27' prior: 50477779!
+listPurchasesWithClientId: clientId password: password
+	self authenticateClientWithId: password andPassword: clientId.
+	^(clientCart at: clientId ifAbsent: [^Bag new]) books.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfIvalidUserFails stamp: 'CMS 6/12/2022 11:51:47'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesAffectedByCheckout stamp: 'CMS 6/12/2022 11:51:47'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesOfNewCartIsEmpty stamp: 'CMS 6/12/2022 11:51:47'!
+ERROR!
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 11:52:19' prior: 50477576!
+createCartWithClientId: clientId password: password 
+	self authenticateClientWithId: password andPassword: clientId.
+	lastId := lastId + 1.
+	carts at: lastId put: (Cart acceptingItemsOf: catalog).	clientCart at: clientId  put: (carts at: lastId )
+	^ lastId! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 11:52:20'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 11:52:20'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 11:52:20'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 11:52:20'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 11:52:20'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 11:52:20'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 11:52:20'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 11:52:20'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 11:52:20'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 11:52:20'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 11:52:20'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 11:52:20'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 11:52:20'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 11:52:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 11:52:20'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 11:52:20'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 11:52:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 11:52:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 11:52:20'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 11:52:20'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:52:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:52:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 11:52:20'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 11:52:20'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 11:52:20'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfIvalidUserFails stamp: 'CMS 6/12/2022 11:52:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesAffectedByCheckout stamp: 'CMS 6/12/2022 11:52:20'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesOfNewCartIsEmpty stamp: 'CMS 6/12/2022 11:52:20'!
+ERROR!
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 11:52:26' prior: 50477915!
+createCartWithClientId: clientId password: password 
+	self authenticateClientWithId: password andPassword: clientId.
+	lastId := lastId + 1.
+	carts at: lastId put: (Cart acceptingItemsOf: catalog).	clientCart at: clientId  put: (carts at: lastId ).
+	^ lastId! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 11:52:27'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 11:52:27'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 11:52:27'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 11:52:27'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 11:52:27'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 11:52:27'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 11:52:27'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 11:52:27'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 11:52:27'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 11:52:27'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 11:52:27'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 11:52:27'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 11:52:27'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 11:52:27'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 11:52:27'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 11:52:27'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 11:52:27'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 11:52:27'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 11:52:27'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 11:52:27'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:52:27'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:52:27'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 11:52:27'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 11:52:27'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 11:52:27'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfIvalidUserFails stamp: 'CMS 6/12/2022 11:52:27'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesAffectedByCheckout stamp: 'CMS 6/12/2022 11:52:27'!
+ERROR!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesOfNewCartIsEmpty stamp: 'CMS 6/12/2022 11:52:27'!
+ERROR!
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 11:52:31' prior: 50478021!
+createCartWithClientId: clientId password: password 
+	self authenticateClientWithId: password andPassword: clientId.
+	lastId := lastId + 1.
+	carts at: lastId put: (Cart acceptingItemsOf: catalog).	clientCart at: clientId  put: (carts at: lastId).
+	^ lastId! !
+!SalesInterface methodsFor: 'initialize' stamp: 'CMS 6/12/2022 11:52:40' prior: 50477787!
+initializeWithAuthenticator: aCredentialAuthenticator withCatalog: aCatalog 
+	credentialAuthenticator := aCredentialAuthenticator.
+	catalog := aCatalog.
+	lastId := 0.
+	carts := Dictionary new.
+	clientCart := Dictionary new.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfIvalidUserFails stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesAffectedByCheckout stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesOfNewCartIsEmpty stamp: 'CMS 6/12/2022 11:52:41'!
+PASSED!
+
+Object subclass: #SalesInterface
+	instanceVariableNames: 'lastId credentialAuthenticator carts catalog clientCart'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #SalesInterface category: 'TusLibros' stamp: 'CMS 6/12/2022 11:52:51'!
+Object subclass: #SalesInterface
+	instanceVariableNames: 'lastId credentialAuthenticator carts catalog clientCart'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfIvalidUserFails stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesAffectedByCheckout stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesOfNewCartIsEmpty stamp: 'CMS 6/12/2022 11:52:56'!
+PASSED!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 11:54:14'!
+test14ListPurchasesOfNewCartIsEmpty
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+
+	self assert: Bag new equals: (salesInterface listPurchasesWithClientId: self validUser password: self passwordOfValidUser).! !
+
+!methodRemoval: SalesInterfaceTest #test13ListPurchasesOfNewCartIsEmpty stamp: 'CMS 6/12/2022 11:54:14'!
+test13ListPurchasesOfNewCartIsEmpty
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+
+	self assert: Bag new equals: (salesInterface listPurchasesWithClientId: self validUser password: self passwordOfValidUser).!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 11:54:32'!
+test13ListPurchasesOfNewCartIsEmpty
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+
+	self assert: Bag new equals: (salesInterface listPurchasesWithClientId: self validUser password: self passwordOfValidUser).! !
+
+!methodRemoval: SalesInterfaceTest #test14ListPurchasesOfNewCartIsEmpty stamp: 'CMS 6/12/2022 11:54:32'!
+test14ListPurchasesOfNewCartIsEmpty
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+
+	self assert: Bag new equals: (salesInterface listPurchasesWithClientId: self validUser password: self passwordOfValidUser).!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 11:54:38'!
+test14ListPurchasesAffectedByCheckout
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+
+	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.
+	
+	salesInterface checkOutCartWithCartId: id ccn: '0123456789012345' cced: (GregorianMonthOfYear juneOf: 2024) cco: 'Carlos Miguel Soto'.
+	
+	self assert: (Bag with: testObjectsFactory itemSellByTheStore) equals: (salesInterface listPurchasesWithClientId: self validUser password: self passwordOfValidUser).! !
+
+!methodRemoval: SalesInterfaceTest #test13ListPurchasesAffectedByCheckout stamp: 'CMS 6/12/2022 11:54:38'!
+test13ListPurchasesAffectedByCheckout
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+
+	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.
+	
+	salesInterface checkOutCartWithCartId: id ccn: '0123456789012345' cced: (GregorianMonthOfYear juneOf: 2024) cco: 'Carlos Miguel Soto'.
+	
+	self assert: (Bag with: testObjectsFactory itemSellByTheStore) equals: (salesInterface listPurchasesWithClientId: self validUser password: self passwordOfValidUser).!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 11:54:58'!
+test13ListPurchasesOfFreshClientIsEmpty
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+
+	self assert: Bag new equals: (salesInterface listPurchasesWithClientId: self validUser password: self passwordOfValidUser).! !
+
+!methodRemoval: SalesInterfaceTest #test13ListPurchasesOfNewCartIsEmpty stamp: 'CMS 6/12/2022 11:55:12'!
+test13ListPurchasesOfNewCartIsEmpty
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+
+	self assert: Bag new equals: (salesInterface listPurchasesWithClientId: self validUser password: self passwordOfValidUser).!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 11:55:36'!
+test15ListPurchasesIsemptyBeforeCheckout
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+
+	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.
+		
+	self assert: (Bag new) equals: (salesInterface listPurchasesWithClientId: self validUser password: self passwordOfValidUser).! !
+
+!testRun: #SalesInterfaceTest #test15ListPurchasesIsemptyBeforeCheckout stamp: 'CMS 6/12/2022 11:55:37'!
+FAILURE!
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 11:55:56' prior: 50478127!
+createCartWithClientId: clientId password: password 
+	self authenticateClientWithId: password andPassword: clientId.
+	lastId := lastId + 1.
+	carts at: lastId put: (Cart acceptingItemsOf: catalog).
+	^ lastId! !
+
+!classDefinition: #SalesInterface category: 'TusLibros' stamp: 'CMS 6/12/2022 11:58:43'!
+Object subclass: #SalesInterface
+	instanceVariableNames: 'lastId credentialAuthenticator carts catalog clientCart cartClient'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 11:58:39' prior: 50478508!
+createCartWithClientId: clientId password: password 
+	self authenticateClientWithId: password andPassword: clientId.
+	lastId := lastId + 1.
+	carts at: lastId put: (Cart acceptingItemsOf: catalog).
+	cartClient at: lastId put: clientId.
+	^ lastId! !
+!SalesInterface methodsFor: 'initialize' stamp: 'CMS 6/12/2022 11:59:18' prior: 50478139!
+initializeWithAuthenticator: aCredentialAuthenticator withCatalog: aCatalog 
+	credentialAuthenticator := aCredentialAuthenticator.
+	catalog := aCatalog.
+	lastId := 0.
+	carts := Dictionary new.
+	clientCart := Dictionary new.
+	cartClient := Dictionary new.! !
+
+!classDefinition: #SalesInterface category: 'TusLibros' stamp: 'CMS 6/12/2022 12:01:43'!
+Object subclass: #SalesInterface
+	instanceVariableNames: 'lastId credentialAuthenticator carts catalog clientCart cartClient purchases'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 12:01:41' prior: 50477797!
+checkOutCartWithCartId: cartId ccn: creditCardNumber cced: expirationDate cco: ownerName
+	purchases at: (cartClient at: cartId) put: (self getCartWithId: cartId) books.! !
+!SalesInterface methodsFor: 'initialize' stamp: 'CMS 6/12/2022 12:02:00' prior: 50478538!
+initializeWithAuthenticator: aCredentialAuthenticator withCatalog: aCatalog 
+	credentialAuthenticator := aCredentialAuthenticator.
+	catalog := aCatalog.
+	lastId := 0.
+	carts := Dictionary new.
+	clientCart := Dictionary new.
+	cartClient := Dictionary new.
+	purchases := Dictionary new.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfIvalidUserFails stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesOfFreshClientIsEmpty stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test14ListPurchasesAffectedByCheckout stamp: 'CMS 6/12/2022 12:02:00'!
+FAILURE!
+
+!testRun: #SalesInterfaceTest #test15ListPurchasesIsemptyBeforeCheckout stamp: 'CMS 6/12/2022 12:02:00'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test14ListPurchasesAffectedByCheckout stamp: 'CMS 6/12/2022 12:02:00'!
+FAILURE!
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 12:02:19' prior: 50477812!
+listPurchasesWithClientId: clientId password: password
+	self authenticateClientWithId: password andPassword: clientId.
+	^(purchases at: clientId ifAbsent: [^Bag new]) books.! !
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 12:02:21' prior: 50478682!
+listPurchasesWithClientId: clientId password: password
+	self authenticateClientWithId: password andPassword: clientId.
+	^(purchases at: clientId ifAbsent: [^Bag new]).! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfIvalidUserFails stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesOfFreshClientIsEmpty stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test14ListPurchasesAffectedByCheckout stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test15ListPurchasesIsemptyBeforeCheckout stamp: 'CMS 6/12/2022 12:02:22'!
+PASSED!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 12:04:32'!
+test16ListPurchasesAfterTwoCheckoutsShowsContentsOfBothCarts
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+
+	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.
+	
+	salesInterface checkOutCartWithCartId: id ccn: '0123456789012345' cced: (GregorianMonthOfYear juneOf: 2024) cco: 'Carlos Miguel Soto'.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+
+	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.
+	
+	salesInterface checkOutCartWithCartId: id ccn: '0123456789012345' cced: (GregorianMonthOfYear juneOf: 2024) cco: 'Carlos Miguel Soto'.
+		
+	self assert: (Bag with: testObjectsFactory itemSellByTheStore with: testObjectsFactory itemSellByTheStore) equals: (salesInterface listPurchasesWithClientId: self validUser password: self passwordOfValidUser).! !
+
+!testRun: #SalesInterfaceTest #test16ListPurchasesAfterTwoCheckoutsShowsContentsOfBothCarts stamp: 'CMS 6/12/2022 12:04:34'!
+FAILURE!
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 12:05:40' prior: 50478559!
+checkOutCartWithCartId: cartId ccn: creditCardNumber cced: expirationDate cco: ownerName
+	purchases at: (cartClient at: cartId) ifAbsent: [purchases at: (cartClient at: cartId) put: Bag new].
+	(purchases at: (cartClient at: cartId)) addAll: (self getCartWithId: cartId) books.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfIvalidUserFails stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesOfFreshClientIsEmpty stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test14ListPurchasesAffectedByCheckout stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test15ListPurchasesIsemptyBeforeCheckout stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test16ListPurchasesAfterTwoCheckoutsShowsContentsOfBothCarts stamp: 'CMS 6/12/2022 12:05:41'!
+PASSED!
+!Cashier methodsFor: 'checkout - private' stamp: 'CMS 6/12/2022 12:11:17' prior: 50474602!
+createSale
+
+	^ Sale of: cart books
+! !
+!Cashier methodsFor: 'checkout - private' stamp: 'CMS 6/12/2022 12:11:30' prior: 50478954!
+createSale
+
+	^ Sale of: cart
+! !
+
+!classDefinition: #SalesInterface category: 'TusLibros' stamp: 'CMS 6/12/2022 12:13:11'!
+Object subclass: #SalesInterface
+	instanceVariableNames: 'lastId credentialAuthenticator carts catalog clientCart cartClient purchases saleBooks'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!SalesInterface methodsFor: 'private' stamp: 'CMS 6/12/2022 12:13:09'!
+getSaleBookByClientId: clientId
+	saleBooks at: clientId ifAbsent: [saleBooks at: clientId put: OrderedCollection new.].
+	^saleBooks at: clientId.! !
+!SalesInterface methodsFor: 'private' stamp: 'CMS 6/12/2022 12:14:08' prior: 50478972!
+getSaleBookByClientId: clientId
+	saleBooks at: clientId ifAbsent: [ saleBooks at: clientId put: OrderedCollection new.].
+	^saleBooks at: clientId.! !
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 12:05:40' prior: 50478840!
+checkOutCartWithCartId: cartId ccn: creditCardNumber cced: expirationDate cco: ownerName
+	purchases at: (cartClient at: cartId) ifAbsent: [purchases at: (cartClient at: cartId) put: Bag new].
+	(purchases at: (cartClient at: cartId)) addAll: (self getCartWithId: cartId) books.! !
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 12:05:40' prior: 50478988!
+checkOutCartWithCartId: cartId ccn: creditCardNumber cced: expirationDate cco: ownerName
+	purchases at: (cartClient at: cartId) ifAbsent: [purchases at: (cartClient at: cartId) put: Bag new].
+	(purchases at: (cartClient at: cartId)) addAll: (self getCartWithId: cartId) books.! !
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 12:01:41' prior: 50479000!
+checkOutCartWithCartId: cartId ccn: creditCardNumber cced: expirationDate cco: ownerName
+	purchases at: (cartClient at: cartId) put: (self getCartWithId: cartId) books.! !
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 12:05:40' prior: 50479012!
+checkOutCartWithCartId: cartId ccn: creditCardNumber cced: expirationDate cco: ownerName
+	purchases at: (cartClient at: cartId) ifAbsent: [purchases at: (cartClient at: cartId) put: Bag new].
+	(purchases at: (cartClient at: cartId)) addAll: (self getCartWithId: cartId) books.! !
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 11:47:17' prior: 50479021!
+checkOutCartWithCartId: cartId ccn: creditCardNumber cced: expirationDate cco: ownerName! !
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 11:47:17' prior: 50479033!
+checkOutCartWithCartId: cartId ccn: creditCardNumber cced: expirationDate cco: ownerName! !
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 12:01:41' prior: 50479039!
+checkOutCartWithCartId: cartId ccn: creditCardNumber cced: expirationDate cco: ownerName
+	purchases at: (cartClient at: cartId) put: (self getCartWithId: cartId) books.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 12:17:10'!
+FAILURE!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfIvalidUserFails stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesOfFreshClientIsEmpty stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test14ListPurchasesAffectedByCheckout stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test15ListPurchasesIsemptyBeforeCheckout stamp: 'CMS 6/12/2022 12:17:10'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test16ListPurchasesAfterTwoCheckoutsShowsContentsOfBothCarts stamp: 'CMS 6/12/2022 12:17:10'!
+FAILURE!
+!Cashier methodsFor: 'checkout - private' stamp: 'CMS 6/12/2022 12:17:29' prior: 50478959!
+createSale
+
+	^ Sale of: total
+! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfIvalidUserFails stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesOfFreshClientIsEmpty stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test14ListPurchasesAffectedByCheckout stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test15ListPurchasesIsemptyBeforeCheckout stamp: 'CMS 6/12/2022 12:17:29'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test16ListPurchasesAfterTwoCheckoutsShowsContentsOfBothCarts stamp: 'CMS 6/12/2022 12:17:29'!
+FAILURE!
+
+!testRun: #SalesInterfaceTest #test16ListPurchasesAfterTwoCheckoutsShowsContentsOfBothCarts stamp: 'CMS 6/12/2022 12:17:29'!
+FAILURE!
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 12:05:40' prior: 50479045!
+checkOutCartWithCartId: cartId ccn: creditCardNumber cced: expirationDate cco: ownerName
+	purchases at: (cartClient at: cartId) ifAbsent: [purchases at: (cartClient at: cartId) put: Bag new].
+	(purchases at: (cartClient at: cartId)) addAll: (self getCartWithId: cartId) books.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfIvalidUserFails stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesOfFreshClientIsEmpty stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test14ListPurchasesAffectedByCheckout stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test15ListPurchasesIsemptyBeforeCheckout stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test16ListPurchasesAfterTwoCheckoutsShowsContentsOfBothCarts stamp: 'CMS 6/12/2022 12:18:05'!
+PASSED!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 12:22:02'!
+test16ListPurchasesFailesForInvalidCredentials
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+
+	self should: [salesInterface listPurchasesWithClientId: self validUser password: self invalidPasswordOfValidUser]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface invalidCredentialsErrorDescription.! !
+
+!testRun: #SalesInterfaceTest #test16ListPurchasesFailesForInvalidCredentials stamp: 'CMS 6/12/2022 12:22:05'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 12:22:05'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 12:22:05'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 12:22:05'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 12:22:05'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 12:22:05'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 12:22:05'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 12:22:05'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 12:22:05'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 12:22:05'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 12:22:05'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 12:22:05'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 12:22:05'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 12:22:05'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 12:22:05'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 12:22:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 12:22:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 12:22:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 12:22:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 12:22:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 12:22:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 12:22:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 12:22:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 12:22:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 12:22:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 12:22:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfIvalidUserFails stamp: 'CMS 6/12/2022 12:22:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesOfFreshClientIsEmpty stamp: 'CMS 6/12/2022 12:22:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test14ListPurchasesAffectedByCheckout stamp: 'CMS 6/12/2022 12:22:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test15ListPurchasesIsemptyBeforeCheckout stamp: 'CMS 6/12/2022 12:22:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test16ListPurchasesAfterTwoCheckoutsShowsContentsOfBothCarts stamp: 'CMS 6/12/2022 12:22:06'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test16ListPurchasesFailesForInvalidCredentials stamp: 'CMS 6/12/2022 12:22:06'!
+PASSED!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 12:22:58'!
+test17ListPurchasesFailesForInvalidCredentials
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+
+	self should: [salesInterface listPurchasesWithClientId: self validUser password: self invalidPasswordOfValidUser]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface invalidCredentialsErrorDescription.! !
+
+!methodRemoval: SalesInterfaceTest #test16ListPurchasesFailesForInvalidCredentials stamp: 'CMS 6/12/2022 12:22:58'!
+test16ListPurchasesFailesForInvalidCredentials
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+
+	self should: [salesInterface listPurchasesWithClientId: self validUser password: self invalidPasswordOfValidUser]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface invalidCredentialsErrorDescription.!
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 12:25:17' prior: 50479267!
+checkOutCartWithCartId: cartId ccn: creditCardNumber cced: expirationDate cco: ownerName
+	purchases at: (cartClient at: cartId) ifAbsent: [purchases at: (cartClient at: cartId) put: Bag new].
+	(purchases at: (cartClient at: cartId)) addAll: (self getCartWithId: cartId) books.! !
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 12:31:27'!
+test18CantCheckoutTwice
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+
+	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.
+	
+	salesInterface checkOutCartWithCartId: id ccn: '0123456789012345' cced: (GregorianMonthOfYear juneOf: 2024) cco: 'Carlos Miguel Soto'.
+	self should: [salesInterface checkOutCartWithCartId: id ccn: '0123456789012345' cced: (GregorianMonthOfYear juneOf: 2024) cco: 'Carlos Miguel Soto'.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface A.
+! !
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 12:32:56'!
+test18CantCheckoutCartWithInvalidId
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+
+	self should: [salesInterface checkOutCartWithCartId: nil ccn: '0123456789012345' cced: (GregorianMonthOfYear juneOf: 2024) cco: 'Carlos Miguel Soto'.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface invalidCartIdErrorDescription.
+! !
+
+!testRun: #SalesInterfaceTest #test18CantCheckoutCartWithInvalidId stamp: 'CMS 6/12/2022 12:32:59'!
+FAILURE!
+
+!methodRemoval: SalesInterfaceTest #test18CantCheckoutTwice stamp: 'CMS 6/12/2022 12:33:23'!
+test18CantCheckoutTwice
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+
+	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.
+	
+	salesInterface checkOutCartWithCartId: id ccn: '0123456789012345' cced: (GregorianMonthOfYear juneOf: 2024) cco: 'Carlos Miguel Soto'.
+	self should: [salesInterface checkOutCartWithCartId: id ccn: '0123456789012345' cced: (GregorianMonthOfYear juneOf: 2024) cco: 'Carlos Miguel Soto'.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface A.
+!
+
+!testRun: #SalesInterfaceTest #test18CantCheckoutCartWithInvalidId stamp: 'CMS 6/12/2022 12:33:25'!
+FAILURE!
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 12:33:58' prior: 50479541!
+checkOutCartWithCartId: cartId ccn: creditCardNumber cced: expirationDate cco: ownerName
+	self getCartWithId: cartId.
+	purchases at: (cartClient at: cartId) ifAbsent: [purchases at: (cartClient at: cartId) put: Bag new].
+	(purchases at: (cartClient at: cartId)) addAll: (self getCartWithId: cartId) books.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfIvalidUserFails stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesOfFreshClientIsEmpty stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test14ListPurchasesAffectedByCheckout stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test15ListPurchasesIsemptyBeforeCheckout stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test16ListPurchasesAfterTwoCheckoutsShowsContentsOfBothCarts stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test17ListPurchasesFailesForInvalidCredentials stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test18CantCheckoutCartWithInvalidId stamp: 'CMS 6/12/2022 12:33:59'!
+PASSED!
+!SalesInterface methodsFor: 'private' stamp: 'CMS 6/12/2022 12:39:26'!
+assertCartWithIdExists: cartId
+	(carts includesKey: cartId) ifFalse: [self error: self class invalidCartIdErrorDescription].! !
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 12:39:37' prior: 50479632!
+checkOutCartWithCartId: cartId ccn: creditCardNumber cced: expirationDate cco: ownerName
+	self assertCartWithIdExists: cartId.
+	purchases at: (cartClient at: cartId) ifAbsent: [purchases at: (cartClient at: cartId) put: Bag new].
+	(purchases at: (cartClient at: cartId)) addAll: (self getCartWithId: cartId) books.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfIvalidUserFails stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesOfFreshClientIsEmpty stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test14ListPurchasesAffectedByCheckout stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test15ListPurchasesIsemptyBeforeCheckout stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test16ListPurchasesAfterTwoCheckoutsShowsContentsOfBothCarts stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test17ListPurchasesFailesForInvalidCredentials stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test18CantCheckoutCartWithInvalidId stamp: 'CMS 6/12/2022 12:39:38'!
+PASSED!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 12:40:50'!
+test19CantCheckoutTwice
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+
+	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.
+	
+	salesInterface checkOutCartWithCartId: id ccn: '0123456789012345' cced: (GregorianMonthOfYear juneOf: 2024) cco: 'Carlos Miguel Soto'.
+	
+	self should: [	
+	salesInterface checkOutCartWithCartId: id ccn: '0123456789012345' cced: (GregorianMonthOfYear juneOf: 2024) cco: 'Carlos Miguel Soto'.
+	] raise: Error - MessageNotUnderstood
+	withMessageText: SalesInterface invalidCartIdErrorDescription.! !
+
+!testRun: #SalesInterfaceTest #test19CantCheckoutTwice stamp: 'CMS 6/12/2022 12:40:51'!
+FAILURE!
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 12:41:19' prior: 50479761!
+checkOutCartWithCartId: cartId ccn: creditCardNumber cced: expirationDate cco: ownerName
+	self assertCartWithIdExists: cartId.
+	purchases at: (cartClient at: cartId) ifAbsent: [purchases at: (cartClient at: cartId) put: Bag new].
+	(purchases at: (cartClient at: cartId)) addAll: (self getCartWithId: cartId) books.
+	carts removeKey: cartId.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfIvalidUserFails stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesOfFreshClientIsEmpty stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test14ListPurchasesAffectedByCheckout stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test15ListPurchasesIsemptyBeforeCheckout stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test16ListPurchasesAfterTwoCheckoutsShowsContentsOfBothCarts stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test17ListPurchasesFailesForInvalidCredentials stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test18CantCheckoutCartWithInvalidId stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test19CantCheckoutTwice stamp: 'CMS 6/12/2022 12:41:20'!
+PASSED!
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 12:42:12'!
+test20ListFailsAfterCheckout
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+
+	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.
+	
+	salesInterface checkOutCartWithCartId: id ccn: '0123456789012345' cced: (GregorianMonthOfYear juneOf: 2024) cco: 'Carlos Miguel Soto'.
+	
+	self should: [	salesInterface listCartWithCartId: id] raise: Error - MessageNotUnderstood
+	withMessageText: SalesInterface invalidCartIdErrorDescription.! !
+
+!testRun: #SalesInterfaceTest #test20ListFailsAfterCheckout stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test01ListCartOfNewlyCreatedCartIsEmpty stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test02NewCartGenreatesUniqueIds stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test03CannotCreateCartWithInvalidClientId stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test04CannotCreateCartWithInvalidPassword stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test05ListCartReflectsAddToCart stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test06AddToCartDoesntAffectOtherCarts stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test07CannotListCartWithInvalidCartId stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test08CannotAddToCartWithInvalidCartId stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test09CannotAddToCartAnItemNotSoldByTheStore stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test10AddToCartQuantityMustBeAPositiveNumber stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test11AddToCartQuantityMustBeAnInteger stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test12ListPurchasesOfIvalidUserFails stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test13ListPurchasesOfFreshClientIsEmpty stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test14ListPurchasesAffectedByCheckout stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test15ListPurchasesIsemptyBeforeCheckout stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test16ListPurchasesAfterTwoCheckoutsShowsContentsOfBothCarts stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test17ListPurchasesFailesForInvalidCredentials stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test18CantCheckoutCartWithInvalidId stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test19CantCheckoutTwice stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!testRun: #SalesInterfaceTest #test20ListFailsAfterCheckout stamp: 'CMS 6/12/2022 12:42:13'!
+PASSED!
+
+!methodRemoval: SalesInterfaceTest #test20ListFailsAfterCheckout stamp: 'CMS 6/12/2022 12:42:34'!
+test20ListFailsAfterCheckout
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+
+	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.
+	
+	salesInterface checkOutCartWithCartId: id ccn: '0123456789012345' cced: (GregorianMonthOfYear juneOf: 2024) cco: 'Carlos Miguel Soto'.
+	
+	self should: [	salesInterface listCartWithCartId: id] raise: Error - MessageNotUnderstood
+	withMessageText: SalesInterface invalidCartIdErrorDescription.!
+
+----QUIT----(12 June 2022 12:43:28) CuisUniversity-5096.image priorSource: 4648550!

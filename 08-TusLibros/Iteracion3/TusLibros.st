@@ -372,18 +372,133 @@ test09CannotAddToCartAnItemNotSoldByTheStore
 		withMessageText: SalesInterface itemNotInCatalogErrorDescription.
 	! !
 
-!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 11:02:33'!
-test10AddToCartQuantityMustBeANaturalNumber
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 11:13:22'!
+test10AddToCartQuantityMustBeAPositiveNumber
 	| salesInterface id |
 	
 	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
 	
 	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
 	
-	self should: [salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemNotSellByTheStore bookQuantity: 1]
+	self should: [salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: -1]
 		raise: Error - MessageNotUnderstood
-		withMessageText: SalesInterface itemNotInCatalogErrorDescription.
+		withMessageText: SalesInterface quantityNotAPositiveIntegerErrorDescription.
 	! !
+
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'DW 6/12/2022 11:14:48'!
+test11AddToCartQuantityMustBeAnInteger
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+	
+	self should: [salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.5]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface quantityNotAPositiveIntegerErrorDescription.
+	! !
+
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 11:32:53'!
+test12ListPurchasesOfIvalidUserFails
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+
+	self should: [salesInterface listPurchasesWithClientId: self validUser password: self invalidPasswordOfValidUser]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: SalesInterface invalidCredentialsErrorDescription.! !
+
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 11:54:58'!
+test13ListPurchasesOfFreshClientIsEmpty
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+
+	self assert: Bag new equals: (salesInterface listPurchasesWithClientId: self validUser password: self passwordOfValidUser).! !
+
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 11:54:38'!
+test14ListPurchasesAffectedByCheckout
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+
+	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.
+	
+	salesInterface checkOutCartWithCartId: id ccn: '0123456789012345' cced: (GregorianMonthOfYear juneOf: 2024) cco: 'Carlos Miguel Soto'.
+	
+	self assert: (Bag with: testObjectsFactory itemSellByTheStore) equals: (salesInterface listPurchasesWithClientId: self validUser password: self passwordOfValidUser).! !
+
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 11:55:36'!
+test15ListPurchasesIsemptyBeforeCheckout
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+
+	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.
+		
+	self assert: (Bag new) equals: (salesInterface listPurchasesWithClientId: self validUser password: self passwordOfValidUser).! !
+
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 12:04:32'!
+test16ListPurchasesAfterTwoCheckoutsShowsContentsOfBothCarts
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+
+	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.
+	
+	salesInterface checkOutCartWithCartId: id ccn: '0123456789012345' cced: (GregorianMonthOfYear juneOf: 2024) cco: 'Carlos Miguel Soto'.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+
+	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.
+	
+	salesInterface checkOutCartWithCartId: id ccn: '0123456789012345' cced: (GregorianMonthOfYear juneOf: 2024) cco: 'Carlos Miguel Soto'.
+		
+	self assert: (Bag with: testObjectsFactory itemSellByTheStore with: testObjectsFactory itemSellByTheStore) equals: (salesInterface listPurchasesWithClientId: self validUser password: self passwordOfValidUser).! !
+
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 12:22:58'!
+test17ListPurchasesFailesForInvalidCredentials
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+
+	self should: [salesInterface listPurchasesWithClientId: self validUser password: self invalidPasswordOfValidUser]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface invalidCredentialsErrorDescription.! !
+
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 12:32:56'!
+test18CantCheckoutCartWithInvalidId
+	| salesInterface |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+
+	self should: [salesInterface checkOutCartWithCartId: nil ccn: '0123456789012345' cced: (GregorianMonthOfYear juneOf: 2024) cco: 'Carlos Miguel Soto'.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: SalesInterface invalidCartIdErrorDescription.
+! !
+
+!SalesInterfaceTest methodsFor: 'tests' stamp: 'CMS 6/12/2022 12:40:50'!
+test19CantCheckoutTwice
+	| salesInterface id |
+	
+	salesInterface := SalesInterface withAuthenticator: (self authenticatorWithSingleRegisteredUser) withCatalog: testObjectsFactory defaultCatalog.
+	
+	id := salesInterface createCartWithClientId: self validUser password: self passwordOfValidUser.
+
+	salesInterface addToCartWithCartId: id bookIsbn: testObjectsFactory itemSellByTheStore bookQuantity: 1.
+	
+	salesInterface checkOutCartWithCartId: id ccn: '0123456789012345' cced: (GregorianMonthOfYear juneOf: 2024) cco: 'Carlos Miguel Soto'.
+	
+	self should: [	
+	salesInterface checkOutCartWithCartId: id ccn: '0123456789012345' cced: (GregorianMonthOfYear juneOf: 2024) cco: 'Carlos Miguel Soto'.
+	] raise: Error - MessageNotUnderstood
+	withMessageText: SalesInterface invalidCartIdErrorDescription.! !
 
 
 !classDefinition: #Cart category: 'TusLibros'!
@@ -485,7 +600,7 @@ calculateTotal
 	total := cart total.
 	! !
 
-!Cashier methodsFor: 'checkout - private' stamp: 'HernanWilkinson 6/17/2013 19:07'!
+!Cashier methodsFor: 'checkout - private' stamp: 'CMS 6/12/2022 12:17:29'!
 createSale
 
 	^ Sale of: total
@@ -652,46 +767,83 @@ of: aTotal
 
 !classDefinition: #SalesInterface category: 'TusLibros'!
 Object subclass: #SalesInterface
-	instanceVariableNames: 'lastId credentialAuthenticator carts catalog'
+	instanceVariableNames: 'lastId credentialAuthenticator carts catalog clientCart cartClient purchases saleBooks'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!SalesInterface methodsFor: 'initialize' stamp: 'DW 6/9/2022 21:30:39'!
+!SalesInterface methodsFor: 'initialize' stamp: 'CMS 6/12/2022 12:02:00'!
 initializeWithAuthenticator: aCredentialAuthenticator withCatalog: aCatalog 
 	credentialAuthenticator := aCredentialAuthenticator.
 	catalog := aCatalog.
 	lastId := 0.
-	carts := Dictionary new.! !
+	carts := Dictionary new.
+	clientCart := Dictionary new.
+	cartClient := Dictionary new.
+	purchases := Dictionary new.! !
 
 
-!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 11:00:05'!
-addToCartWithCartId: cartId bookIsbn: bookIsbn bookQuantity: bookQuantity 
-
-	self assertBookInCatalog: bookIsbn.
-	
-	(self getCartWithId: cartId) add: bookQuantity of: bookIsbn.! !
-
-!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 11:00:05'!
+!SalesInterface methodsFor: 'private' stamp: 'DW 6/12/2022 11:00:05'!
 assertBookInCatalog: bookIsbn
 
 	^ (catalog includesKey: bookIsbn) ifFalse: [self error: self class itemNotInCatalogErrorDescription]! !
 
-!SalesInterface methodsFor: 'interface' stamp: 'DW 6/9/2022 21:36:27'!
-createCartWithClientId: clientId password: password 
-	(credentialAuthenticator password: password isValidForClientId: clientId) ifFalse: [self error: self class invalidCredentialsErrorDescription].
-	lastId := lastId + 1.
-	carts at: lastId put: (Cart acceptingItemsOf: catalog).
-	^ lastId! !
+!SalesInterface methodsFor: 'private' stamp: 'CMS 6/12/2022 12:39:26'!
+assertCartWithIdExists: cartId
+	(carts includesKey: cartId) ifFalse: [self error: self class invalidCartIdErrorDescription].! !
 
-!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 10:40:27'!
+!SalesInterface methodsFor: 'private' stamp: 'DW 6/12/2022 11:17:22'!
+assertQuantityIsAPositiveInteger: bookQuantity
+
+	^ (bookQuantity <= 0 or: [(bookQuantity isKindOf: Integer) not]) ifTrue: [self error: self class quantityNotAPositiveIntegerErrorDescription].! !
+
+!SalesInterface methodsFor: 'private' stamp: 'CMS 6/12/2022 11:34:41'!
+authenticateClientWithId: password andPassword: clientId
+
+	^ (credentialAuthenticator password: password isValidForClientId: clientId) ifFalse: [self error: self class invalidCredentialsErrorDescription]! !
+
+!SalesInterface methodsFor: 'private' stamp: 'DW 6/12/2022 10:40:27'!
 getCartWithId: cartId
 
 	^ carts at: cartId ifAbsent: [self error: self class invalidCartIdErrorDescription]! !
 
+!SalesInterface methodsFor: 'private' stamp: 'CMS 6/12/2022 12:14:08'!
+getSaleBookByClientId: clientId
+	saleBooks at: clientId ifAbsent: [ saleBooks at: clientId put: OrderedCollection new.].
+	^saleBooks at: clientId.! !
+
+
+!SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 11:17:10'!
+addToCartWithCartId: cartId bookIsbn: bookIsbn bookQuantity: bookQuantity 
+
+	self assertBookInCatalog: bookIsbn.
+	self assertQuantityIsAPositiveInteger: bookQuantity.
+	
+	(self getCartWithId: cartId) add: bookQuantity of: bookIsbn.! !
+
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 12:41:19'!
+checkOutCartWithCartId: cartId ccn: creditCardNumber cced: expirationDate cco: ownerName
+	self assertCartWithIdExists: cartId.
+	purchases at: (cartClient at: cartId) ifAbsent: [purchases at: (cartClient at: cartId) put: Bag new].
+	(purchases at: (cartClient at: cartId)) addAll: (self getCartWithId: cartId) books.
+	carts removeKey: cartId.! !
+
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 11:58:39'!
+createCartWithClientId: clientId password: password 
+	self authenticateClientWithId: password andPassword: clientId.
+	lastId := lastId + 1.
+	carts at: lastId put: (Cart acceptingItemsOf: catalog).
+	cartClient at: lastId put: clientId.
+	^ lastId! !
+
 !SalesInterface methodsFor: 'interface' stamp: 'DW 6/12/2022 10:40:27'!
 listCartWithCartId: cartId 
 	^ (self getCartWithId: cartId) books.! !
+
+!SalesInterface methodsFor: 'interface' stamp: 'CMS 6/12/2022 12:02:21'!
+listPurchasesWithClientId: clientId password: password
+	self authenticateClientWithId: password andPassword: clientId.
+	^(purchases at: clientId ifAbsent: [^Bag new]).! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -715,6 +867,10 @@ invalidCredentialsErrorDescription
 !SalesInterface class methodsFor: 'error description' stamp: 'DW 6/12/2022 10:47:57'!
 itemNotInCatalogErrorDescription
 	^ 'book not on sale'.! !
+
+!SalesInterface class methodsFor: 'error description' stamp: 'DW 6/12/2022 11:13:09'!
+quantityNotAPositiveIntegerErrorDescription
+	^ 'quantity to add to a cart of an item must be a positive integer'. ! !
 
 
 !classDefinition: #StoreTestObjectsFactory category: 'TusLibros'!
