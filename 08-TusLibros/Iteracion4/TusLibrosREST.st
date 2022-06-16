@@ -280,6 +280,23 @@ listCart: cartId
 		ifTrue:[^(WebUtils jsonDecode: ((resp content) readStream)) asOrderedCollection] 
 		ifFalse:[^self error: resp content]! !
 
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'CMS 6/16/2022 16:11:17'!
+nonBlockingWith: aProducerBlock do: aConsumerBlock
+	[aConsumerBlock value: (aProducerBlock value)] fork.! !
+
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'CMS 6/16/2022 16:14:12'!
+withResultOfNonBlockingAdd: quantity of: bookIsbn toCartIdentifiedAs: cartId do: aBlock
+	self nonBlockingWith: [self add: quantity of: bookIsbn toCartIdentifiedAs: cartId] do: aBlock.! !
+
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'CMS 6/16/2022 16:13:50'!
+withResultOfNonBlockingCreateCartFor: aUser password: aPassword do: aBlock
+	self nonBlockingWith: [self createCartFor: aUser password: aPassword] do: aBlock.! !
+
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'CMS 6/16/2022 16:13:05'!
+withResultOfNonBlockingListCart: cartId do: aBlock
+	self nonBlockingWith: [self listCart: cartId] do: aBlock.
+! !
+
 
 !TusLibrosClientRestInterface methodsFor: 'initialization' stamp: 'NR 6/9/2022 08:11:33'!
 port
@@ -360,7 +377,7 @@ cartIdsIndex: anIndex
 	! !
 
 
-!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'DW 6/16/2022 14:00:40'!
+!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'CMS 6/16/2022 16:14:12'!
 addToCart
 
 	| cartId bookIsbn |
@@ -368,27 +385,31 @@ addToCart
 	(self areCartIdAndBookSelected) ifTrue:[
 		cartId := self selectedCartId.
 		bookIsbn := self selectedBook.
-		[restInterface add: 1 of: bookIsbn toCartIdentifiedAs: cartId.
-		self triggerEvent: #bookAddedToCart withArguments: (Array with: bookIsbn with: cartId)]fork].! !
+		restInterface withResultOfNonBlockingAdd: 1 of: bookIsbn toCartIdentifiedAs: cartId do: [:a|
+			self triggerEvent: #bookAddedToCart withArguments: (Array with: bookIsbn with: cartId)
+		]
+	].! !
 
-!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'DW 6/16/2022 13:57:09'!
+!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'CMS 6/16/2022 16:13:50'!
 createCart
+	restInterface withResultOfNonBlockingCreateCartFor: 'hernan' password: 'smalltalk' do: [:newCartId | 
+		cartIds add: newCartId.
+		self triggerEvent: #newCartIdArrived.
+	].! !
 
-	| newCartId |
-	
-	[newCartId := restInterface createCartFor: 'hernan' password: 'smalltalk'. 
-	cartIds add: newCartId.
-	self triggerEvent: #newCartIdArrived.]fork! !
-
-!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'DW 6/16/2022 13:51:21'!
+!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'CMS 6/16/2022 16:13:05'!
 listCart
 
 	| cartId |
 	
 	(self isCartIdSelected) ifTrue:[
 		cartId := self selectedCartId.
-		[currentSelectedCartContent := restInterface listCart: cartId.
-		self triggerEvent: #newCurrentSelectedCartContentArrived with: cartId ]fork].! !
+		
+		restInterface withResultOfNonBlockingListCart: cartId do: [:cartContent |
+			currentSelectedCartContent := cartContent.
+			self triggerEvent: #newCurrentSelectedCartContentArrived with: cartId
+		].
+	].! !
 
 
 !TusLibrosClientTestWindowModel methodsFor: 'initialization' stamp: 'NR 6/9/2022 08:13:11'!

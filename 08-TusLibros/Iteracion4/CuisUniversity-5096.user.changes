@@ -1131,3 +1131,191 @@ TusLibrosServerRestInterface installForDefaultSystem "<--- Levanta un servidor R
 TusLibrosClientTestWindow open "<--- Abre la interfaz gráfica de pruebas."!
 
 ----QUIT----(16 June 2022 14:03:25) CuisUniversity-5096.image priorSource: 4557982!
+
+----STARTUP---- (16 June 2022 15:10:12) as /home/charles/uni/inge1/linux64/CuisUniversity-5096.image!
+
+!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'CMS 6/16/2022 15:54:34' prior: 50514751!
+listCart
+
+	| cartId |
+	
+	(self isCartIdSelected) ifTrue:[
+		cartId := self selectedCartId.
+		
+		restInterface listCart: cartId nonBlockingDo: [:cartContent |
+			currentSelectedCartContent := cartContent
+			self triggerEvent: #newCurrentSelectedCartContentArrived with: cartId
+		].
+	].! !
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'CMS 6/16/2022 15:55:22'!
+listCart: cartId nonBlockingDo: aBlock
+	[aBlock value: (self listCart: cartId)] fork.! !
+
+TusLibrosServerRestInterface installForDefaultSystem!
+
+WebServer reset!
+
+TusLibrosClientTestWindow open!
+
+TusLibrosServerRestInterface installForDefaultSystem!
+
+TusLibrosClientTestWindow open!
+!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'CMS 6/16/2022 15:58:44' prior: 50514875!
+listCart
+
+	| cartId |
+	
+	(self isCartIdSelected) ifTrue:[
+		cartId := self selectedCartId.
+		
+		restInterface listCart: cartId nonBlockingDo: [:cartContent |
+			currentSelectedCartContent := cartContent.
+			self triggerEvent: #newCurrentSelectedCartContentArrived with: cartId
+		].
+	].! !
+
+WebServer reset!
+
+TusLibrosServerRestInterface installForDefaultSystem!
+
+TusLibrosClientTestWindow open!
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'CMS 6/16/2022 16:00:29'!
+createCartFor: aUser password: aPassword nonBlockingDo: aBlock
+	[aBlock value: (self createCartFor: aUser password: aPassword)] fork.! !
+!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'CMS 6/16/2022 16:01:27' prior: 50514818!
+createCart
+	restInterface createCartFor: 'hernan' password: 'smalltalk' nonBlockingDo: [:newCartId | 
+		cartIds add: newCartId.
+		self triggerEvent: #newCartIdArrived.
+	].! !
+!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'CMS 6/16/2022 16:02:08' prior: 50514848!
+addToCart
+
+	| cartId bookIsbn |
+
+	(self areCartIdAndBookSelected) ifTrue:[
+		cartId := self selectedCartId.
+		bookIsbn := self selectedBook.
+		restInterface add: 1 of: bookIsbn toCartIdentifiedAs: cartId nonBlockingDo: [
+			self triggerEvent: #bookAddedToCart withArguments: (Array with: bookIsbn with: cartId)
+		]
+	].! !
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'CMS 6/16/2022 16:03:20'!
+add: quantity of: bookIsbn toCartIdentifiedAs: cartId nonBlockingDo: aBlock
+	[aBlock value: (self add: quantity of: bookIsbn toCartIdentifiedAs: cartId)]fork.! !
+!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'CMS 6/16/2022 16:03:33' prior: 50514933!
+addToCart
+
+	| cartId bookIsbn |
+
+	(self areCartIdAndBookSelected) ifTrue:[
+		cartId := self selectedCartId.
+		bookIsbn := self selectedBook.
+		restInterface add: 1 of: bookIsbn toCartIdentifiedAs: cartId nonBlockingDo: [:a|
+			self triggerEvent: #bookAddedToCart withArguments: (Array with: bookIsbn with: cartId)
+		]
+	].! !
+
+WebServer reset !
+
+TusLibrosServerRestInterface installForDefaultSystem!
+
+TusLibrosClientTestWindow open!
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'CMS 6/16/2022 16:06:21' prior: 50514916!
+createCartFor: aUser password: aPassword nonBlockingDo: aBlock
+	self nonBlockingWith: [self createCartFor: aUser password: aPassword] do: aBlock.! !
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'CMS 6/16/2022 16:07:55'!
+nonBlockingWith: aProducerBlock do: aConsumerBlock
+	[aConsumerBlock value: (aConsumerBlock value)] fork.! !
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'CMS 6/16/2022 16:08:22' prior: 50514946!
+add: quantity of: bookIsbn toCartIdentifiedAs: cartId nonBlockingDo: aBlock
+	self nonBlockingWith: [self add: quantity of: bookIsbn toCartIdentifiedAs: cartId] do: aBlock.! !
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'CMS 6/16/2022 16:08:46' prior: 50514887!
+listCart: cartId nonBlockingDo: aBlock
+	self nonBlockingWith: [self listCart: cartId] do: aBlock.
+! !
+
+WebServer reset!
+
+TusLibrosClientTestWindow open "<--- Abre la interfaz gráfica de pruebas."!
+
+TusLibrosServerRestInterface installForDefaultSystem "<--- Levanta un servidor REST para escuchar pedidos."!
+
+TusLibrosClientTestWindow open "<--- Abre la interfaz gráfica de pruebas."!
+
+WebServer reset "<--- Desactiva al servidor REST."!
+
+TusLibrosServerRestInterface installForDefaultSystem "<--- Levanta un servidor REST para escuchar pedidos."!
+
+TusLibrosClientTestWindow open "<--- Abre la interfaz gráfica de pruebas."!
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'CMS 6/16/2022 16:11:17' prior: 50514980!
+nonBlockingWith: aProducerBlock do: aConsumerBlock
+	[aConsumerBlock value: (aProducerBlock value)] fork.! !
+
+WebServer reset "<--- Desactiva al servidor REST."!
+
+TusLibrosServerRestInterface installForDefaultSystem "<--- Levanta un servidor REST para escuchar pedidos."!
+
+TusLibrosClientTestWindow open "<--- Abre la interfaz gráfica de pruebas."!
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'CMS 6/16/2022 16:13:05'!
+withResultOfNonBlockingListCart: cartId do: aBlock
+	self nonBlockingWith: [self listCart: cartId] do: aBlock.
+! !
+!TusLibrosClientTestWindowModel methodsFor: 'as yet unclassified' stamp: 'CMS 6/16/2022 16:13:05' prior: 50514900!
+listCart
+
+	| cartId |
+	
+	(self isCartIdSelected) ifTrue:[
+		cartId := self selectedCartId.
+		
+		restInterface withResultOfNonBlockingListCart: cartId do: [:cartContent |
+			currentSelectedCartContent := cartContent.
+			self triggerEvent: #newCurrentSelectedCartContentArrived with: cartId
+		].
+	].! !
+
+!methodRemoval: TusLibrosClientRestInterface #listCart:nonBlockingDo: stamp: 'CMS 6/16/2022 16:13:05'!
+listCart: cartId nonBlockingDo: aBlock
+	self nonBlockingWith: [self listCart: cartId] do: aBlock.
+!
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'CMS 6/16/2022 16:13:50'!
+withResultOfNonBlockingCreateCartFor: aUser password: aPassword do: aBlock
+	self nonBlockingWith: [self createCartFor: aUser password: aPassword] do: aBlock.! !
+!TusLibrosClientTestWindowModel methodsFor: 'as yet unclassified' stamp: 'CMS 6/16/2022 16:13:50' prior: 50514924!
+createCart
+	restInterface withResultOfNonBlockingCreateCartFor: 'hernan' password: 'smalltalk' do: [:newCartId | 
+		cartIds add: newCartId.
+		self triggerEvent: #newCartIdArrived.
+	].! !
+
+!methodRemoval: TusLibrosClientRestInterface #createCartFor:password:nonBlockingDo: stamp: 'CMS 6/16/2022 16:13:50'!
+createCartFor: aUser password: aPassword nonBlockingDo: aBlock
+	self nonBlockingWith: [self createCartFor: aUser password: aPassword] do: aBlock.!
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'CMS 6/16/2022 16:14:12'!
+withResultOfNonBlockingAdd: quantity of: bookIsbn toCartIdentifiedAs: cartId do: aBlock
+	self nonBlockingWith: [self add: quantity of: bookIsbn toCartIdentifiedAs: cartId] do: aBlock.! !
+!TusLibrosClientTestWindowModel methodsFor: 'as yet unclassified' stamp: 'CMS 6/16/2022 16:14:12' prior: 50514955!
+addToCart
+
+	| cartId bookIsbn |
+
+	(self areCartIdAndBookSelected) ifTrue:[
+		cartId := self selectedCartId.
+		bookIsbn := self selectedBook.
+		restInterface withResultOfNonBlockingAdd: 1 of: bookIsbn toCartIdentifiedAs: cartId do: [:a|
+			self triggerEvent: #bookAddedToCart withArguments: (Array with: bookIsbn with: cartId)
+		]
+	].! !
+
+!methodRemoval: TusLibrosClientRestInterface #add:of:toCartIdentifiedAs:nonBlockingDo: stamp: 'CMS 6/16/2022 16:14:12'!
+add: quantity of: bookIsbn toCartIdentifiedAs: cartId nonBlockingDo: aBlock
+	self nonBlockingWith: [self add: quantity of: bookIsbn toCartIdentifiedAs: cartId] do: aBlock.!
+
+WebServer reset "<--- Desactiva al servidor REST."!
+
+TusLibrosServerRestInterface installForDefaultSystem "<--- Levanta un servidor REST para escuchar pedidos."!
+
+TusLibrosClientTestWindow open "<--- Abre la interfaz gráfica de pruebas."!
+
+----QUIT----(16 June 2022 16:15:41) CuisUniversity-5096.image priorSource: 5862944!
