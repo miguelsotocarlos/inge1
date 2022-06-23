@@ -5,43 +5,61 @@ TestCase subclass: #ImportTest
 	poolDictionaries: ''
 	category: 'CustomerImporter'!
 
-!ImportTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/16/2022 21:44:21'!
-assertJuanIsJuan
+!ImportTest methodsFor: 'testing' stamp: 'CMS 6/23/2022 12:16:51'!
+assertJuanWasImportedCorrectly
 
 	| juan |
 	
-	juan := (session select: [:customer | customer identificationType = 'C' and: customer identificationNumber = '23-25666777-9'] ofType: Customer) anyOne.
+	juan := self findCustomerWithIdType: 'C' idNumber: '23-25666777-9'.
+	
+	self assert: (juan hasNameFirstName: 'Juan' lastName: 'Perez').
 
-	self assert: (juan addresses anySatisfy: [:address |
-		 address streetName: 'Alem' streetNumber: 1122 town: 'CABA' province: 'CABA' zipCode: 1001.
-	]).
+	self assert: (juan numberOfAddressesIsEqualTo: 1).
+	self assert: (juan containsAddressWithStreetName: 'Alem' streetNumber: 1122 town: 'CABA' province: 'CABA' zipCode: 1001).
 
-	self assert: 'Juan' equals: juan firstName.
-	self assert: 'Perez' equals: juan lastName! !
+! !
 
-!ImportTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/16/2022 21:44:21'!
-assertPepeIsPepe
+!ImportTest methodsFor: 'testing' stamp: 'CMS 6/23/2022 12:17:01'!
+assertPepeWasImportedCorrectly
 
 	| pepe |
-	pepe := (session select: [:customer | customer identificationType = 'D' and: customer identificationNumber = '22333444'] ofType: Customer) anyOne.
+	pepe := self findCustomerWithIdType: 'D' idNumber: '22333444'.
 	
-	self assert: 'Pepe' equals: pepe firstName.
-	self assert: 'Sanchez' equals: pepe lastName.
+	self assert: (pepe hasNameFirstName: 'Pepe' lastName: 'Sanchez').
 	
-	self assert: pepe addresses size equals: 2.
-	self assert: (pepe addresses anySatisfy: [:address |
-		 address streetName: 'San Martin' streetNumber: 3322 town: 'Olivos' province: 'BsAs' zipCode: 1636.
-	]).
+	self assert: (pepe numberOfAddressesIsEqualTo: 2).
+	self assert: (pepe containsAddressWithStreetName: 'San Martin' streetNumber: 3322 town: 'Olivos' province: 'BsAs' zipCode: 1636).
+	self assert: (pepe containsAddressWithStreetName: 'Maipu' streetNumber: 888 town: 'Florida' province: 'Buenos Aires' zipCode: 1122).! !
 
-	self assert: (pepe addresses anySatisfy: [:address |
-		 address streetName: 'Maipu' streetNumber: 888 town: 'Florida' province: 'Buenos Aires' zipCode: 1122.
-	])! !
-
-!ImportTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/16/2022 21:32:56'!
+!ImportTest methodsFor: 'testing' stamp: 'CMS 6/16/2022 21:32:56'!
 importCustomers: stream
 	(CustomerImporter from: stream into: session) import! !
 
-!ImportTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/16/2022 21:27:10'!
+!ImportTest methodsFor: 'testing' stamp: 'CMS 6/23/2022 11:39:44'!
+test01Import
+
+	self importCustomers: (self inputDataStream).
+	self assert: 2 equals: (session selectAllOfType: Customer) size.
+	
+	self assertPepeWasImportedCorrectly.
+	
+	self assertJuanWasImportedCorrectly.! !
+
+
+!ImportTest methodsFor: 'setup/teardown' stamp: 'CMS 6/16/2022 20:41:05'!
+setUp
+
+	session := DataBaseSession for: (Array with: Address with: Customer).
+	session beginTransaction! !
+
+!ImportTest methodsFor: 'setup/teardown' stamp: 'CMS 6/16/2022 20:41:47'!
+tearDown
+
+	session commit.
+	session close! !
+
+
+!ImportTest methodsFor: 'test data' stamp: 'CMS 6/16/2022 21:27:10'!
 inputDataStream
 
 	^ ReadStream on:
@@ -51,29 +69,13 @@ A,Maipu,888,Florida,1122,Buenos Aires
 C,Juan,Perez,C,23-25666777-9
 A,Alem,1122,CABA,1001,CABA'.! !
 
-!ImportTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/16/2022 20:41:05'!
-setUp
 
-	session := DataBaseSession for: (Array with: Address with: Customer).
-	session beginTransaction! !
+!ImportTest methodsFor: 'searching' stamp: 'CMS 6/23/2022 11:52:12'!
+findCustomerWithIdType: idType idNumber: idNumber 
 
-!ImportTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/16/2022 20:41:47'!
-tearDown
+	^ (session select: [:customer | customer identificationType = idType and: customer identificationNumber = idNumber] ofType: Customer) anyOne! !
 
-	session commit.
-	session close! !
-
-!ImportTest methodsFor: 'as yet unclassified' stamp: 'CMS 6/16/2022 21:26:36'!
-test01Import
-
-	self importCustomers: (self inputDataStream).
-	self assert: 2 equals: (session selectAllOfType: Customer) size.
-	
-	self assertPepeIsPepe.
-	
-	self assertJuanIsJuan.! !
-
-
+
 !classDefinition: #Address category: 'CustomerImporter'!
 Object subclass: #Address
 	instanceVariableNames: 'id streetName streetNumber town zipCode province'
@@ -144,7 +146,7 @@ zipCode: aZipCode
 
 	zipCode := aZipCode! !
 
-
+
 !classDefinition: #Customer category: 'CustomerImporter'!
 Object subclass: #Customer
 	instanceVariableNames: 'id firstName lastName identificationType identificationNumber addresses'
@@ -162,6 +164,12 @@ addresses
 
 	^ addresses! !
 
+!Customer methodsFor: 'addresses' stamp: 'CMS 6/23/2022 11:49:49'!
+containsAddressWithStreetName: streetName streetNumber: streetNumber town: town province: province zipCode: zipCode    
+	^self addresses anySatisfy: [:address |
+		 address streetName: streetName streetNumber: streetNumber town: town province: province zipCode: zipCode.
+	]! !
+
 
 !Customer methodsFor: 'name' stamp: 'HAW 5/22/2022 00:19:29'!
 firstName
@@ -173,6 +181,10 @@ firstName: aName
 
 	firstName := aName! !
 
+!Customer methodsFor: 'name' stamp: 'CMS 6/23/2022 12:19:02'!
+hasNameFirstName: expectedFirstName lastName: expectedLastName  
+	^(expectedFirstName = self firstName) and: (expectedLastName = self lastName)! !
+
 !Customer methodsFor: 'name' stamp: 'HAW 5/22/2022 00:19:29'!
 lastName
 
@@ -183,6 +195,10 @@ lastName: aLastName
 
 	lastName := aLastName
 ! !
+
+!Customer methodsFor: 'name' stamp: 'CMS 6/23/2022 12:16:23'!
+numberOfAddressesIsEqualTo: expectedNumberOfAddresses
+	^expectedNumberOfAddresses = (addresses size).! !
 
 
 !Customer methodsFor: 'identification' stamp: 'HAW 5/22/2022 00:19:29'!
@@ -212,7 +228,7 @@ initialize
 	super initialize.
 	addresses := OrderedCollection new.! !
 
-
+
 !classDefinition: #CustomerImporter category: 'CustomerImporter'!
 Object subclass: #CustomerImporter
 	instanceVariableNames: 'session stream'
@@ -270,7 +286,7 @@ CustomerImporter class
 from: aStream into: aSession
 	^self new initializeFrom: aStream into: aSession! !
 
-
+
 !classDefinition: #DataBaseSession category: 'CustomerImporter'!
 Object subclass: #DataBaseSession
 	instanceVariableNames: 'configuration tables id'
