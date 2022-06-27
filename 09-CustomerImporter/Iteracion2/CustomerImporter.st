@@ -10,14 +10,14 @@ importFromData: data
 
 	^ CustomerImporter valueFrom: (ReadStream on: data) into: session! !
 
-!ImportTest methodsFor: 'tests' stamp: 'DW 6/23/2022 20:33:30'!
+!ImportTest methodsFor: 'tests' stamp: 'CMS 6/27/2022 16:22:34'!
 test01ImportValidData
 
 	self importFromData: self validImportData..
 
 	self assertImportedRightNumberOfCustomers.
-	self assertPepeSanchezWasImportedCorrecty.
-	self assertJuanPerezWasImportedCorrectly ! !
+	self assertPepeSanchezAndTheirAddressesWereImportedCorrecty.
+	self assertJuanPerezAndTheirAddressesWereImportedCorrectly ! !
 
 !ImportTest methodsFor: 'tests' stamp: 'DW 6/23/2022 21:19:02'!
 test02ImportInvalidRecordTypeFails
@@ -44,28 +44,33 @@ test04ImportCustomerRecordTooLongFails
 		withMessageText: CustomerImporter invalidRecordErrorDescription.		
 	self assertNoCustomersWereImported.! !
 
-!ImportTest methodsFor: 'tests' stamp: 'DW 6/23/2022 21:20:52'!
+!ImportTest methodsFor: 'tests' stamp: 'CMS 6/27/2022 16:25:30'!
 test05ImportAdressRecordTooShortFails
 
-	self should: [	self importFromData: self dataWithAddressTooShort.]
+	self should: [	self importFromData: self dataWithAddressTooShortOfPepeSanchez.]
 		raise: Error - MessageNotUnderstood 
 		withMessageText: CustomerImporter invalidRecordErrorDescription.		
-	self assertNoAdressesWereImported.! !
+	self assertNoAdressesWereImported.
+	self assertPepeSanchezWasImportedCorrectly.! !
 
-!ImportTest methodsFor: 'tests' stamp: 'DW 6/23/2022 21:19:49'!
+!ImportTest methodsFor: 'tests' stamp: 'CMS 6/27/2022 16:25:49'!
 test06ImportAdressRecordTooLongFails
 
-	self should: [	self importFromData: self dataWithAddressTooLong.]
+	self should: [	self importFromData: self dataWithAddressTooLongOfPepeSanchez.]
 		raise: Error - MessageNotUnderstood 
 		withMessageText: CustomerImporter invalidRecordErrorDescription.		
+	self assertNoAdressesWereImported.
+	self assertPepeSanchezWasImportedCorrectly.
 	! !
 
-!ImportTest methodsFor: 'tests' stamp: 'DW 6/23/2022 20:55:06'!
+!ImportTest methodsFor: 'tests' stamp: 'CMS 6/27/2022 16:24:31'!
 test07ImportAdressRecordWithoutCustomerFails
 
 	self should: [	self importFromData: self dataWithOnlyAdress.]
 		raise: Error - MessageNotUnderstood 
-		withMessageText: CustomerImporter invalidRecordErrorDescription.		! !
+		withMessageText: CustomerImporter invalidRecordErrorDescription.		
+	self assertNoAdressesWereImported.
+! !
 
 !ImportTest methodsFor: 'tests' stamp: 'DW 6/23/2022 21:20:12'!
 test08ImportWithEmptyLineFails
@@ -82,6 +87,24 @@ test09ImportInvalidRecordTypeWithValidPrefixFails
 		raise: Error - MessageNotUnderstood 
 		withMessageText: CustomerImporter invalidRecordErrorDescription.		
 	self assertNoCustomersWereImported.! !
+
+!ImportTest methodsFor: 'tests' stamp: 'CMS 6/27/2022 16:28:54'!
+test10AddressesProcessedBeforeFailureAreImported
+	| pepe |
+
+	self should: [	self importFromData: self dataWithValidAndInvalidAddress.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: CustomerImporter invalidRecordErrorDescription.		
+		
+	pepe := self assertPepeSanchezWasImportedCorrectly.
+	
+
+	self assertFirstAddressOfPepeWasImportedCorrectly: pepe.
+	self should: [
+		pepe addressAt: 'Alem' ifNone: [self error: 'no address'].
+	] raise: Error
+	withMessageText: 'no address'.
+! !
 
 
 !ImportTest methodsFor: 'assertions' stamp: 'HAW 5/22/2022 18:22:05'!
@@ -114,13 +137,18 @@ assertCustomerWithIdentificationType: anIdType number: anIdNumber hasFirstName: 
 
 	! !
 
+!ImportTest methodsFor: 'assertions' stamp: 'CMS 6/27/2022 16:27:47'!
+assertFirstAddressOfPepeWasImportedCorrectly: importedCustomer
+
+	^ self assertAddressOf: importedCustomer at: 'San Martin' hasNumber: 3322 town: 'Olivos' zipCode: 1636 province: 'BsAs'! !
+
 !ImportTest methodsFor: 'assertions' stamp: 'HAW 5/22/2022 18:12:18'!
 assertImportedRightNumberOfCustomers
 
 	^ self assert: 2 equals: (session selectAllOfType: Customer) size! !
 
-!ImportTest methodsFor: 'assertions' stamp: 'HAW 5/22/2022 18:28:45'!
-assertJuanPerezWasImportedCorrectly
+!ImportTest methodsFor: 'assertions' stamp: 'CMS 6/27/2022 16:22:34'!
+assertJuanPerezAndTheirAddressesWereImportedCorrectly
 
 	| importedCustomer |
 
@@ -128,21 +156,30 @@ assertJuanPerezWasImportedCorrectly
 	self assertAddressOf: importedCustomer at: 'Alem' hasNumber: 1122 town: 'CABA' zipCode: 1001 province: 'CABA'
 	! !
 
+!ImportTest methodsFor: 'assertions' stamp: 'CMS 6/27/2022 16:04:53'!
+assertNoAdressesWereImported
+	self assert: ((session		selectAllOfType: Customer) allSatisfy: [:customer | customer hasNoAddresses]).! !
+
 !ImportTest methodsFor: 'assertions' stamp: 'DW 6/23/2022 21:19:02'!
 assertNoCustomersWereImported
 	self assert: (session		selectAllOfType: Customer) isEmpty.! !
 
-!ImportTest methodsFor: 'assertions' stamp: 'HAW 5/22/2022 18:28:05'!
-assertPepeSanchezWasImportedCorrecty
+!ImportTest methodsFor: 'assertions' stamp: 'CMS 6/27/2022 16:27:47'!
+assertPepeSanchezAndTheirAddressesWereImportedCorrecty
 
 	| importedCustomer |
 
-	importedCustomer := self assertCustomerWithIdentificationType: 'D' number: '22333444' hasFirstName: 'Pepe' lastName: 'Sanchez'.
-	self assertAddressOf: importedCustomer at: 'San Martin' hasNumber: 3322 town: 'Olivos' zipCode: 1636 province: 'BsAs'.
+	importedCustomer := self assertPepeSanchezWasImportedCorrectly.
+	self assertFirstAddressOfPepeWasImportedCorrectly: importedCustomer.
 	self assertAddressOf: importedCustomer at: 'Maipu' hasNumber: 888 town: 'Florida' zipCode: 1122 province: 'Buenos Aires'.
 
 
 	! !
+
+!ImportTest methodsFor: 'assertions' stamp: 'CMS 6/27/2022 16:23:07'!
+assertPepeSanchezWasImportedCorrectly
+
+	^ self assertCustomerWithIdentificationType: 'D' number: '22333444' hasFirstName: 'Pepe' lastName: 'Sanchez'! !
 
 
 !ImportTest methodsFor: 'setUp/tearDown' stamp: 'HAW 5/22/2022 00:27:50'!
@@ -168,13 +205,13 @@ customerWithIdentificationType: anIdType number: anIdNumber
 		ofType: Customer) anyOne! !
 
 
-!ImportTest methodsFor: 'test data' stamp: 'DW 6/23/2022 20:54:33'!
-dataWithAddressTooLong
+!ImportTest methodsFor: 'test data' stamp: 'CMS 6/27/2022 16:25:49'!
+dataWithAddressTooLongOfPepeSanchez
 	^'C,Pepe,Sanchez,D,22333444
 A,San Martin,3322,Olivos,1636,BsAs,TooLong'! !
 
-!ImportTest methodsFor: 'test data' stamp: 'DW 6/23/2022 20:53:10'!
-dataWithAddressTooShort
+!ImportTest methodsFor: 'test data' stamp: 'CMS 6/27/2022 16:25:30'!
+dataWithAddressTooShortOfPepeSanchez
 		^
 'C,Pepe,Sanchez,D,22333444
 A,San Martin,3322,Olivos,1636'! !
@@ -211,6 +248,12 @@ dataWithInvalidTypeWithValidPrefix
 dataWithOnlyAdress
 	^ 'A,San Martin,3322,Olivos,1636,BsAs'! !
 
+!ImportTest methodsFor: 'test data' stamp: 'CMS 6/27/2022 16:11:52'!
+dataWithValidAndInvalidAddress
+	^'C,Pepe,Sanchez,D,22333444
+A,San Martin,3322,Olivos,1636,BsAs
+A,Alem,1122,CABA,1001,CABA,XXXX'! !
+
 !ImportTest methodsFor: 'test data' stamp: 'DW 6/23/2022 20:45:31'!
 validImportData
 
@@ -221,7 +264,7 @@ A,Maipu,888,Florida,1122,Buenos Aires
 C,Juan,Perez,C,23-25666777-9
 A,Alem,1122,CABA,1001,CABA'! !
 
-
+
 !classDefinition: #Address category: 'CustomerImporter'!
 Object subclass: #Address
 	instanceVariableNames: 'id streetName streetNumber town zipCode province'
@@ -288,7 +331,7 @@ zipCode: aZipCode
 
 	zipCode := aZipCode! !
 
-
+
 !classDefinition: #Customer category: 'CustomerImporter'!
 Object subclass: #Customer
 	instanceVariableNames: 'id firstName lastName identificationType identificationNumber addresses'
@@ -310,6 +353,11 @@ addressAt: aStreetName ifNone: aNoneBlock
 addresses
 
 	^ addresses! !
+
+!Customer methodsFor: 'addresses' stamp: 'CMS 6/27/2022 16:04:36'!
+hasNoAddresses
+
+	^ addresses isEmpty.! !
 
 
 !Customer methodsFor: 'name' stamp: 'HAW 5/22/2022 00:19:29'!
@@ -361,7 +409,7 @@ initialize
 	super initialize.
 	addresses := OrderedCollection new.! !
 
-
+
 !classDefinition: #CustomerImporter category: 'CustomerImporter'!
 Object subclass: #CustomerImporter
 	instanceVariableNames: 'session readStream lastCustomer line record'
@@ -375,12 +423,23 @@ initializeFrom: aReadStream into: aSession
 	readStream := aReadStream.! !
 
 
-!CustomerImporter methodsFor: 'evaluating' stamp: 'DW 6/23/2022 20:43:12'!
+!CustomerImporter methodsFor: 'assertions' stamp: 'CMS 6/27/2022 16:36:18'!
+assertRecordHasSize: a
+
+	^ (record size = a) ifFalse: [self raiseInvalidRecordError]! !
+
+!CustomerImporter methodsFor: 'assertions' stamp: 'CMS 6/27/2022 16:36:18'!
+raiseInvalidRecordError
+
+	^ self error: self class invalidRecordErrorDescription! !
+
+
+!CustomerImporter methodsFor: 'evaluating' stamp: 'CMS 6/27/2022 16:36:18'!
 importAdress
 	
 	| newAddress |
-	(record size = 6) ifFalse: [self error: self class invalidRecordErrorDescription].
-	lastCustomer ifNil: [self error: self class invalidRecordErrorDescription].
+	self assertRecordHasSize: 6.
+	lastCustomer ifNil: [self raiseInvalidRecordError].
 
 	newAddress := Address new.
 	
@@ -392,9 +451,9 @@ importAdress
 	newAddress zipCode: record fifth asNumber .
 	newAddress province: record sixth! !
 
-!CustomerImporter methodsFor: 'evaluating' stamp: 'DW 6/23/2022 20:34:49'!
+!CustomerImporter methodsFor: 'evaluating' stamp: 'CMS 6/27/2022 16:34:38'!
 importCustomer
-	(record size = 5) ifFalse:[self error: self class invalidRecordErrorDescription].
+	self assertRecordHasSize: 5.
 	lastCustomer := Customer new.
 	lastCustomer firstName: record second.
 	lastCustomer lastName: record third.
@@ -402,12 +461,12 @@ importCustomer
 	lastCustomer identificationNumber: record fifth.
 	session persist: lastCustomer! !
 
-!CustomerImporter methodsFor: 'evaluating' stamp: 'DW 6/23/2022 21:13:35'!
+!CustomerImporter methodsFor: 'evaluating' stamp: 'CMS 6/27/2022 16:36:18'!
 importRecord
-	record ifEmpty: [self error: self class invalidRecordErrorDescription].
+	record ifEmpty: [self raiseInvalidRecordError].
 	(record first = 'C') ifTrue: [^self importCustomer].
 	(record first = 'A') ifTrue: [^self importAdress].
-	self error: self class invalidRecordErrorDescription.! !
+	self raiseInvalidRecordError.! !
 
 !CustomerImporter methodsFor: 'evaluating' stamp: 'DW 6/23/2022 20:02:13'!
 parseLine
@@ -448,7 +507,7 @@ valueFrom: aReadStream into: aSession
 invalidRecordErrorDescription
 	^ 'Invalid record found'.! !
 
-
+
 !classDefinition: #DataBaseSession category: 'CustomerImporter'!
 Object subclass: #DataBaseSession
 	instanceVariableNames: 'configuration tables id'
